@@ -8,6 +8,11 @@
     color: $common-text-color;
     height: 40px;
     position: relative;
+    .welcome{
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+    }
     .btn-logout {
         color: $common-text-color;
         line-height: 40px;

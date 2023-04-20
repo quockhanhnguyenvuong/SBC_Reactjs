@@ -1,10 +1,9 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import "./Specialty.scss";
-import { FormattedMessage } from "react-intl";
 import Slider from "react-slick";
 
-import specialtyImg from "../../../assets/specialty/coxuongkhop.jpg";
+// import specialtyImg from "../../../assets/specialty/coxuongkhop.jpg";
 
 class Specialty extends Component {
   render() {

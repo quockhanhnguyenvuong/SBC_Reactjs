@@ -1,15 +1,47 @@
 export const adminMenu = [
-    { //hệ thống
-        name: 'menu.system.header', menus: [
-            {
-                name: 'menu.system.system-administrator.header',
-                subMenus: [
-                    { name: 'menu.system.system-administrator.user-manage', link: '/system/user-manage' },
-                    { name: 'menu.system.system-administrator.product-manage', link: '/system/product-manage' },
-                    { name: 'menu.system.system-administrator.register-package-group-or-account', link: '/system/register-package-group-or-account' },
-                ]
-            },
-            // { name: 'menu.system.system-parameter.header', link: '/system/system-parameter' },
-        ]
-    },
+  {
+    //hệ thống
+    name: "Quản lý hệ thống",
+    menus: [
+      {
+        name: "Quản lý người dùng",
+        link: "/system/user-manage",
+        // name: "Quản trị hệ thống",
+        // subMenus: [
+        //   {
+        //     name: "Quản lý người dùng",
+        //     link: "/system/user-manage",
+        //   },
+        // ],
+      },
+      {
+        name: "Quản lý bác sĩ",
+        link: "/system/manage-doctor",
+      },
+      {
+        name: "Quản lý lịch khám bệnh",
+        link: "/system/manage-schedule",
+      },
+    ],
+  },
+  {
+    //Phòng khám
+    name: "Phòng khám",
+    menus: [
+      {
+        name: "Quản lý phòng khám",
+        link: "/system/manage-clinic",
+      },
+    ],
+  },
+  {
+    //Chuyên khoa
+    name: "Chuyên khoa",
+    menus: [
+      {
+        name: "Quản lý chuyên khoa",
+        link: "/system/manage-specialty",
+      },
+    ],
+  },
 ];

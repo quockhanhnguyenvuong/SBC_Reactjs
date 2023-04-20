@@ -20,10 +20,28 @@ const editUserService = (inputData) => {
   return axios.put("/api/edit-user", inputData);
 };
 
+const getAllCodeService = (inputType) => {
+  return axios.get(`/api/allcode?type=${inputType}`, { id: inputType });
+};
+
+const getAllDoctors = () => {
+  return axios.get(`/api/get-all-doctors`);
+};
+// const getAllDoctors = (inputId) => {
+//   return axios.get(`/api/get-all-doctors?id=${inputId}`, { id: inputId });
+// };
+
+const saveDetailDoctorService = (data) => {
+  return axios.post(`/api/save-infor-doctors`, data);
+};
+
 export {
   handleLoginApi,
   getAllUsers,
   createNewUserService,
   deleteUserService,
   editUserService,
+  getAllCodeService,
+  getAllDoctors,
+  saveDetailDoctorService,
 };
