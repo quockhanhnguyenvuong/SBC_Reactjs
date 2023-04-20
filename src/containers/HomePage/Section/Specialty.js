@@ -1,13 +1,27 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import "./Specialty.scss";
-import { FormattedMessage } from "react-intl";
 import Slider from "react-slick";
-
-import specialtyImg from "../../../assets/specialty/coxuongkhop.jpg";
+import { getAllSpecialty } from "../../../services/userService";
 
 class Specialty extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      dataSpecialty: [],
+    };
+  }
+  async componentDidMount() {
+    let res = await getAllSpecialty();
+    console.log("Check respon:", res);
+    if (res && res.errCode === 0) {
+      this.setState({
+        dataSpecialty: res.data ? res.data : [],
+      });
+    }
+  }
   render() {
+    let { dataSpecialty } = this.state;
     return (
       <div className="section-share section-specialty">
         <div className="section-container">
@@ -17,7 +31,20 @@ class Specialty extends Component {
           </div>
           <div className="section-body">
             <Slider {...this.props.settings}>
-              <div className="section-customize">
+              {dataSpecialty &&
+                dataSpecialty.length > 0 &&
+                dataSpecialty.map((item, index) => {
+                  return (
+                    <div className="section-customize specialty-child" key={index}>
+                      <div
+                        className="bg-image section-specialty"
+                        style={{ backgroundImage: `url(${item.image})` }}
+                      />
+                      <div className="specialty-name">{item.name}</div>
+                    </div>
+                  );
+                })}
+              {/* <div className="section-customize">
                 <div className="bg-image section-specialty"></div>
                 <div>Cơ xương khớp 1</div>
               </div>
@@ -36,11 +63,7 @@ class Specialty extends Component {
               <div className="section-customize">
                 <div className="bg-image section-specialty"></div>
                 <div>Cơ xương khớp 1</div>
-              </div>
-              <div className="section-customize">
-                <div className="bg-image section-specialty"></div>
-                <div>Cơ xương khớp 1</div>
-              </div>
+              </div> */}
             </Slider>
           </div>
         </div>
@@ -50,10 +73,7 @@ class Specialty extends Component {
 }
 
 const mapStateToProps = (state) => {
-  return {
-    isLoggedIn: state.user.isLoggedIn,
-    language: state.app.language,
-  };
+  return {};
 };
 
 const mapDispatchToProps = (dispatch) => {
