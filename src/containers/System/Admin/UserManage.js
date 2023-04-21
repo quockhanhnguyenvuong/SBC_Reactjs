@@ -7,7 +7,7 @@ import {
   getAllCodeService,
   createNewUserService,
   editUserService,
-} from "../../services/userService";
+} from "../../../services/userService";
 import Lightbox from "react-image-lightbox";
 import "react-image-lightbox/style.css";
 import { toast } from "react-toastify";

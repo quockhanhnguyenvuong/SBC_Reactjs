@@ -1,9 +1,9 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { Redirect, Route, Switch } from "react-router-dom";
-import UserManage from "../containers/System/UserManage";
-import ManageSchedule from "../containers/System/ManageSchedule";
-import DoctorManage from "../containers/System/ManageDoctor";
+import UserManage from "../containers/System/Admin/UserManage";
+import ManageSchedule from "../containers/System/Doctor/ManageSchedule";
+import DoctorManage from "../containers/System/Admin/ManageDoctor";
 import ManageSpecialty from "../containers/System/Specialty/ManageSpecialty";
 class System extends Component {
   render() {
@@ -14,7 +14,7 @@ class System extends Component {
           <Switch>
             <Route path="/system/user-manage" component={UserManage} />
             <Route path="/system/manage-doctor" component={DoctorManage} />
-            <Route path="/system/manage-schedule" component={ManageSchedule} />
+            <Route path="/doctor/manage-schedule" component={ManageSchedule} />
             <Route
               path="/system/manage-specialty"
               component={ManageSpecialty}

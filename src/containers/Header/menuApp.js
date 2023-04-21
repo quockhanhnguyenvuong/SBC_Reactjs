@@ -1,3 +1,4 @@
+//admin menu
 export const adminMenu = [
   {
     //hệ thống
@@ -6,13 +7,6 @@ export const adminMenu = [
       {
         name: "Quản lý người dùng",
         link: "/system/user-manage",
-        // name: "Quản trị hệ thống",
-        // subMenus: [
-        //   {
-        //     name: "Quản lý người dùng",
-        //     link: "/system/user-manage",
-        //   },
-        // ],
       },
       {
         name: "Quản lý bác sĩ",
@@ -20,7 +14,7 @@ export const adminMenu = [
       },
       {
         name: "Quản lý lịch khám bệnh",
-        link: "/system/manage-schedule",
+        link: "/doctor/manage-schedule",
       },
     ],
   },
@@ -41,6 +35,20 @@ export const adminMenu = [
       {
         name: "Quản lý chuyên khoa",
         link: "/system/manage-specialty",
+      },
+    ],
+  },
+];
+
+//doctor menu
+export const doctorMenu = [
+  {
+    //hệ thống
+    name: "Quản lý hệ thống",
+    menus: [
+      {
+        name: "Quản lý lịch khám bệnh",
+        link: "/doctor/manage-schedule",
       },
     ],
   },

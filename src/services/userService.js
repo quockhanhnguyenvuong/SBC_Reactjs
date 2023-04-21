@@ -38,8 +38,13 @@ const saveDetailDoctorService = (data) => {
 const createNewSpecialty = (data) => {
   return axios.post("/api/create-new-specialty", data);
 };
+
 const getAllSpecialty = () => {
   return axios.get(`/api/get-specialty`);
+};
+
+const saveBulkScheduleDoctor = (data) => {
+  return axios.post("/api/bulk-create-schedule", data);
 };
 
 export {
@@ -53,4 +58,5 @@ export {
   saveDetailDoctorService,
   createNewSpecialty,
   getAllSpecialty,
+  saveBulkScheduleDoctor,
 };

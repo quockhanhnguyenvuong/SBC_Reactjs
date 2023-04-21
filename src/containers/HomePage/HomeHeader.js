@@ -4,9 +4,6 @@ import "./HomeHeader.scss";
 import logo from "../../assets/logo.svg.svg";
 
 class HomeHeader extends Component {
-  changeLanguage = (language) => {
-    this.props.changeLanguageAppRedux(language);
-  };
   render() {
     return (
       <React.Fragment>

@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import "./ManageDoctor.scss";
-import * as actions from "../../store/actions";
+import * as actions from "../../../store/actions";
 import MarkdownIt from "markdown-it";
 import MdEditor from "react-markdown-editor-lite";
 // import style manually
@@ -91,7 +91,7 @@ class ManageDoctor extends Component {
               value={this.state.selectDoctor}
               onChange={this.handleChange}
               options={this.state.listDoctors}
-            />{" "}
+            />
           </div>
           {/* Textarea description doctor */}
           <div className="col-7">
@@ -100,9 +100,7 @@ class ManageDoctor extends Component {
               className="form-control"
               onChange={(event) => this.handleOnChangeDescription(event)}
               value={this.state.description}
-            >
-              cc
-            </textarea>
+            ></textarea>
           </div>
           {/* Markdown */}
           <div className="manage-doctor-editor col-12 mt-4">
@@ -112,7 +110,7 @@ class ManageDoctor extends Component {
               onChange={this.handleEditorChange}
             />
             <button
-              className="save-content-doctor btn btn-warning mt-4 px-4 "
+              className="save-content-doctor btn btn-primary mt-4 px-4 "
               onClick={() => this.handleSaveContentMarkdown()}
             >
               <i className="far fa-save mx-2"></i>
@@ -133,7 +131,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    fetchAllDoctors: (id) => dispatch(actions.fetchAllDoctors()),
+    fetchAllDoctors: () => dispatch(actions.fetchAllDoctors()),
     saveDetailDoctor: (data) => dispatch(actions.saveDetailDoctor(data)),
   };
 };
