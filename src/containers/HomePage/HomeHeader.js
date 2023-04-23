@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import "./HomeHeader.scss";
-import logo from "../../assets/logo.svg.svg";
+// import logo from "../../assets/logo.svg.svg";
 
 class HomeHeader extends Component {
   render() {
@@ -10,8 +10,9 @@ class HomeHeader extends Component {
         <div className="home-header-container">
           <div className="home-header-content">
             <div className="left-content">
-              <i className="fa-solid fa-bars"></i>
-              <img className="header-logo" src={logo} />
+              {/* <i className="fa-solid fa-bars"></i>
+              <img className="header-logo" src={logo} /> */}
+              <span>Smart Booking Care</span>
               <div className="header-logo"></div>
             </div>
             <div className="center-content">
@@ -35,16 +36,22 @@ class HomeHeader extends Component {
                 </div>
                 <div className="subs-title">Chọn bác sĩ giỏi</div>
               </div>
-              <div className="child-content">
+              {/* <div className="child-content">
                 <div>
-                  <b>Gói khámkhám</b>
+                  <b>Gói khám</b>
                 </div>
                 <div className="subs-title">Khám sức khỏe tổng quát</div>
-              </div>
+              </div> */}
             </div>
             <div className="right-content">
               <div className="support">
                 <i className="fa-solid fa-circle-question"></i> Hỗ trợ
+              </div>
+              <div className="register">
+                <a href="/register" className="btn-register">
+                  <i className="fas fa-sign-in-alt mx-2 "></i>Đăng kí / Đăng
+                  nhập
+                </a>
               </div>
             </div>
           </div>

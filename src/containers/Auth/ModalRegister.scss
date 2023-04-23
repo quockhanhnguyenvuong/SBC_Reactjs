@@ -1,0 +1,49 @@
+.modal-container{
+    .modal-content{
+        border-radius: 5px;
+        .modal-header{
+            background: linear-gradient(135deg, rgba(34,193,195,1) 0%,     rgba(253,187,45,1) 100%);
+            button{
+                border: none;
+                color: white;
+                background-color: transparent !important;
+                font-size: 32px;
+            }
+
+        }
+    }
+    .modal-body{
+        display: flex;
+        gap: 17px;
+        flex-wrap: wrap;
+
+        .input-container{
+            display: flex;
+            flex-direction: column;
+            width: 48%;
+            margin: 5px 0;
+
+            input{
+                border-radius: 5px;
+                border: 1px solid grey;
+                height: 30px;
+                outline: none;
+                padding: 0 10px;
+                margin-top: 5px;
+
+            }
+            .form{
+                height: 100%;
+                border-radius: 5px;
+                outline: none;
+                margin-top: 5px;
+            }
+        }
+        .input-address{
+              width:98.5%;  
+        }
+    }
+    .btn{
+        padding: 0 20px;
+    }
+}

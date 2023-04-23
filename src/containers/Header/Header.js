@@ -48,8 +48,10 @@ class Header extends Component {
           </span>
         </div>
         {/* nút logout */}
-        <div className="btn btn-logout" onClick={processLogout}>
-          <i className="fas fa-sign-out-alt"></i>
+        <div>
+          <div className="btn btn-logout" onClick={processLogout}>
+            <i className="fas fa-sign-out-alt"></i>
+          </div>
         </div>
       </div>
     );

@@ -4,6 +4,7 @@ import { push } from "connected-react-router";
 import * as actions from "../../store/actions";
 import "./Login.scss";
 import { handleLoginApi } from "../../services/userService";
+import ModalRegister from "./ModalRegister";
 
 class Login extends Component {
   constructor(props) {
@@ -13,6 +14,8 @@ class Login extends Component {
       password: "",
       isShowPassword: false,
       errMessage: "",
+
+      isOpenModalRegister: false,
     };
   }
 
@@ -71,29 +74,46 @@ class Login extends Component {
     }
   };
 
+  //modal đăng kí
+  handleAddNewUser = () => {
+    this.setState({
+      isOpenModalRegister: true,
+    });
+  };
+
+  toggleModal = () => {
+    this.setState({
+      isOpenModalRegister: !this.state.isOpenModalRegister,
+    });
+  };
+
   render() {
     return (
       <div className="login-backgroud">
+        <ModalRegister
+          isOpen={this.state.isOpenModalRegister}
+          toggleFromParent={this.toggleModal}
+        />
         <div className="login-container">
           <div className="login-content">
-            <div className="col-12 text-login">Login</div>
-            <div className="col-12 form-group">
-              <label>Username:</label>
+            <div className=" text-login">Đăng nhập</div>
+            <div className=" form-group">
+              <label>Tên đăng nhập:</label>
               <input
                 type="text"
                 className="form-control"
-                placeholder="Enter your username"
+                placeholder="Nhâp tên đăng nhập"
                 value={this.state.username}
                 onChange={(event) => this.handleOnChangeUsername(event)}
               />
             </div>
-            <div className="col-12 form-group">
-              <label>Password:</label>
+            <div className=" form-group">
+              <label>Mật khẩu:</label>
               <div className="custom-input-password">
                 <input
                   className="form-control"
                   type={this.state.isShowPassword ? "text" : "password"}
-                  placeholder="Enter your password"
+                  placeholder="Nhập mật khẩu"
                   onChange={(event) => {
                     this.handleOnChangePassword(event);
                   }}
@@ -117,26 +137,29 @@ class Login extends Component {
                 </span>
               </div>
             </div>
-            <div className="col-12" style={{ color: "red" }}>
-              {this.state.errMessage}
-            </div>
-            <div className="col-12">
+            <div style={{ color: "red" }}>{this.state.errMessage}</div>
+            <div className="">
               <button
                 className="btn-login"
                 onClick={() => {
                   this.handleLogin();
                 }}
               >
-                Log In
+                Đăng nhập
               </button>
             </div>
-            <div className="col-12">
-              <span className="forget-password">Forgot your password?</span>
+            <div className="">
+              <span className="forget-password ">Quên mật khẩu?</span>
+              <span className="forget-password mx-0">
+                {/* <a href="/register">Đăng kí?</a> */}
+                <span onClick={() => this.handleAddNewUser()}>Đăng ký?</span>
+              </span>
             </div>
-            <div className="col-12 text-center mt-3">
-              <span className="text-other-login">Or Login With:</span>
+
+            <div className="text-center mt-3">
+              <span className="text-other-login">hoặc:</span>
             </div>
-            <div className="col-12 social-login">
+            <div className=" social-login">
               <i className="fab fa-google-plus-g google"></i>
               <i className="fab fa-facebook-f facebook"></i>
             </div>
@@ -148,9 +171,7 @@ class Login extends Component {
 }
 
 const mapStateToProps = (state) => {
-  return {
-    lang: state.app.language,
-  };
+  return {};
 };
 
 const mapDispatchToProps = (dispatch) => {

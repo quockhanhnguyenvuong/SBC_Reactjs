@@ -1,8 +1,8 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { Redirect, Route, Switch } from "react-router-dom";
+import { Route, Switch } from "react-router-dom";
 import ManageSchedule from "../containers/System/Doctor/ManageSchedule";
-import Header from "../containers/Header/Header";
+// import Header from "../containers/Header/Header";
 
 class Home extends Component {
   render() {
@@ -10,7 +10,7 @@ class Home extends Component {
 
     return (
       <React.Fragment>
-        {isLoggedIn && <Header />}
+        {isLoggedIn}
         <div className="system-container">
           <div className="system-list">
             <Switch>

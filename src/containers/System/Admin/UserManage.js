@@ -63,10 +63,10 @@ class UserManage extends Component {
     let roleArr = this.state.roleArr;
     let positionArr = this.state.positionArr;
     this.setState({
-      gender: genderArr && genderArr.length > 0 ? genderArr[0].key : "",
-      roleID: roleArr && roleArr.length > 0 ? roleArr[0].key : "",
+      gender: genderArr && genderArr.length > 0 ? genderArr[0].keyMap : "",
+      roleID: roleArr && roleArr.length > 0 ? roleArr[0].keyMap : "",
       positionID:
-        positionArr && positionArr.length > 0 ? positionArr[0].key : "",
+        positionArr && positionArr.length > 0 ? positionArr[0].keyMap : "",
     });
   }
 
@@ -114,7 +114,6 @@ class UserManage extends Component {
       isOpenImage: true,
     });
   };
-
   handleOnChangeImage = (event) => {
     let data = event.target.files;
     let file = data[0];
@@ -167,6 +166,7 @@ class UserManage extends Component {
   createNewUser = async (data) => {
     try {
       let response = await createNewUserService(data);
+      console.log("create user: ", data);
       if (response && response.errCode !== 0) {
         if (response && response.errCode === 1) {
           toast.error("Email đã được sử dụng, vui lòng nhập email khác !!!");
@@ -388,7 +388,7 @@ class UserManage extends Component {
                       genders.length > 0 &&
                       genders.map((item, index) => {
                         return (
-                          <option selected key={index} value={item.key}>
+                          <option selected key={index} value={item.keyMap}>
                             {item.valueVI}
                           </option>
                         );
@@ -408,7 +408,7 @@ class UserManage extends Component {
                       positionArr.length > 0 &&
                       positionArr.map((item, index) => {
                         return (
-                          <option selected key={index} value={item.key}>
+                          <option selected key={index} value={item.keyMap}>
                             {item.valueVI}
                           </option>
                         );
@@ -428,7 +428,7 @@ class UserManage extends Component {
                       roleArr.length > 0 &&
                       roleArr.map((item, index) => {
                         return (
-                          <option selected key={index} value={item.key}>
+                          <option selected key={index} value={item.keyMap}>
                             {item.valueVI}
                           </option>
                         );
@@ -502,8 +502,8 @@ class UserManage extends Component {
                         <td>{item.email}</td>
                         <td>{item.firstName}</td>
                         <td>{item.lastName}</td>
-
                         <td>
+                          cc
                           {item.roleID === "R1"
                             ? "Quản trị viên"
                             : item.roleID === "R2"
