@@ -1,10 +1,19 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import "./HomeHeader.scss";
+import * as actions from "../../store/actions";
+
 // import logo from "../../assets/logo.svg.svg";
 
 class HomeHeader extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {};
+  }
+
   render() {
+    const { processLogout, userInfo } = this.props;
+    console.log(userInfo);
     return (
       <React.Fragment>
         <div className="home-header-container">
@@ -48,10 +57,17 @@ class HomeHeader extends Component {
                 <i className="fa-solid fa-circle-question"></i> Hỗ trợ
               </div>
               <div className="register">
-                <a href="/register" className="btn-register">
-                  <i className="fas fa-sign-in-alt mx-2 "></i>Đăng kí / Đăng
-                  nhập
-                </a>
+                {userInfo ? (
+                  <div className="btn btn-logout" onClick={processLogout}>
+                    <i className="fas fa-sign-out-alt mx-2"></i>Đăng xuất
+                  </div>
+                ) : (
+                  <div>
+                    <a href="/login" className="btn btn-register">
+                      <i className="fas fa-sign-in-alt mx-2 "></i>Đăng nhập
+                    </a>
+                  </div>
+                )}
               </div>
             </div>
           </div>
@@ -75,11 +91,14 @@ class HomeHeader extends Component {
 const mapStateToProps = (state) => {
   return {
     isLoggedIn: state.user.isLoggedIn,
+    userInfo: state.user.userInfo,
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
-  return {};
+  return {
+    processLogout: () => dispatch(actions.processLogout()),
+  };
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(HomeHeader);

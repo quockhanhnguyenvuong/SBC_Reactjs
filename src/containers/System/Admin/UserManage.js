@@ -503,7 +503,6 @@ class UserManage extends Component {
                         <td>{item.firstName}</td>
                         <td>{item.lastName}</td>
                         <td>
-                          cc
                           {item.roleID === "R1"
                             ? "Quản trị viên"
                             : item.roleID === "R2"
