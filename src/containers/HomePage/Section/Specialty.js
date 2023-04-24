@@ -3,6 +3,7 @@ import { connect } from "react-redux";
 import "./Specialty.scss";
 import Slider from "react-slick";
 import { getAllSpecialty } from "../../../services/userService";
+import { withRouter } from "react-router";
 
 class Specialty extends Component {
   constructor(props) {
@@ -20,6 +21,11 @@ class Specialty extends Component {
       });
     }
   }
+  handleViewDetailSpecialty= (item)=>{
+    if(this.props.history){
+      this.props.history.push(`/detail-specialty/${item.id}`)
+    }
+  }
   render() {
     let { dataSpecialty } = this.state;
     return (
@@ -35,7 +41,11 @@ class Specialty extends Component {
                 dataSpecialty.length > 0 &&
                 dataSpecialty.map((item, index) => {
                   return (
-                    <div className="section-customize specialty-child" key={index}>
+                    <div
+                      className="section-customize specialty-child"
+                      key={index}
+                      onClick={() => this.handleViewDetailSpecialty(item)}
+                    >
                       <div
                         className="bg-image section-specialty"
                         style={{ backgroundImage: `url(${item.image})` }}
@@ -80,4 +90,6 @@ const mapDispatchToProps = (dispatch) => {
   return {};
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Specialty);
+export default withRouter(
+  connect(mapStateToProps, mapDispatchToProps)(Specialty)
+);

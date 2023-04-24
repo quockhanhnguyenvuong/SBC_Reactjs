@@ -1,24 +1,54 @@
 export const adminMenu = [
-    { //hệ thống
-        name: 'menu.system.header', menus: [
-            {
-                name: 'menu.system.system-administrator.header',
-                subMenus: [
-                    { name: 'menu.system.system-administrator.user-manage', link: '/system/user-manage' },
-                    { name: 'menu.system.system-administrator.user-redux', link: '/system/user-redux' },
-                    { name: 'menu.system.system-administrator.product-manage', link: '/system/product-manage' },
-                    { name: 'menu.system.system-administrator.register-package-group-or-account', link: '/system/register-package-group-or-account' },
-                ]
-            },
-            // { name: 'menu.system.system-parameter.header', link: '/system/system-parameter' },
-        ]
-    },
-    {
-        name: 'menu.admin.specialty',
-        menus: [
-            {
-                name: 'menu.admin.manage-specialty', link: '/system/manage-specialty'
-            },
-        ]
-    },
+  {
+    //hệ thống
+    name: "Quản lý hệ thống",
+    menus: [
+      {
+        name: "Quản lý người dùng",
+        link: "/system/user-manage",
+      },
+      {
+        name: "Quản lý bác sĩ",
+        link: "/system/manage-doctor",
+      },
+      {
+        name: "Quản lý lịch khám bệnh",
+        link: "/doctor/manage-schedule",
+      },
+    ],
+  },
+  {
+    //Phòng khám
+    name: "Phòng khám",
+    menus: [
+      {
+        name: "Quản lý phòng khám",
+        link: "/system/manage-clinic",
+      },
+    ],
+  },
+  {
+    //Chuyên khoa
+    name: "Chuyên khoa",
+    menus: [
+      {
+        name: "Quản lý chuyên khoa",
+        link: "/system/manage-specialty",
+      },
+    ],
+  },
+];
+
+//doctor menu
+export const doctorMenu = [
+  {
+    //hệ thốngs
+    name: "Quản lý hệ thống",
+    menus: [
+      {
+        name: "Quản lý lịch khám bệnh",
+        link: "/doctor/manage-schedule",
+      },
+    ],
+  },
 ];
