@@ -37,7 +37,7 @@ class HomeHeader extends Component {
               </div>
               <div className="child-content">
                 <div>
-                  <b>Gói khámkhám</b>
+                  <b>Gói khám</b>
                 </div>
                 <div className="subs-title">Khám sức khỏe tổng quát</div>
               </div>

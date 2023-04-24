@@ -16,6 +16,11 @@ export const adminMenu = [
         name: "Quản lý lịch khám bệnh",
         link: "/doctor/manage-schedule",
       },
+      // detail doctor
+      {
+        name: "detail doctor",
+        link: "/doctor/detail-doctor",
+      },
     ],
   },
   {

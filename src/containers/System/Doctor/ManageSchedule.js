@@ -94,8 +94,12 @@ class ManageSchedule extends Component {
       formatedDate: formatedDate,
     });
 
-    console.log("check result bulk schedule doctor: ", res.arrSchedule);
-    console.log("check result schedule doctor: ", result);
+    if(res && res.errCode === 0){
+      toast.success("Save infor succeed!")
+    }else{
+      toast.error("error saveBulkScheduleDoctor ");
+      console.log("error  saveBulkScheduleDoctor res:", res);
+    }
   };
 
   buildDataInputSelect = (inputData) => {
@@ -123,6 +127,7 @@ class ManageSchedule extends Component {
 
   render() {
     let { rangeTime } = this.state;
+    let yesterday = new Date(new Date().setDate(new Date().getDate()-1));
 
     return (
       <div className="container manage-schedule-container">
@@ -146,7 +151,7 @@ class ManageSchedule extends Component {
               onChange={this.handleChangeDatePicker}
               className="form-group datePicker mx-3"
               value={this.state.currentDate}
-              minDate={new Date()}
+              minDate={yesterday}
             />
           </div>
           <div className="col-12 pick-hour-container mt-4">

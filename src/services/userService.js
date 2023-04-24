@@ -24,12 +24,12 @@ const getAllCodeService = (inputType) => {
   return axios.get(`/api/allcode?type=${inputType}`, { id: inputType });
 };
 
-const getAllDoctors = () => {
-  return axios.get(`/api/get-all-doctors`);
-};
-// const getAllDoctors = (inputId) => {
-//   return axios.get(`/api/get-all-doctors?id=${inputId}`, { id: inputId });
+// const getAllDoctors = () => {
+//   return axios.get(`/api/get-all-doctors`);
 // };
+const getAllDoctors = (inputId) => {
+  return axios.get(`/api/get-all-doctors?id=${inputId}`, { id: inputId });
+};
 
 const saveDetailDoctorService = (data) => {
   return axios.post(`/api/save-infor-doctors`, data);
@@ -43,9 +43,26 @@ const getAllSpecialty = () => {
   return axios.get(`/api/get-specialty`);
 };
 
+const getDetailInforDoctor = (inpuId) => {
+  return axios.get(`/api/get-detail-by-id?id=${inpuId}`);
+};
+
 const saveBulkScheduleDoctor = (data) => {
   return axios.post("/api/bulk-create-schedule", data);
 };
+
+const getscheduleDoctorByDate = (doctorId, date) => {
+  return axios.get(`/api/get-schedule-doctor-by-date?doctorId=${doctorId} & date=${date}`);
+};
+// có 1 getExtraInforDoctorById ở đây
+
+const getProfileDoctorById = (doctorId) => {
+  return axios.get(`/api/get-profile-doctor-by-id?doctorId=${doctorId}`);
+};
+
+const postPatientBookAppointment = (data) =>{
+  return axios.post('/api/patient-book-appointment', data)
+}
 
 export {
   handleLoginApi,
@@ -58,5 +75,10 @@ export {
   saveDetailDoctorService,
   createNewSpecialty,
   getAllSpecialty,
+  getDetailInforDoctor,
   saveBulkScheduleDoctor,
+  getscheduleDoctorByDate,
+  getProfileDoctorById,
+  postPatientBookAppointment,
+  
 };

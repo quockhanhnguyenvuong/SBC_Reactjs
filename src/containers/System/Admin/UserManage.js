@@ -208,9 +208,25 @@ class UserManage extends Component {
       lastName: user.lastName,
       phonenumber: user.phonenumber,
       address: user.address,
-      gender: user.gender,
-      roleID: user.roleID,
-      positionID: user.positionID,
+      gender: user.gender === "Nam" ? "M" : user.gender === "Nữ" ? "F" : "O",
+      roleID:
+        user.roleID === "Quản trị viên"
+          ? "R1"
+          : user.roleID === "Bác sĩ"
+          ? "R2"
+          : "R3",
+      positionID:
+        user.positionID === "Bác sĩ"
+          ? "P0"
+          : user.positionID === "Thạc sĩ"
+          ? "P1"
+          : user.positionID === "Tiến sĩ"
+          ? "P2"
+          : user.positionID === "Phó giáo sư"
+          ? "P3"
+          : user.positionID === "Giáo sư"
+          ? "P4"
+          : "P5",
       image: user.image,
       active: false,
     });

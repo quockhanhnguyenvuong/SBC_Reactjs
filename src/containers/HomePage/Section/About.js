@@ -15,9 +15,9 @@ class About extends Component {
               height="400px"
               src="https://www.youtube.com/embed/rWCTDQgF2-o"
               title="Dấu hiệu nghi ngờ mắc bệnh lao phổi ​| Sống khỏe mỗi ngày - Kỳ 976"
-              frameborder="0"
+              frameBorder="0"
               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-              allowfullscreen
+              allowFullScreen
             ></iframe>
           </div>
           <div className="content right">

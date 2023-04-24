@@ -7,6 +7,7 @@
     "@formatjs/intl-relativetimeformat": "^7.3.6",
     "@fortawesome/fontawesome-free-webfonts": "^1.0.9",
     "axios": "^0.21.1",
+    "base-64": "^1.0.0",
     "bootstrap": "^5.0.1",
     "connected-react-router": "^6.9.1",
     "lightbox2": "^2.11.4",
@@ -15,6 +16,7 @@
     "moment": "^2.29.0",
     "node-sass": "^6.0.0",
     "react": "^17.0.2",
+    "react-admin": "^4.9.3",
     "react-auth-wrapper": "^1.0.0",
     "react-autosuggest": "^10.1.0",
     "react-bootstrap-table-next": "^4.0.3",
@@ -25,6 +27,8 @@
     "react-image-lightbox": "^5.1.4",
     "react-intl": "^5.20.2",
     "react-markdown-editor-lite": "^1.3.4",
+    "react-native-common-utils": "^8.4.1",
+    "react-number-format": "^5.1.4",
     "react-redux": "^7.2.4",
     "react-router": "^5.2.0",
     "react-router-dom": "^5.2.0",
@@ -40,10 +44,7 @@
     "redux-state-sync": "^2.1.0",
     "redux-thunk": "^2.3.0",
     "slick-carousel": "^1.8.1",
-    "typescript": "^4.3.2",
-    "react-admin": "^4.9.3",
-    "base-64": "^1.0.0",
-    "react-native-common-utils": "^8.4.1"
+    "typescript": "^4.3.2"
   },
   "scripts": {
     "start": "react-scripts start",
