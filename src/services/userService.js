@@ -47,6 +47,25 @@ const saveBulkScheduleDoctor = (data) => {
   return axios.post("/api/bulk-create-schedule", data);
 };
 
+const createNewPasswordService = (data) => {
+  return axios.post("/api/create-new-password", data);
+};
+
+//
+const getscheduleDoctorByDate = (doctorId, date) => {
+  return axios.get(
+    `/api/get-schedule-doctor-by-date?doctorId=${doctorId} & date=${date}`,
+  );
+};
+
+const getProfileDoctorById = (doctorId) => {
+  return axios.get(`/api/get-profile-doctor-by-id?doctorId=${doctorId}`);
+};
+
+const postPatientBookAppointment = (data) => {
+  return axios.post("/api/patient-book-appointment", data);
+};
+
 export {
   handleLoginApi,
   getAllUsers,
@@ -59,4 +78,9 @@ export {
   createNewSpecialty,
   getAllSpecialty,
   saveBulkScheduleDoctor,
+  createNewPasswordService,
+  //
+  getscheduleDoctorByDate,
+  getProfileDoctorById,
+  postPatientBookAppointment,
 };

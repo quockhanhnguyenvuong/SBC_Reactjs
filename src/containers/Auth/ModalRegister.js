@@ -35,15 +35,6 @@ class ModalRegister extends Component {
     });
   }
 
-  // get value input
-  onChangInput = (event, id) => {
-    let copyState = { ...this.state };
-    copyState[id] = event.target.value;
-    this.setState({
-      ...copyState,
-    });
-  };
-
   // load gender
   getGenderFormReact = async () => {
     let response = await getAllCodeService("gender");
@@ -76,6 +67,7 @@ class ModalRegister extends Component {
 
   //handle button save
   handleSaveUser = async () => {
+    // console.log(this.state.gender);
     let isValid = this.checkValidateInput();
     if (isValid === false) return;
     // call api create modal
@@ -204,15 +196,16 @@ class ModalRegister extends Component {
               <label>Giới tính </label>
               <select
                 className="form "
+                value={this.state.gender}
                 onChange={(event) => {
-                  this.onChangInput(event, "gender");
+                  this.handleChangeInput(event, "gender");
                 }}
               >
                 {genders &&
                   genders.length > 0 &&
                   genders.map((item, index) => {
                     return (
-                      <option selected key={index} value={item.key}>
+                      <option selected key={index} value={item.keyMap}>
                         {item.valueVI}
                       </option>
                     );

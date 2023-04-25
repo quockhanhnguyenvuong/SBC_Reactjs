@@ -135,7 +135,6 @@ class UserManage extends Component {
     });
   };
 
-  // function create and edit new user
   checkValidateInput = () => {
     let isValid = true;
     let arrCheck = ["email", "password", "firstName", "lastName"];
@@ -199,7 +198,7 @@ class UserManage extends Component {
   };
 
   //fill info user
-  handleEditUser = async (user) => {
+  handleFillUserInfo = async (user) => {
     this.setState({
       userId: user.id,
       email: user.email,
@@ -216,6 +215,7 @@ class UserManage extends Component {
     });
   };
 
+  // function create and edit new user
   handleSaveUser = async () => {
     let isValid = this.checkValidateInput();
     if (isValid === false) return;
@@ -512,7 +512,7 @@ class UserManage extends Component {
                         <td>
                           <button
                             className="btn-edit"
-                            onClick={() => this.handleEditUser(item)}
+                            onClick={() => this.handleFillUserInfo(item)}
                           >
                             <i class="fas fa-edit"></i>
                           </button>
