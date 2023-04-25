@@ -31,6 +31,10 @@ const getAllDoctors = () => {
 //   return axios.get(`/api/get-all-doctors?id=${inputId}`, { id: inputId });
 // };
 
+const getTopDoctorHomeService = (limit) => {
+  return axios.get(`/api/top-doctor-home?limit=${limit}`);
+};
+
 const saveDetailDoctorService = (data) => {
   return axios.post(`/api/save-infor-doctors`, data);
 };
@@ -66,6 +70,8 @@ const postPatientBookAppointment = (data) => {
   return axios.post("/api/patient-book-appointment", data);
 };
 
+const getDetailInforDoctor = () => {};
+
 export {
   handleLoginApi,
   getAllUsers,
@@ -83,4 +89,6 @@ export {
   getscheduleDoctorByDate,
   getProfileDoctorById,
   postPatientBookAppointment,
+  getDetailInforDoctor,
+  getTopDoctorHomeService,
 };

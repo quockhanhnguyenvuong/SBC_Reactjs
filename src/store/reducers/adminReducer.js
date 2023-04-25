@@ -5,6 +5,8 @@ const initialState = {
   adminInfo: null,
   allDoctors: [],
   allScheduleTime: [],
+  users: [],
+  topDoctors: [],
 };
 
 const adminReducer = (state = initialState, action) => {
@@ -51,7 +53,16 @@ const adminReducer = (state = initialState, action) => {
       return {
         ...state,
       };
-
+    case actionTypes.FETCH_TOP_DOCTOR_SUCCESS:
+      state.topDoctors = action.dataDoctors;
+      return {
+        ...state,
+      };
+    case actionTypes.FETCH_TOP_DOCTOR_FAILDED:
+      state.allDoctors = [];
+      return {
+        ...state,
+      };
     default:
       return state;
   }

@@ -53,11 +53,15 @@ class ManageDoctor extends Component {
     });
     console.log("check state: ", this.state);
   };
+
   /* Select option doctor */
   handleChange = (selectDoctor) => {
     console.log("check select option: ", selectDoctor);
-    this.setState({ selectDoctor });
+    this.setState({
+      selectDoctor,
+    });
   };
+
   /* Textarea description doctor */
   handleOnChangeDescription = (event) => {
     this.setState({
@@ -78,6 +82,7 @@ class ManageDoctor extends Component {
     return result;
   };
   render() {
+    console.log("first,", this.props.allDoctors);
     return (
       <div className="manage-doctor-container container mb-5">
         <div className="row">

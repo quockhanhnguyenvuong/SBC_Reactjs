@@ -3,8 +3,19 @@ import {
   getAllDoctors,
   saveDetailDoctorService,
   getAllCodeService,
+  getTopDoctorHomeService,
 } from "../../services/userService";
 import { toast } from "react-toastify";
+
+export const fetchGenderStart = () => ({
+  type: actionTypes.FETCH_GENDER_START,
+});
+export const fetchGenderSucces = () => ({
+  type: actionTypes.FETCH_GENDER_SUCCES,
+});
+export const fetchGenderFaided = () => ({
+  type: actionTypes.FETCH_GENDER_FAIDED,
+});
 
 export const fetchAllDoctors = () => {
   return async (dispatch, getState) => {
@@ -74,6 +85,28 @@ export const fetchAllScheduleTime = () => {
       console.log("FETCH_ALLCODE_SCHEDULE_TIME_FAILDED: ", e);
       dispatch({
         type: actionTypes.FETCH_ALLCODE_SCHEDULE_TIME_FAILDED,
+      });
+    }
+  };
+};
+export const fetchTopDoctors = () => {
+  return async (dispatch, getState) => {
+    try {
+      let res = await getTopDoctorHomeService("");
+      if (res && res.errCode === 0) {
+        dispatch({
+          type: actionTypes.FETCH_TOP_DOCTOR_SUCCESS,
+          dataDoctors: res.data,
+        });
+      } else {
+        dispatch({
+          type: actionTypes.FETCH_TOP_DOCTOR_FAILDED,
+        });
+      }
+    } catch (e) {
+      console.log("FETCH_TOP_DOCTOR_FAILDED: ", e);
+      dispatch({
+        type: actionTypes.FETCH_TOP_DOCTOR_FAILDED,
       });
     }
   };

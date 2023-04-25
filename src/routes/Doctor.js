@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 import { Route, Switch } from "react-router-dom";
 import ManageSchedule from "../containers/System/Doctor/ManageSchedule";
 import Header from "../containers/Header/Header";
-// import DetailDoctor from "../Patient/Doctor/DetailDoctor";
+import DetailDoctor from "../Patient/Doctor/DetailDoctor";
 class Home extends Component {
   render() {
     const { isLoggedIn } = this.props;
@@ -19,7 +19,7 @@ class Home extends Component {
                 component={ManageSchedule}
               />
               {/*  */}
-              {/* <Route path="/doctor/detail-doctor" component={DetailDoctor} /> */}
+              <Route path="/doctor/detail-doctor" component={DetailDoctor} />
               {/*  */}
             </Switch>
           </div>

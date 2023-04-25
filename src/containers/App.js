@@ -19,6 +19,7 @@ import Doctor from "../routes/Doctor";
 import DetailUser from "./System/User/DetailUser";
 import ChangePassword from "./System/User/ChangePassword";
 import BookingHistory from "./System/User/BookingHistory";
+import DetailSpecialty from "./HomePage/Specialty/DetailSpecialty";
 
 class App extends Component {
   handlePersistorState = () => {
@@ -74,7 +75,10 @@ class App extends Component {
                     path={"/home/history-user/"}
                     component={userIsAuthenticated(BookingHistory)}
                   />
-
+                  <Route
+                    path={path.DETAIL_SPECIALTY}
+                    component={DetailSpecialty}
+                  />
                   <Route path={path.HOMEPAGE} component={HomePage} />
                 </Switch>
               </CustomScrollbars>
