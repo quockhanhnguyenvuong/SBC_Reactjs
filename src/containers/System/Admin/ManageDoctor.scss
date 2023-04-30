@@ -2,6 +2,26 @@
   .manage-doctor-editor{
     .save-content-doctor{
         outline: none;
+        border: none;
+        margin-bottom: 30px;
+        margin-top: 20px;
+        border-radius: 3px;
+        background: rgb(229, 232, 62);
+        cursor: pointer;
+        color: black;
+        &:hover{
+            opacity: 0.9;
+        }
+    }
+    .create-content-doctor{
+        outline: none;
+        border: none;
+        margin-bottom: 30px;
+        margin-top: 20px;
+        border-radius: 3px;
+        background: rgb(38, 160, 231);
+        cursor: pointer;
+        color: white;
         &:hover{
             opacity: 0.9;
         }

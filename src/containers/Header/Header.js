@@ -6,6 +6,7 @@ import "./Header.scss";
 import { adminMenu, doctorMenu } from "./menuApp";
 import _ from "lodash";
 import { USER_ROLE } from "../../utils";
+import { withRouter } from "react-router";
 
 class Header extends Component {
   constructor(props) {
@@ -14,7 +15,11 @@ class Header extends Component {
       menuApp: [],
     };
   }
-
+  returnToHome = () => {
+    if(this.props.history){
+      this.props.history.push("/home");
+    }
+  }
   componentDidMount() {
     let { userInfo } = this.props;
     let menu = [];
@@ -71,4 +76,4 @@ const mapDispatchToProps = (dispatch) => {
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Header);
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Header));

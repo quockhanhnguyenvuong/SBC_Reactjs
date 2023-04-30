@@ -72,17 +72,19 @@ class HomeHeader extends Component {
             </div>
           </div>
         </div>
-
-        <div className="home-header-banner">
-          <div className="content-up">
-            <div className="title1">Nền tảng y tế</div>
-            <div className="title2">Chăm sóc sức khỏe toàn diện</div>
-            <div className="search">
-              <i className="fa-sharp fa-solid fa-magnifying-glass"></i>
-              <input type="text" placeholder="Tìm chuyên khoa khám bệnh" />
+        {this.props.isShowBanner === true &&
+          <div className="home-header-banner">
+            <div className="content-up">
+              <div className="title1">Nền tảng y tế</div>
+              <div className="title2">Chăm sóc sức khỏe toàn diện</div>
+              <div className="search">
+                <i className="fa-sharp fa-solid fa-magnifying-glass"></i>
+                <input type="text" placeholder="Tìm chuyên khoa khám bệnh" />
+              </div>
             </div>
           </div>
-        </div>
+        }
+
       </React.Fragment>
     );
   }
