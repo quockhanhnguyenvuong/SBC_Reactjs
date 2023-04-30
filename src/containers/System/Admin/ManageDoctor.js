@@ -122,6 +122,7 @@ class ManageDoctor extends Component {
     });
    
   };
+<<<<<<< HEAD
   handleChangeSelect = async (selectedOption) => {
     this.setState({ selectedOption });
     let {listPayment, listPrice, listProvince} = this.state;
@@ -174,7 +175,17 @@ class ManageDoctor extends Component {
       })
     }
   
+=======
+
+  /* Select option doctor */
+  handleChange = (selectDoctor) => {
+    console.log("check select option: ", selectDoctor);
+    this.setState({
+      selectDoctor,
+    });
+>>>>>>> f7295d5b9998ed59319f896bf6c6de3a2b47ee4c
   };
+
   /* Textarea description doctor */
   handleOnChangeDescription = (event) => {
     this.setState({
@@ -199,7 +210,11 @@ class ManageDoctor extends Component {
   }
 
   render() {
+<<<<<<< HEAD
     let { hasOldData } = this.state;
+=======
+    console.log("first,", this.props.allDoctors);
+>>>>>>> f7295d5b9998ed59319f896bf6c6de3a2b47ee4c
     return (
       <div className="manage-doctor-container container mb-5">
         <div className="row">

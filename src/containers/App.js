@@ -16,7 +16,14 @@ import System from "../routes/System";
 import HomePage from "./HomePage/HomePage.js";
 import CustomScrollbars from "../components/CustomScrollbars.js";
 import Doctor from "../routes/Doctor";
+<<<<<<< HEAD
 import DetailDoctor from "./Patient/Doctor/DetailDoctor";
+=======
+import DetailUser from "./System/User/DetailUser";
+import ChangePassword from "./System/User/ChangePassword";
+import BookingHistory from "./System/User/BookingHistory";
+import DetailSpecialty from "./HomePage/Specialty/DetailSpecialty";
+>>>>>>> f7295d5b9998ed59319f896bf6c6de3a2b47ee4c
 
 class App extends Component {
   handlePersistorState = () => {
@@ -60,7 +67,22 @@ class App extends Component {
                     path={"/doctor/"}
                     component={userIsAuthenticated(Doctor)}
                   />
-
+                  <Route
+                    path={"/home/detail-user/"}
+                    component={userIsAuthenticated(DetailUser)}
+                  />
+                  <Route
+                    path={"/home/change-password/"}
+                    component={userIsAuthenticated(ChangePassword)}
+                  />
+                  <Route
+                    path={"/home/history-user/"}
+                    component={userIsAuthenticated(BookingHistory)}
+                  />
+                  <Route
+                    path={path.DETAIL_SPECIALTY}
+                    component={DetailSpecialty}
+                  />
                   <Route path={path.HOMEPAGE} component={HomePage} />
                   <Route path={path.DETAIL_DOCTOR} component={DetailDoctor} />
                 </Switch>

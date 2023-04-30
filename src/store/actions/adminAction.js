@@ -3,8 +3,19 @@ import {
   getAllDoctors,
   saveDetailDoctorService,
   getAllCodeService,
+  getTopDoctorHomeService,
 } from "../../services/userService";
 import { toast } from "react-toastify";
+
+export const fetchGenderStart = () => ({
+  type: actionTypes.FETCH_GENDER_START,
+});
+export const fetchGenderSucces = () => ({
+  type: actionTypes.FETCH_GENDER_SUCCES,
+});
+export const fetchGenderFaided = () => ({
+  type: actionTypes.FETCH_GENDER_FAIDED,
+});
 
 export const fetchAllDoctors = () => {
   return async (dispatch, getState) => {
@@ -78,6 +89,7 @@ export const fetchAllScheduleTime = () => {
     }
   };
 };
+<<<<<<< HEAD
 export const getRequiredDoctorInfor = () => {
   return async (dispatch, getState) => {
       try {
@@ -111,3 +123,27 @@ export const fetchRequiredDoctorInforSuccess = (allRequiredData) =>({
 export const fetchRequiredDoctorInforFailed= () =>({
   type: actionTypes.FETCH_REQUIRED_DOCTOR_INFOR_FAILED
 })
+=======
+export const fetchTopDoctors = () => {
+  return async (dispatch, getState) => {
+    try {
+      let res = await getTopDoctorHomeService("");
+      if (res && res.errCode === 0) {
+        dispatch({
+          type: actionTypes.FETCH_TOP_DOCTOR_SUCCESS,
+          dataDoctors: res.data,
+        });
+      } else {
+        dispatch({
+          type: actionTypes.FETCH_TOP_DOCTOR_FAILDED,
+        });
+      }
+    } catch (e) {
+      console.log("FETCH_TOP_DOCTOR_FAILDED: ", e);
+      dispatch({
+        type: actionTypes.FETCH_TOP_DOCTOR_FAILDED,
+      });
+    }
+  };
+};
+>>>>>>> f7295d5b9998ed59319f896bf6c6de3a2b47ee4c

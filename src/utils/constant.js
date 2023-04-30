@@ -5,13 +5,12 @@ export const path = {
   LOGIN: "/login",
   LOG_OUT: "/logout",
   SYSTEM: "/system",
+<<<<<<< HEAD
   DETAIL_DOCTOR: '/detail-doctor/:id'
+=======
+  DETAIL_SPECIALTY: "/detail-specialty/:id",
+>>>>>>> f7295d5b9998ed59319f896bf6c6de3a2b47ee4c
 };
-
-// export const languages = {
-//     VI: 'vi',
-//     EN: 'en'
-// };
 
 export const manageActions = {
   ADD: "ADD",

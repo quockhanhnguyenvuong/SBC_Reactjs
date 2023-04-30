@@ -20,12 +20,24 @@ class HomePage extends Component {
     };
     return (
       <div>
+<<<<<<< HEAD
         <HomeHeader isShowBanner={true}/>
+=======
+        <HomeHeader />
+        <div className="home-header-banner">
+          <div className="content-up">
+            <div className="title1">Nền tảng y tế</div>
+            <div className="title2">Chăm sóc sức khỏe toàn diện</div>
+            <div className="search">
+              <i className="fa-sharp fa-solid fa-magnifying-glass"></i>
+              <input type="text" placeholder="Tìm chuyên khoa khám bệnh" />
+            </div>
+          </div>
+        </div>
+        <OutStandingDoctor settings={settings} />
+>>>>>>> f7295d5b9998ed59319f896bf6c6de3a2b47ee4c
         <Specialty settings={settings} />
         <MedicalFacility settings={settings} />
-        <OutStandingDoctor settings={settings} />
-        {/* <Handbook
-               settings={settings}/> */}
         <About />
         <HomeFooter />
       </div>
