@@ -3,7 +3,7 @@
     .booking-modal-content{
         display: flex;
         flex-direction: column;
-
+        padding :20px;
         .booking-modal-header{
             padding: 10px;
             border-bottom: 1px solid #ccc;
@@ -22,6 +22,7 @@
         .booking-modal-body{
             padding: 15px;
             height: 100%;
+           padding :20px
         }
 
         .booking-modal-footer{
@@ -48,4 +49,15 @@
         }
     }
 
+}
+.form{
+    width: 100%;
+    height: 33px;
+    border-radius: 3px;
+    border:1px solid #ced4da;
+    outline: none;
+}
+.booking-modal-header{
+    border-bottom: 1px solid #ccc;
+    margin: 10px;
 }

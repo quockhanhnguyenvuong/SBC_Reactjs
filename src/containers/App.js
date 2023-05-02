@@ -16,10 +16,11 @@ import System from "../routes/System";
 import HomePage from "./HomePage/HomePage.js";
 import CustomScrollbars from "../components/CustomScrollbars.js";
 import Doctor from "../routes/Doctor";
-import DetailUser from "./System/User/DetailUser";
-import ChangePassword from "./System/User/ChangePassword";
-import BookingHistory from "./System/User/BookingHistory";
+import DetailUser from "../Patient/User/DetailUser";
+import ChangePassword from "../Patient/User/ChangePassword";
+import BookingHistory from "../Patient/User//BookingHistory";
 import DetailSpecialty from "./HomePage/Specialty/DetailSpecialty";
+import DetailDoctor from "../Patient/Doctor/DetailDoctor";
 
 class App extends Component {
   handlePersistorState = () => {
@@ -79,6 +80,11 @@ class App extends Component {
                     path={path.DETAIL_SPECIALTY}
                     component={DetailSpecialty}
                   />
+                  <Route
+                    path={"/home/detail-doctor/:id"}
+                    component={userIsAuthenticated(DetailDoctor)}
+                  />
+
                   <Route path={path.HOMEPAGE} component={HomePage} />
                 </Switch>
               </CustomScrollbars>

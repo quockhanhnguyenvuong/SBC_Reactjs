@@ -11,6 +11,8 @@ import {
 import Lightbox from "react-image-lightbox";
 import "react-image-lightbox/style.css";
 import { toast } from "react-toastify";
+import { CommonUtils } from "../../../utils";
+
 class UserManage extends Component {
   constructor(props) {
     super(props);
@@ -67,6 +69,7 @@ class UserManage extends Component {
       roleID: roleArr && roleArr.length > 0 ? roleArr[0].keyMap : "",
       positionID:
         positionArr && positionArr.length > 0 ? positionArr[0].keyMap : "",
+      previewImgURL: "",
     });
   }
 
@@ -114,14 +117,15 @@ class UserManage extends Component {
       isOpenImage: true,
     });
   };
-  handleOnChangeImage = (event) => {
+  handleOnChangeImage = async (event) => {
     let data = event.target.files;
     let file = data[0];
     if (file) {
+      let base64 = await CommonUtils.getBase64(file);
       let objectUrl = URL.createObjectURL(file);
       this.setState({
         previewImgURL: objectUrl,
-        image: file,
+        image: base64,
       });
     }
   };
@@ -140,23 +144,9 @@ class UserManage extends Component {
     let arrCheck = ["email", "password", "firstName", "lastName"];
     for (let i = 0; i < arrCheck.length; i++) {
       if (!this.state[arrCheck[i]]) {
-        if (i === 0) {
-          isValid = false;
-          toast.warn("Vui lòng nhập: Tên người dùng");
-          break;
-        } else if (i === 1) {
-          isValid = false;
-          toast.warn("Vui lòng nhập: Mật khẩu");
-          break;
-        } else if (i === 2) {
-          isValid = false;
-          toast.warn("Vui lòng nhập: Tên");
-          break;
-        } else {
-          isValid = false;
-          toast.warn("Vui lòng nhập: Họ");
-          break;
-        }
+        isValid = false;
+        toast.warn("Vui lòng nhập đầy đủ thông tin!");
+        break;
       }
     }
     return isValid;
@@ -189,7 +179,6 @@ class UserManage extends Component {
       if (res && res.errCode === 0) {
         await this.getAllUserFromReact();
       } else {
-        // chưa hoàn chỉnh
         toast.error(res.message);
       }
     } catch (e) {
@@ -197,8 +186,13 @@ class UserManage extends Component {
     }
   };
 
-  //fill info user
+  //fill info user , handleEditUesrFromParent
   handleFillUserInfo = async (user) => {
+    let imageBase64 = "";
+    if (user.image) {
+      imageBase64 = new Buffer(user.image, "base64").toString("binary");
+    }
+
     this.setState({
       userId: user.id,
       email: user.email,
@@ -211,6 +205,7 @@ class UserManage extends Component {
       roleID: user.roleID,
       positionID: user.positionID,
       image: user.image,
+      previewImgURL: imageBase64,
       active: false,
     });
   };
@@ -233,9 +228,8 @@ class UserManage extends Component {
         gender: this.state.gender,
         roleID: this.state.roleID,
         positionID: this.state.positionID,
-        // image: this.state.image,
+        image: this.state.image,
       });
-      this.getSetState();
     } else {
       // edit user
       await this.editUser({
@@ -249,13 +243,13 @@ class UserManage extends Component {
         gender: this.state.gender,
         roleID: this.state.roleID,
         positionID: this.state.positionID,
-        // image: this.state.image,
+        image: this.state.image,
       });
-      this.getSetState();
 
       toast.success("Cập nhật thành công !!!");
       await this.getAllUserFromReact();
     }
+    this.getSetState();
   };
 
   // delete user
@@ -290,7 +284,7 @@ class UserManage extends Component {
       gender,
       roleID,
       positionID,
-      // image,
+      image,
     } = this.state;
     return (
       <div className="user-container container">

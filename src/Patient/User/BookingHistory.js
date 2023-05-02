@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import HomeHeader from "../../../containers/HomePage/HomeHeader";
+import HomeHeader from "../../containers/HomePage/HomeHeader";
 import "./BookingHistory.scss";
 
 class BookingHistory extends Component {

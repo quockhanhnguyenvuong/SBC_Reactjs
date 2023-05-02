@@ -12,10 +12,10 @@ export const adminMenu = [
         name: "Quản lý bác sĩ",
         link: "/system/manage-doctor",
       },
-      {
-        name: "detail  ",
-        link: "/doctor/detail-doctor",
-      },
+      // {
+      //   name: "detail  ",
+      //   link: "/doctor/detail-doctor",
+      // },
       {
         name: "Quản lý lịch khám bệnh",
         link: "/doctor/manage-schedule",

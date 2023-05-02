@@ -16,6 +16,8 @@ class ProfileDoctor extends Component {
 
   async componentDidMount() {
     let data = await this.getInforDoctor(this.props.doctorId);
+
+    // console.log("check data", this.props.doctorId);
     this.setState({
       dataProfile: data,
     });
@@ -29,6 +31,7 @@ class ProfileDoctor extends Component {
         result = res.data;
       }
     }
+    return result;
   };
   async componentDidUpdate(prevProps, prevState, snapshot) {
     if (this.props.doctorId !== prevProps.doctorId) {
@@ -43,7 +46,7 @@ class ProfileDoctor extends Component {
   renderTimeBooking = (dataTime) => {
     console.log("check renderTimeBooking: ", dataTime);
     if (dataTime && !_.isEmpty(dataTime)) {
-      let time = dataTime.timeTypeData.valueVi;
+      let time = dataTime.timeTypeData.valueVI;
 
       let date = moment.unix(+dataTime.data / 1000).format("dddd - DD/MM/YYYY");
       return (
@@ -59,15 +62,16 @@ class ProfileDoctor extends Component {
 
   render() {
     let { dataProfile } = this.state;
+    console.log("check stateeeeeee: ", this.state);
+    console.log("check data profile:", dataProfile);
     let { isShowDescriptionDoctor, dataTime } = this.props;
     let nameVi = "";
 
     if (dataProfile && dataProfile.positionData) {
       nameVi = `${dataProfile.positionData.valueVi}, ${dataProfile.lastName} ${dataProfile.fistName}`;
-      // nameEn = `${dataProfile.positionData.valueEn}, ${dataProfile.fistName} ${dataProfile.lastName}`;
     }
 
-    console.log("check props: dataTime: ", dataTime);
+    // console.log("check props: dataTime: ", dataTime);
     return (
       <div className="profile-doctor-container">
         <div className="intro-doctor">
@@ -101,7 +105,7 @@ class ProfileDoctor extends Component {
           {dataProfile && dataProfile.Doctor_Infor ? (
             <NumberFormatBase
               className="currency"
-              value={dataProfile.Doctor_Infor.pricTypeData.valueVi}
+              value={dataProfile.Doctor_Infor.pricTypeData.valueVI}
               displayType={"text"}
               thousandSeparator={true}
               suffix={"VND"}

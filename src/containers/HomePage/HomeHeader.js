@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import "./HomeHeader.scss";
 import * as actions from "../../store/actions";
+import { withRouter } from "react-router";
 import {
   Dropdown,
   DropdownToggle,
@@ -41,7 +42,7 @@ class HomeHeader extends Component {
             <div className="center-content col-6">
               <div className="container">
                 <div className="row">
-                  <div className="child-content col-4">
+                  {/* <div className="child-content col-4">
                     <div>
                       <b> Chuyên khoa</b>
                     </div>
@@ -60,7 +61,7 @@ class HomeHeader extends Component {
                       <b>Bác sĩ</b>
                     </div>
                     <div className="subs-title">Chọn bác sĩ giỏi</div>
-                  </div>
+                  </div> */}
                 </div>
               </div>
             </div>

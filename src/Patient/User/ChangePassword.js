@@ -1,11 +1,11 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import HomeHeader from "../../HomePage/HomeHeader";
+import HomeHeader from "../../containers/HomePage/HomeHeader";
 import "./ChangePassword.scss";
 import {
   handleLoginApi,
   createNewPasswordService,
-} from "../../../services/userService";
+} from "../../services/userService";
 import { toast } from "react-toastify";
 
 class ChangePassword extends Component {

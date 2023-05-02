@@ -1,12 +1,9 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import "./DetailUser.scss";
-import HomeHeader from "../../../containers/HomePage/HomeHeader";
+import HomeHeader from "../../containers/HomePage/HomeHeader";
 import { Container, Row } from "reactstrap";
-import {
-  getAllCodeService,
-  editUserService,
-} from "../../../services/userService";
+import { getAllCodeService, editUserService } from "../../services/userService";
 import { toast } from "react-toastify";
 
 class DetailUser extends Component {

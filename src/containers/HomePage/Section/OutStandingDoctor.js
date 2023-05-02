@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import Slider from "react-slick";
 import * as actions from "../../../store/actions";
+import { withRouter } from "react-router";
 class OutStandingDoctor extends Component {
   constructor(props) {
     super(props);
@@ -16,6 +17,13 @@ class OutStandingDoctor extends Component {
       });
     }
   }
+
+  handleViewDetailDoctor = (doctor) => {
+    if (this.props.history) {
+      this.props.history.push(`/home/detail-doctor/${doctor.id}`);
+    }
+  };
+
   componentDidMount() {
     this.props.loadTopDoctors();
   }
@@ -42,9 +50,14 @@ class OutStandingDoctor extends Component {
                       "binary",
                     );
                   }
-                  let nameVi = `${item.positionID}, ${item.lastName} ${item.firstName}`;
+
+                  let nameVi = `, ${item.lastName} ${item.firstName}`;
                   return (
-                    <div className="section-customize" key={index}>
+                    <div
+                      className="section-customize"
+                      key={index}
+                      onClick={() => this.handleViewDetailDoctor(item)}
+                    >
                       <div className="customize-border">
                         <div className="outer-bg">
                           <div
@@ -52,8 +65,20 @@ class OutStandingDoctor extends Component {
                             style={{ backgroundImage: `url(${imageBase64})` }}
                           ></div>
                         </div>
+
                         <div className="position text-center">
-                          <div>{nameVi}</div>
+                          <span>
+                            {item.positionID === "P0"
+                              ? "Bác sĩ"
+                              : item.positionID === "P1"
+                              ? "Thạc sĩ"
+                              : item.positionID === "P2"
+                              ? "Tiến sĩ"
+                              : item.positionID === "P3"
+                              ? "Phó giáo sư"
+                              : "Giáo sư"}
+                          </span>
+                          <span>{nameVi}</span>
                           <div>Cơ xương khớp</div>
                         </div>
                       </div>
@@ -81,4 +106,6 @@ const mapDispatchToProps = (dispatch) => {
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(OutStandingDoctor);
+export default withRouter(
+  connect(mapStateToProps, mapDispatchToProps)(OutStandingDoctor),
+);

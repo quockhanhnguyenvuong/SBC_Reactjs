@@ -125,6 +125,7 @@
     }
     &.section-outstandingdoctor{
       background: #f5f5f5;
+     
     }
     &.section-about{
       height: 500px !important;
@@ -133,6 +134,7 @@
     }
   .section-body {
     .section-customize {
+      width: 120px;
       .bg-image {
         height: 150px;
         width: 278px !important;
@@ -147,14 +149,11 @@
           background-image: url("../../assets/medical/benhvienvietduc.jpg");
         }
         &.section-outstandingdoctor{
-          background-image: url("../../assets/medical/105401-bsckii-tran-minh-khuyen.jpg");
-          width: 120px;
+          // background-image: url("../../assets/medical/105401-bsckii-tran-minh-khuyen.jpg");
           height: 120px;
-          border-radius: 80%;
+          border-radius: 50%;
         }
-        &.section-handbook{
-          background-image: url("../../assets/medical/camnang1.jpg");
-        }
+    
       }
     }
   }
@@ -196,9 +195,12 @@
     display: flex;
     justify-content: center;
     margin-bottom: 10px;
+    width: 120px;
+    margin-left: 105px;
   }
   .section-customize{
     padding: 5px;
+    cursor: pointer;
     .customize-border{
       padding: 20px;
     }

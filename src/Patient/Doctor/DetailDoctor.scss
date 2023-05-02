@@ -1,10 +1,10 @@
 .doctor-detail-container {
     height: 500px;
-    // border: 1px solid red;
+    border: 1px solid #f9f9f9;
 
     .intro-doctor {
         display: flex;
-        margin: 0 100px;
+        margin: 20px 100px;
 
         .content-left {
             width: 20%;
@@ -13,6 +13,9 @@
             width: 120px;
             border-radius: 50%;
             margin: 10px 20px;
+            // border: 1px solid yellow;
+
+
         }
 
         .content-right {
@@ -34,17 +37,18 @@
     }
     
     .schedule-doctor{
-        margin:  0 100px;
+        margin:  0 ;
         display: flex;
-        padding: 10px 0;
+        padding: 10px ;
         min-height: 200px;
-    
+        border: 1px solid #ccc;
+        
         .content-left{
-            width: 50%;
+            width: 60%;
         }
     
         .content-right{
-            width: 50%;
+            width: 40%;
         }
     }
 
