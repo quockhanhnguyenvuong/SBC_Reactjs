@@ -270,6 +270,7 @@ class DetailUser extends Component {
                           {this.state.isEdit === false ? (
                             <button
                               className="btn btn-info px-3"
+                              style={{ overflow: "hidden" }}
                               onClick={() => this.handleChangeEditUser()}
                             >
                               Sửa thông tin

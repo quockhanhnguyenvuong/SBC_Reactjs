@@ -28,7 +28,7 @@ class HomeHeader extends Component {
 
   render() {
     const { processLogout, userInfo } = this.props;
-    console.log(userInfo);
+    // console.log(userInfo);
     return (
       <React.Fragment>
         <div className="home-header-container container-fluid">
