@@ -1,3 +1,4 @@
+//admin menu
 export const adminMenu = [
   {
     //hệ thống
@@ -11,6 +12,10 @@ export const adminMenu = [
         name: "Quản lý bác sĩ",
         link: "/system/manage-doctor",
       },
+      // {
+      //   name: "detail  ",
+      //   link: "/doctor/detail-doctor",
+      // },
       {
         name: "Quản lý lịch khám bệnh",
         link: "/doctor/manage-schedule",
@@ -42,7 +47,7 @@ export const adminMenu = [
 //doctor menu
 export const doctorMenu = [
   {
-    //hệ thốngs
+    //hệ thống
     name: "Quản lý hệ thống",
     menus: [
       {

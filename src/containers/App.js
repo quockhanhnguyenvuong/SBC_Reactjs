@@ -4,26 +4,24 @@ import { Route, Switch } from "react-router-dom";
 import { ConnectedRouter as Router } from "connected-react-router";
 import { history } from "../redux";
 import { ToastContainer } from "react-toastify";
-
 import {
   userIsAuthenticated,
   userIsNotAuthenticated,
 } from "../hoc/authentication";
-
 import { path } from "../utils";
-
 import Home from "../routes/Home";
-// import Login from '../routes/Login';
 import Login from "./Auth/Login";
-import Header from "./Header/Header";
+// import Header from "./Header/Header";
 import System from "../routes/System";
-
-import { CustomToastCloseButton } from "../components/CustomToast";
 import HomePage from "./HomePage/HomePage.js";
-
 import CustomScrollbars from "../components/CustomScrollbars.js";
 import Doctor from "../routes/Doctor";
+import DetailUser from "../Patient/User/DetailUser";
+import ChangePassword from "../Patient/User/ChangePassword";
+import BookingHistory from "../Patient/User//BookingHistory";
 import DetailSpecialty from "./HomePage/Specialty/DetailSpecialty";
+import DetailDoctor from "../Patient/Doctor/DetailDoctor";
+import DetailClinic from "../Patient/Clinic/DetailClinic";
 
 class App extends Component {
   handlePersistorState = () => {
@@ -49,7 +47,7 @@ class App extends Component {
       <Fragment>
         <Router history={history}>
           <div className="main-container">
-            {this.props.isLoggedIn && <Header />}
+            {this.props.isLoggedIn}
 
             <div className="content-container">
               <CustomScrollbars style={{ height: "100vh", width: "100%" }}>
@@ -60,18 +58,39 @@ class App extends Component {
                     component={userIsNotAuthenticated(Login)}
                   />
                   <Route
+                    path={path.SYSTEM}
+                    component={userIsAuthenticated(System)}
+                  />
+                  <Route
                     path={"/doctor/"}
                     component={userIsAuthenticated(Doctor)}
                   />
                   <Route
-                    path={path.SYSTEM}
-                    component={userIsAuthenticated(System)}
+                    path={"/home/detail-user/"}
+                    component={userIsAuthenticated(DetailUser)}
                   />
-                  <Route path={path.HOMEPAGE} component={HomePage} />
+                  <Route
+                    path={"/home/change-password/"}
+                    component={userIsAuthenticated(ChangePassword)}
+                  />
+                  <Route
+                    path={"/home/history-user/"}
+                    component={userIsAuthenticated(BookingHistory)}
+                  />
                   <Route
                     path={path.DETAIL_SPECIALTY}
                     component={DetailSpecialty}
                   />
+                  <Route
+                    path={path.DETAIL_CLINIC}
+                    component={DetailClinic}
+                  />
+                  <Route
+                    path={"/home/detail-doctor/:id"}
+                    component={userIsAuthenticated(DetailDoctor)}
+                  />
+
+                  <Route path={path.HOMEPAGE} component={HomePage} />
                 </Switch>
               </CustomScrollbars>
             </div>
@@ -95,6 +114,7 @@ class App extends Component {
     );
   }
 }
+
 const mapStateToProps = (state) => {
   return {
     started: state.app.started,

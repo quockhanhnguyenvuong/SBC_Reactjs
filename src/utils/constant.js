@@ -6,17 +6,17 @@ export const path = {
   LOG_OUT: "/logout",
   SYSTEM: "/system",
   DETAIL_SPECIALTY: "/detail-specialty/:id",
+  DETAIL_CLINIC: "/detail-clinic/:id",
 };
-
-// export const languages = {
-//     VI: 'vi',
-//     EN: 'en'
-// };
 
 export const manageActions = {
   ADD: "ADD",
   EDIT: "EDIT",
   DELETE: "DELETE",
+};
+export const CRUD_ACTIONS = {
+  EDIT: "EDIT",
+  CREATE: "CREATE",
 };
 
 export const dateFormat = {
@@ -27,6 +27,7 @@ export const YesNoObj = {
   YES: "Y",
   NO: "N",
 };
+
 export const USER_ROLE = {
   ADMIN: "R1",
   DOCTOR: "R2",

@@ -1,8 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import "./UserManage.scss";
-import * as actions from "../../../store/actions"
-import CommonUtils from "../../../utils/CommonUtils";
 import {
   getAllUsers,
   deleteUserService,
@@ -13,6 +11,8 @@ import {
 import Lightbox from "react-image-lightbox";
 import "react-image-lightbox/style.css";
 import { toast } from "react-toastify";
+import { CommonUtils } from "../../../utils";
+
 class UserManage extends Component {
   constructor(props) {
     super(props);
@@ -35,14 +35,10 @@ class UserManage extends Component {
       gender: "",
       roleID: "",
       positionID: "",
-      avatar: "",
+      image: "",
       userId: "",
     };
   }
-  // async componentDidMount(){
-  //   this.props.getGenderStart();
-  //   this.props.dispatch(actions.getGenderStart())
-  // }
 
   getSetState = () => {
     this.setState({
@@ -55,7 +51,7 @@ class UserManage extends Component {
       gender: "",
       roleID: "",
       positionID: "",
-      avatar: "",
+      image: "",
       active: true,
     });
   };
@@ -73,6 +69,7 @@ class UserManage extends Component {
       roleID: roleArr && roleArr.length > 0 ? roleArr[0].keyMap : "",
       positionID:
         positionArr && positionArr.length > 0 ? positionArr[0].keyMap : "",
+      previewImgURL: "",
     });
   }
 
@@ -119,18 +116,16 @@ class UserManage extends Component {
     this.setState({
       isOpenImage: true,
     });
-  }; 
-
+  };
   handleOnChangeImage = async (event) => {
     let data = event.target.files;
     let file = data[0];
     if (file) {
       let base64 = await CommonUtils.getBase64(file);
-      console.log('Check Base 64:',base64)
       let objectUrl = URL.createObjectURL(file);
       this.setState({
         previewImgURL: objectUrl,
-        avatar: base64,
+        image: base64,
       });
     }
   };
@@ -144,29 +139,14 @@ class UserManage extends Component {
     });
   };
 
-  // function create and edit new user
   checkValidateInput = () => {
     let isValid = true;
     let arrCheck = ["email", "password", "firstName", "lastName"];
     for (let i = 0; i < arrCheck.length; i++) {
       if (!this.state[arrCheck[i]]) {
-        if (i === 0) {
-          isValid = false;
-          toast.warn("Vui lòng nhập: Tên người dùng");
-          break;
-        } else if (i === 1) {
-          isValid = false;
-          toast.warn("Vui lòng nhập: Mật khẩu");
-          break;
-        } else if (i === 2) {
-          isValid = false;
-          toast.warn("Vui lòng nhập: Tên");
-          break;
-        } else {
-          isValid = false;
-          toast.warn("Vui lòng nhập: Họ");
-          break;
-        }
+        isValid = false;
+        toast.warn("Vui lòng nhập đầy đủ thông tin!");
+        break;
       }
     }
     return isValid;
@@ -175,6 +155,7 @@ class UserManage extends Component {
   createNewUser = async (data) => {
     try {
       let response = await createNewUserService(data);
+      console.log("create user: ", data);
       if (response && response.errCode !== 0) {
         if (response && response.errCode === 1) {
           toast.error("Email đã được sử dụng, vui lòng nhập email khác !!!");
@@ -198,7 +179,6 @@ class UserManage extends Component {
       if (res && res.errCode === 0) {
         await this.getAllUserFromReact();
       } else {
-        // chưa hoàn chỉnh
         toast.error(res.message);
       }
     } catch (e) {
@@ -206,12 +186,13 @@ class UserManage extends Component {
     }
   };
 
-  //fill info user
-  handleEditUser = async (user) => {
-    let imageBase64 = '';
-    if (user.image){
-      imageBase64 = new Buffer(user.image, 'base64').toString('binary')
+  //fill info user , handleEditUesrFromParent
+  handleFillUserInfo = async (user) => {
+    let imageBase64 = "";
+    if (user.image) {
+      imageBase64 = new Buffer(user.image, "base64").toString("binary");
     }
+
     this.setState({
       userId: user.id,
       email: user.email,
@@ -223,12 +204,13 @@ class UserManage extends Component {
       gender: user.gender,
       roleID: user.roleID,
       positionID: user.positionID,
-      avatar: '',
+      image: user.image,
       previewImgURL: imageBase64,
       active: false,
     });
   };
 
+  // function create and edit new user
   handleSaveUser = async () => {
     let isValid = this.checkValidateInput();
     if (isValid === false) return;
@@ -246,9 +228,8 @@ class UserManage extends Component {
         gender: this.state.gender,
         roleID: this.state.roleID,
         positionID: this.state.positionID,
-        avatar: this.state.avatar,
+        image: this.state.image,
       });
-      this.getSetState();
     } else {
       // edit user
       await this.editUser({
@@ -262,13 +243,13 @@ class UserManage extends Component {
         gender: this.state.gender,
         roleID: this.state.roleID,
         positionID: this.state.positionID,
-        avatar: this.state.avatar,
+        image: this.state.image,
       });
-      this.getSetState();
 
       toast.success("Cập nhật thành công !!!");
       await this.getAllUserFromReact();
     }
+    this.getSetState();
   };
 
   // delete user
@@ -303,7 +284,7 @@ class UserManage extends Component {
       gender,
       roleID,
       positionID,
-      // image,
+      image,
     } = this.state;
     return (
       <div className="user-container container">
@@ -401,7 +382,7 @@ class UserManage extends Component {
                       genders.length > 0 &&
                       genders.map((item, index) => {
                         return (
-                          <option selected keyMap={index} value={item.keyMap}>
+                          <option selected key={index} value={item.keyMap}>
                             {item.valueVI}
                           </option>
                         );
@@ -421,7 +402,7 @@ class UserManage extends Component {
                       positionArr.length > 0 &&
                       positionArr.map((item, index) => {
                         return (
-                          <option selected keyMap={index} value={item.keyMap}>
+                          <option selected key={index} value={item.keyMap}>
                             {item.valueVI}
                           </option>
                         );
@@ -441,7 +422,7 @@ class UserManage extends Component {
                       roleArr.length > 0 &&
                       roleArr.map((item, index) => {
                         return (
-                          <option selected keyMap={index} value={item.keyMap}>
+                          <option selected key={index} value={item.keyMap}>
                             {item.valueVI}
                           </option>
                         );
@@ -515,7 +496,6 @@ class UserManage extends Component {
                         <td>{item.email}</td>
                         <td>{item.firstName}</td>
                         <td>{item.lastName}</td>
-
                         <td>
                           {item.roleID === "R1"
                             ? "Quản trị viên"
@@ -526,7 +506,7 @@ class UserManage extends Component {
                         <td>
                           <button
                             className="btn-edit"
-                            onClick={() => this.handleEditUser(item)}
+                            onClick={() => this.handleFillUserInfo(item)}
                           >
                             <i class="fas fa-edit"></i>
                           </button>
@@ -556,9 +536,7 @@ const mapStateToProps = (state) => {
 };
 
 const mapDispatchToProps = (dispatch) => {
-  return {
-    // getGenderStart : () => dispatch(actions.fetchGenderStart())
-  };
+  return {};
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(UserManage);

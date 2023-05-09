@@ -1,9 +1,9 @@
 import actionTypes from "../actions/actionTypes";
 
 const initialState = {
-    genders: [],
-    roles: [],
-    positions: []
+  genders: [],
+  roles: [],
+  positions: [],
 };
 
 const doctorReducer = (state = initialState, action) => {

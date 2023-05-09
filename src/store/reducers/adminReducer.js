@@ -4,9 +4,9 @@ const initialState = {
   isLoggedIn: false,
   adminInfo: null,
   allDoctors: [],
+  allScheduleTime: [],
   users: [],
   topDoctors: [],
-  allScheduleTime: [],
 };
 
 const adminReducer = (state = initialState, action) => {
@@ -41,16 +41,7 @@ const adminReducer = (state = initialState, action) => {
       return {
         ...state,
       };
-    case actionTypes.FETCH_TOP_DOCTOR_SUCCESS:
-      state.topDoctors = action.dataDoctors;
-      return {
-        ...state,
-      };
-    case actionTypes.FETCH_TOP_DOCTOR_FAILDED:
-      state.allDoctors = [];
-      return {
-        ...state,
-      };
+
     case actionTypes.FETCH_ALLCODE_SCHEDULE_TIME_SUCCESS:
       state.allScheduleTime = action.dataDoctors;
       return {
@@ -62,7 +53,16 @@ const adminReducer = (state = initialState, action) => {
       return {
         ...state,
       };
-
+    case actionTypes.FETCH_TOP_DOCTOR_SUCCESS:
+      state.topDoctors = action.dataDoctors;
+      return {
+        ...state,
+      };
+    case actionTypes.FETCH_TOP_DOCTOR_FAILDED:
+      state.allDoctors = [];
+      return {
+        ...state,
+      };
     default:
       return state;
   }

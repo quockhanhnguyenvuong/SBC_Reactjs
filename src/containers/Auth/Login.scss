@@ -24,21 +24,16 @@
 
             .form-group{
                 padding-top: 10px;
-            }
-
-            .login-input{
                 margin: 7px 0;
                 
                 .custom-input-password{
-                    position: relative;
-
-                    // i{
-                    //     position: absolute;
-                    //     right: 5px;
-                    //     top: 10px;
-                    //     cursor: pointer;
-                    //     font-size: 24px;
-                    // }
+                    .eye{
+                        position: relative;
+                        left: 353px;
+                        bottom: 27px;
+                        cursor: pointer;
+                                            
+                    }
                 }
             }
 
@@ -94,12 +89,4 @@
             }
         }
     }
-}
-
-.eye{
-    position: absolute;
-    right: 18px;
-    top: 160px;
-    cursor: pointer;
-                        
 }

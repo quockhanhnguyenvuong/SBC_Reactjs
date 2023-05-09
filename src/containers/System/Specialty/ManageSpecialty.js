@@ -45,6 +45,7 @@ class ManageSpecialty extends Component {
       });
     }
   };
+
   handleSaveNewSpecialty = async () => {
     let res = await createNewSpecialty(this.state);
     if (res && res.errCode === 0) {
@@ -63,9 +64,10 @@ class ManageSpecialty extends Component {
 
   render() {
     return (
-      <div className="manage-specialty-container">
-        <div className="ms-title">Quản lý chuyên khoa</div>
+      <div className="manage-specialty-container mb-4 container">
         <div className="add-new-specialty row">
+          <div className="ms-title col-12">Quản lý chuyên khoa</div>
+
           <div className="col-6 form-group">
             <label>Tên chuyên khoa</label>
             <input
@@ -76,16 +78,17 @@ class ManageSpecialty extends Component {
             />
           </div>
           <div className="col-6 form-group">
-            <label>Ảnh chuyên khoa</label>
+            <label>Ảnh chuyên khoa : </label>
             <input
-              className="form-control-file"
+              className="form-control-file mx-4"
               type="file"
               onChange={(event) => this.handleOnChangeImage(event)}
             />
           </div>
-          <div className="col-12">
+
+          <div className="col-12 mt-4">
             <MdEditor
-              style={{ height: "300px" }}
+              style={{ height: "450px" }}
               renderHTML={(text) => mdParser.render(text)}
               onChange={this.handleEditorChange}
               value={this.state.descriptionMarkdown}
@@ -93,10 +96,10 @@ class ManageSpecialty extends Component {
           </div>
           <div className="col-12">
             <button
-              className="btn-save-specialty"
+              className="btn-save-specialty btn btn-success"
               onClick={() => this.handleSaveNewSpecialty()}
             >
-              Save
+              Lưu thông tin
             </button>
           </div>
         </div>
