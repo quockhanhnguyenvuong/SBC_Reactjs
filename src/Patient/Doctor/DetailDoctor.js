@@ -27,18 +27,19 @@ class DetailDoctor extends Component {
         currentDoctorId: id,
       });
       let res = await getDetailInforDoctor(id);
-      console.log("check id", res);
       if (res && res.errCode === 0) {
         this.setState({
           detailDoctor: res.data,
         });
       }
+      // console.log("check data:", this.state.detailDoctor);
     }
   }
   componentDidUpdate(prevProps, prevState, snapshot) {}
 
   render() {
     // console.log("check :", this.state.detailDoctor.id);
+    // console.log("check 2:", this.state.currentDoctorId);
     let { detailDoctor } = this.state;
     let nameVi = "";
     if (detailDoctor && detailDoctor.positionData) {
@@ -49,7 +50,7 @@ class DetailDoctor extends Component {
         <HomeHeader />
         <div className="doctor-detail-container container">
           <div className="row">
-            <div className="intro-doctor col-12">
+            <div className="intro-doctor col-12 mt-4 ">
               <div
                 className="content-left"
                 style={{
@@ -81,7 +82,6 @@ class DetailDoctor extends Component {
               </div>
             </div>
             <div className="col-3">
-              Địa chỉ khám
               <Map />
             </div>
             <div className="detail-info-doctor col-12">

@@ -94,12 +94,12 @@ class ManageDoctor extends Component {
       doctorId: this.state.selectDoctor.value,
       action: hasOldData === true ? "EDIT" : "CREATE",
 
-      priceOnId: this.state.priceOffId,
+      priceOnId: this.state.priceOnId,
       priceOffId: this.state.priceOffId,
       selectProvince: this.state.selectProvince,
       selectPayment: this.state.selectPayment,
+      selectFormality: this.state.selectFormality,
       nameClinic: this.state.nameClinic,
-      formality: this.state.selectFormality,
       addressClinic: this.state.addressClinic,
       note: this.state.note,
     });
@@ -109,14 +109,59 @@ class ManageDoctor extends Component {
   /* Select option doctor */
   handleChangeSelect = async (selectDoctor) => {
     this.setState({ selectDoctor });
+
+    let { listPayment, listFormality, listProvince } = this.state;
+
     let res = await getDetailInforDoctor(selectDoctor.value);
     if (res && res.errCode === 0 && res.data.Markdown) {
       let markdown = res.data.Markdown;
+
+      let addressClinic = "",
+        nameClinic = "",
+        note = "",
+        paymentId = "",
+        provinceId = "",
+        priceOnId = "",
+        priceOffId = "",
+        formality = "",
+        selectPayment = "",
+        selectProvince = "",
+        selectFormality = "";
+      if (res.data.Doctor_Infor) {
+        addressClinic = res.data.Doctor_Infor.addressClinic;
+        nameClinic = res.data.Doctor_Infor.nameClinic;
+        note = res.data.Doctor_Infor.note;
+        paymentId = res.data.Doctor_Infor.paymentId;
+        provinceId = res.data.Doctor_Infor.provinceId;
+        formality = res.data.Doctor_Infor.formality;
+        priceOnId = res.data.Doctor_Infor.priceOnId;
+        priceOffId = res.data.Doctor_Infor.priceOffId;
+        //
+        selectPayment = listPayment.find((item) => {
+          return item.label === paymentId;
+        });
+        selectProvince = listProvince.find((item) => {
+          return item.label === provinceId;
+        });
+        selectFormality = listFormality.find((item) => {
+          return item.label === formality;
+        });
+      }
+      // console.log("check select:", selectFormality);
       this.setState({
         contentHTML: markdown.contentHTML,
         contentMarkdown: markdown.contentMarkdown,
         description: markdown.description,
         hasOldData: true,
+
+        addressClinic: addressClinic,
+        nameClinic: nameClinic,
+        note: note,
+        priceOnId: priceOnId,
+        priceOffId: priceOffId,
+        selectPayment: selectPayment,
+        selectProvince: selectProvince,
+        selectFormality: selectFormality,
       });
     } else {
       this.setState({
@@ -124,9 +169,15 @@ class ManageDoctor extends Component {
         contentMarkdown: "",
         description: "",
         hasOldData: false,
+
+        addressClinic: "",
+        nameClinic: "",
+        note: "",
+        priceOnId: "",
+        priceOffId: "",
       });
     }
-    console.log("select doctor", selectDoctor);
+    // console.log("select doctor", selectDoctor);
   };
 
   handleOnChangeText = (event, id) => {
@@ -213,6 +264,7 @@ class ManageDoctor extends Component {
               onChange={(event) => this.handleOnChangeText(event, "priceOnId")}
               value={this.state.priceOnId}
               placeholder="Nhập giá khám..."
+              name="priceOnId"
             />
           </div>
 
@@ -224,6 +276,7 @@ class ManageDoctor extends Component {
               onChange={(event) => this.handleOnChangeText(event, "priceOffId")}
               value={this.state.priceOffId}
               placeholder="Nhập giá khám..."
+              name="priceOffId"
             />
           </div>
 
@@ -232,7 +285,9 @@ class ManageDoctor extends Component {
             <Select
               value={this.state.selectPayment}
               options={this.state.listPayment}
-              onChange={this.handleChangeSelectDoctorInfor}
+              onChange={(event) =>
+                this.handleChangeSelectDoctorInfor(event, "selectPayment")
+              }
               placeholder="Chọn phương thức thanh toán..."
               name="selectPayment"
             />

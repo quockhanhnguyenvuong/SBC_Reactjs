@@ -66,7 +66,7 @@ class OutStandingDoctor extends Component {
                           ></div>
                         </div>
 
-                        <div className="position text-center">
+                        <div className="position">
                           <span>
                             {item.positionID === "P0"
                               ? "Bác sĩ"
