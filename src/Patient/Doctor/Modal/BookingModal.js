@@ -1,14 +1,16 @@
 import React, { Component } from "react";
 import "./BookingModal.scss";
 import { connect } from "react-redux";
-import { Modal } from "reactstrap";
 import ProfileDoctor from "../ProfileDoctor";
 import _ from "lodash";
 import DatePicker from "../../../components/Input/DatePicker";
 // import * as actions from "../../../store/actions";
-import { postPatientBookAppointment } from "../../../services/userService";
 import { toast } from "react-toastify";
-import { getAllCodeService } from "../../../services/userService";
+import {
+  getAllCodeService,
+  postPatientBookAppointment,
+} from "../../../services/userService";
+import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from "reactstrap";
 
 class BookingModal extends Component {
   constructor(props) {
@@ -45,38 +47,17 @@ class BookingModal extends Component {
     }
   };
 
-  async componentDidUpdate(prevProps, prevState, snapshot) {
-    if (this.props.dataTime !== prevProps.dataTime) {
-      if (this.props.dataTime && !_.isEmpty(this.props.dataTime)) {
-        console.log("check datetime: ", this.props.dataTime);
-        let doctorId = this.props.dataTime.doctorId;
-        let timeType = this.props.dataTime.timeType;
-        this.setState({
-          doctorId: doctorId,
-          timeType: timeType,
-        });
-      }
-    }
-  }
+  async componentDidUpdate(prevProps, prevState, snapshot) {}
 
   handleOnchangeInput = (event, id) => {
     let valueInput = event.target.value;
-    let stateCopy = { ...this.state }; //3 dấu ... là copy lại tên biến cần copy
+    let stateCopy = { ...this.state };
     stateCopy[id] = valueInput;
     this.setState({
       ...stateCopy,
     });
   };
 
-  handleOnchangeDatePicker = (date) => {
-    this.setState({
-      birthday: date[0],
-    });
-  };
-
-  // handleChangeSelect = (selectedOption) =>{
-  //     this.setState({ectedOption });
-  // }
   onChangInput = (event, id) => {
     let copyState = { ...this.state };
     copyState[id] = event.target.value;
@@ -86,64 +67,39 @@ class BookingModal extends Component {
   };
 
   handleConfirmBooking = async () => {
-    // validate input
-    // data.email || !data.doctorId || !data.timeTypeData || !data.date
-    let date = new Date(this.state.birthday).getTime();
-    let res = await postPatientBookAppointment({
-      fullName: this.state.fullName,
-      phoneNumber: this.state.phoneNumber,
-      email: this.state.email,
-      address: this.state.address,
-      reason: this.state.reason,
-      date: date,
-      doctorId: this.state.doctorId,
-      timeType: this.state.timeType,
-      // genders: this.state.genders,
-    });
-
-    if (res && res.errCode === 0) {
-      toast.success("Booking a new appointment succeed!");
-      this.props.closeBookingClose();
-    } else {
-      toast.error("Booking a new appointment error!");
-    }
+    console.log(this.state);
   };
 
   render() {
-    let { isOpenModal, closeBookingClose, dataTime } = this.props;
+    let { isOpenModal, closeBookingClose, dataTime, type, doctorIdFromParent } =
+      this.props;
     let genders = this.state.genderArr;
     let doctorId = "";
     if (dataTime && !_.isEmpty(dataTime)) {
       doctorId = dataTime.doctorId;
     }
-
     return (
       <Modal
         isOpen={isOpenModal}
-        className="'booking-modal-container"
+        className="modal-container"
         size="lg"
         centered
         // backdrop={true}
       >
-        <div className="booking-modal-content ">
-          <div className="booking-modal-header d-flex justify-content-between pb-2">
-            <span className="left">
-              <b>Thông tin đặt lịch khám bệnh</b>
-            </span>
-            <span className="right" onClick={closeBookingClose}>
-              <i className="fas fa-times"></i>
-            </span>
-          </div>
-          <div className="booking-modal-body container col-12">
-            <div className="row">
-              {/* {JSON.stringify(dataTime)} */}
-              <div className="doctor-infor">
-                <ProfileDoctor
-                  doctorId={doctorId}
-                  isShowDescriptionDoctor={true}
-                  dataTime={dataTime}
-                />
-              </div>
+        <ModalHeader className="d-flex">
+          <span className="left">{this.props.title}</span>
+        </ModalHeader>
+        <ModalBody>
+          <div className="modal-body">
+            <div className="doctor-infor">
+              <ProfileDoctor
+                doctorId={type === "Schedule" ? doctorId : doctorIdFromParent}
+                isShowDescriptionDoctor={true}
+                dataTime={dataTime}
+                type={type}
+              />
+            </div>
+            <div className="container">
               <div className="row">
                 <div className="col-6 form-group">
                   <label>Họ và tên</label>
@@ -228,22 +184,19 @@ class BookingModal extends Component {
               </div>
             </div>
           </div>
-
-          <div className="booking-modal-footer mb-2  mt-5">
-            <button
-              className="btn btn-success mx-3 px-3"
-              onClick={() => this.handleConfirmBooking()}
-            >
-              Xác nhận
-            </button>
-            <button
-              className="btn btn-danger px-3 mx-3"
-              onClick={closeBookingClose}
-            >
-              Hủy
-            </button>
-          </div>
-        </div>
+        </ModalBody>
+        <ModalFooter>
+          <Button
+            color="primary"
+            className="btn "
+            onClick={() => this.handleConfirmBooking()}
+          >
+            Xác nhận
+          </Button>
+          <Button color="secondary" className="btn" onClick={closeBookingClose}>
+            Hủy
+          </Button>
+        </ModalFooter>
       </Modal>
     );
   }

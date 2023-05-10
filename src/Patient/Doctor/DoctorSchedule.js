@@ -12,7 +12,6 @@ class DoctorSchedule extends Component {
     this.state = {
       allDays: [],
       allAvalableTime: [],
-      // isOpenModalBooking: [],
       isOpenModalBooking: false,
       dataScheduleTimeModal: {},
     };
@@ -44,18 +43,15 @@ class DoctorSchedule extends Component {
   };
 
   async componentDidUpdate(prevProps, prevState, snapshot) {
-    // if(this.props.language !== prevProps.language){
-    //     let allDays = this.getArrDays(this.props.language);
-    //     this.setState({
-    //         allDays: allDays,
-    //     })
-    // }
-    // if (this.props.doctorIdFromParent !== prevProps.doctorIdFromParent) {
-    //   let res = await getscheduleDoctorByDate(this.props.doctorIdFromParent, allDays[0].value);
-    //   this.setState({
-    //       allAvalableTime: res.data ? res.data : []
-    //   })
-    // }
+    if (this.props.doctorIdFromParent !== prevProps.doctorIdFromParent) {
+      let res = await getscheduleDoctorByDate(
+        this.props.doctorIdFromParent,
+        this.state.allDays[0].value,
+      );
+      this.setState({
+        allAvalableTime: res.data ? res.data : [],
+      });
+    }
   }
 
   //bấm select thay đổi
@@ -70,7 +66,7 @@ class DoctorSchedule extends Component {
           allAvalableTime: res.data ? res.data : [],
         });
       }
-      console.log("check res schedule from react: ", res);
+      // console.log("check res schedule from react: ", res);
     }
   };
 
@@ -79,7 +75,6 @@ class DoctorSchedule extends Component {
       isOpenModalBooking: true,
       dataScheduleTimeModal: time,
     });
-    console.log("Time: ", time);
   };
 
   closeBookingClose = () => {
@@ -95,7 +90,7 @@ class DoctorSchedule extends Component {
       dataScheduleTimeModal,
     } = this.state;
 
-    console.log("check allAvalableTime", allAvalableTime);
+    // console.log("check allAvalableTime", dataScheduleTimeModal);
     return (
       <>
         <div className="doctor-schedule-container">
@@ -159,6 +154,8 @@ class DoctorSchedule extends Component {
           isOpenModal={isOpenModalBooking}
           closeBookingClose={this.closeBookingClose}
           dataTime={dataScheduleTimeModal}
+          type={"Schedule"}
+          title={"Thông tin đặt lịch khám bệnh trực tuyến "}
         />
       </>
     );

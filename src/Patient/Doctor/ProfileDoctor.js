@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import "./ProfileDoctor.scss";
 import { getProfileDoctorById } from "../../services/userService";
-import { NumberFormatBase } from "react-number-format";
 import _ from "lodash";
 import moment from "moment";
 
@@ -16,8 +15,6 @@ class ProfileDoctor extends Component {
 
   async componentDidMount() {
     let data = await this.getInforDoctor(this.props.doctorId);
-
-    // console.log("check data", this.props.doctorId);
     this.setState({
       dataProfile: data,
     });
@@ -33,6 +30,7 @@ class ProfileDoctor extends Component {
     }
     return result;
   };
+
   async componentDidUpdate(prevProps, prevState, snapshot) {
     if (this.props.doctorId !== prevProps.doctorId) {
       // this.getInforDoctor(this.props.doctorId)
@@ -44,7 +42,6 @@ class ProfileDoctor extends Component {
   }
 
   renderTimeBooking = (dataTime) => {
-    console.log("check renderTimeBooking: ", dataTime);
     if (dataTime && !_.isEmpty(dataTime)) {
       let time = dataTime.timeTypeData.valueVI;
 
@@ -62,16 +59,15 @@ class ProfileDoctor extends Component {
 
   render() {
     let { dataProfile } = this.state;
-    console.log("check stateeeeeee: ", this.state);
-    console.log("check data profile:", dataProfile);
-    let { isShowDescriptionDoctor, dataTime } = this.props;
+    let { isShowDescriptionDoctor, type, dataTime } = this.props;
+
+    let data = dataProfile.Doctor_Infor;
+    console.log("check", dataProfile.priceOnId);
+
     let nameVi = "";
-
     if (dataProfile && dataProfile.positionData) {
-      nameVi = `${dataProfile.positionData.valueVi}, ${dataProfile.lastName} ${dataProfile.fistName}`;
+      nameVi = `${dataProfile.positionData.valueVi}, ${dataProfile.lastName} ${dataProfile.firstName}`;
     }
-
-    // console.log("check props: dataTime: ", dataTime);
     return (
       <div className="profile-doctor-container">
         <div className="intro-doctor">
@@ -83,7 +79,7 @@ class ProfileDoctor extends Component {
               })`,
             }}
           ></div>
-          <div className="content-right">
+          <div className="content-right px-4">
             <div className="up">{nameVi}</div>
             <div className="down">
               {isShowDescriptionDoctor === true ? (
@@ -100,19 +96,13 @@ class ProfileDoctor extends Component {
             </div>
           </div>
         </div>
-        <div className="price">
-          Giá khám:
-          {dataProfile && dataProfile.Doctor_Infor ? (
-            <NumberFormatBase
-              className="currency"
-              value={dataProfile.Doctor_Infor.pricTypeData.valueVI}
-              displayType={"text"}
-              thousandSeparator={true}
-              suffix={"VND"}
-            />
-          ) : (
-            ""
-          )}
+        <div className="price mt-4">
+          Giá khám:{" "}
+          {dataProfile && dataProfile.Doctor_Infor
+            ? type === "Schedule"
+              ? dataProfile.Doctor_Infor.priceOnId
+              : dataProfile.Doctor_Infor.priceOffId
+            : ""}
         </div>
       </div>
     );
