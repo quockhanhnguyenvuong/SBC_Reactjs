@@ -10,11 +10,14 @@ import * as actions from "../../../store/actions";
 import { postPatientBookAppointment } from "../../../services/userService";
 import Select from "react-select";
 import { toast } from "react-toastify";
-import { getAllCodeService } from "../../../services/userService";
+// import { languages } from "../../../utils";
+// import {LANGUAGES} from '../../utils'
+// import NumberFormat from "react-number-format";
+import moment from "moment";
 
 class BookingModal extends Component{
     constructor(props){
-        super(props);
+        super(poprs);
         this.state = {
             fullName:'',
             phoneNumber:'',
@@ -24,30 +27,14 @@ class BookingModal extends Component{
             birthday:'',
             selectedGender:'',
             doctorId:'',
-            gender:'',
-            genderArr: [],
+            genders:'',
             timeType:'',
 }
     }
 
     async componentDidMount(){
-        await this.getGenderFormReact();
-
-        let genderArr = this.state.genderArr;
-        this.setState({
-            gender: genderArr && genderArr.length > 0 ? genderArr[0].key : "",
-        });
-        
+        this.props.getGender()
     }
-
-    getGenderFormReact = async () => {
-        let response = await getAllCodeService("gender");
-        if (response && response.errCode === 0) {
-          this.setState({
-            genderArr: response.data,
-          });
-        }
-    };
 
     buildDataGender = (data) =>{
         let result = [];
@@ -74,7 +61,7 @@ class BookingModal extends Component{
             })
         }    
 
-        if(this.props.dataTime !== prevProps.dataTime){
+        if(this.props.dataTime !== !_.isEmpty(dataTime)){
             if(this.props.dataTime && !_.isEmpty(this.props.dataTime)){
                 console.log('check datetime: ' ,this.props.dataTime);
                 let doctorId = this.props.dataTime.doctorId;
@@ -102,21 +89,44 @@ class BookingModal extends Component{
         })
     }
 
-    // handleChangeSelect = (selectedOption) =>{
-    //     this.setState({selectedGender: selectedOption });
-    // }
-    onChangInput = (event) => {
-        let copyState = { ...this.state };
-        copyState = event.target.value;
-        this.setState({
-          ...copyState,
-        });
-      };
+    handleChangeSelect = () =>{
+        this.setState({selectedGender: selectedOption });
+    }
+    
+
+    capitalizeFirstLetter(string){
+        return string.charAt(0).toUpperCase() + string.slice(1);
+    }
+
+    buildTimeBooking = (dataTime) =>{
+        console.log('check renderTimeBooking: ', dataTime);
+        if(dataTime && !_.isEmpty(dataTime)){
+            let time = dataTime.timeTypeData.valueVi;
+
+            let date = moment.unix(+dataTime.data / 1000).format('dddd - DD/MM/YYYY')
+            return(
+                `${time} - ${this.capitalizeFirstLetter(date)}`
+            )
+        }
+        return '';
+    }
+
+    buildDoctorName = (dataTime) =>{
+        if(dataTime && !_.isEmpty(dataTime)){
+            let name = `${dataTime.doctorData.lastName} ${dataTime.doctorData.firstName}` ;
+
+            return name;
+        }
+        return '';
+    }
 
     handleConfirmBooking = async() =>{
         // validate input
         // data.email || !data.doctorId || !data.timeTypeData || !data.date
         let date = new Date(this.state.birthday).getTime();
+        let timeString = this.buildTimeBooking(this.props.dataTime);
+        let doctorName = this.buildDoctorName(this.props.dataTime);
+
         let res = await postPatientBookAppointment({
             fullName: this.state.fullName,
             phoneNumber: this.state.phoneNumber,
@@ -127,7 +137,9 @@ class BookingModal extends Component{
             selectedGender: this.state.selectedGender.value,
             doctorId: this.state.doctorId,
             timeType: this.state.timeType,
-            // genders: this.state.genders,
+            // languages: this.props.language,
+            timeString: timeString,
+            doctorName: doctorName,
         })
 
         if(res && res.errCode === 0){
@@ -137,14 +149,11 @@ class BookingModal extends Component{
             toast.error('Booking a new appointment error!')
         }
     }
-    
     render(){    
         let {isOpenModal, closeBookingClose, dataTime} = this.props
-        let genders = this.state.genderArr;
-        console.log("genders: ", genders);
         let doctorId = ' ';
         if(dataTime && !_.isEmpty(dataTime)){
-            doctorId = dataTime.doctorId
+            doctorId = dataTime.doctorId;
         }
 
         return(
@@ -177,28 +186,28 @@ class BookingModal extends Component{
                                 <label>Họ và tên</label>
                                 <input className="form-control" 
                                     value={this.state.fullName}
-                                    onChange={(event) => this.handleOnchangeInput(event, 'fullName')}
+                                    onChange={() => this.handleOnchangeInput(event, 'fullName')}
                                 />
                             </div>
                             <div className="col-6 form-group">
                                 <label>Số điện thoại</label>
                                 <input className="form-control" 
                                     value={this.state.phoneNumber}
-                                    onChange={(event) => this.handleOnchangeInput(event, 'phoneNumber')}
+                                    onChange={() => this.handleOnchangeInput(event, 'phoneNumber')}
                                 />
                             </div>
                             <div className="col-6 form-group">
                                 <label>Địa chỉ Email</label>
                                 <input className="form-control" 
                                     value={this.state.email}
-                                    onChange={(event) => this.handleOnchangeInput(event, 'email')}
+                                    onChange={() => this.handleOnchangeInput(event, 'email')}
                                 />
                             </div>
                             <div className="col-6 form-group">
                                 <label>Địa chỉ liên hệ</label>
                                 <input className="form-control" 
                                     value={this.state.address}
-                                    onChange={(event) => this.handleOnchangeInput(event, 'address')}
+                                    onChange={() => this.handleOnchangeInput(event, 'address')}
                                 />
                             </div>
 
@@ -206,7 +215,7 @@ class BookingModal extends Component{
                                 <label>Lý do khám</label>
                                 <input className="form-control" 
                                     value={this.state.reason}
-                                    onChange={(event) => this.handleOnchangeInput(event, 'reason')}
+                                    onChange={() => this.handleOnchangeInput(event, 'reason')}
                                 />
                             </div>
 
@@ -219,25 +228,12 @@ class BookingModal extends Component{
                                 />
                             </div>
                             <div className="col-6 form-group">
-                                <label>Giới tính </label>
-                                <Select
-                                    className="form"
-                                    value={genders}
-                                    options={genders}
-                                    onChange={(event) => {
-                                    this.onChangInput(event, "genders");
-                                    }}
-                                >
-                                    {genders &&
-                                    genders.length > 0 &&
-                                    genders.map((item, index) => {
-                                        return (
-                                        <option selected key={index} value={item.key}>
-                                            {item.valueVI}
-                                        </option>
-                                        );
-                                    })}
-                                </Select>
+                                <label>Giới tính</label>
+                                <Select 
+                                    value={this.state.selectedGender}
+                                    onChange={this.handleChangeSelect}
+                                    options={this.state.genders}
+                                />
                             </div>
                         </div>
                     </div>
@@ -260,14 +256,14 @@ class BookingModal extends Component{
 const mapStateToProps = state =>{
     return{
         // language: state.app.language,
-        // gender: state.admin.gender,
+        gender: state.admin.gender,
     }
 }
 
 const mapDispatchToProps = dispatch =>{
     return{
-        // getGender: () => dispatch(actions.fetchGenderStart()),
+        getGender: () => dispatch(actions.fetchGenderStart()),
     };
 };
 
-export default connect (mapStateToProps, mapDispatchToProps)(BookingModal);
+export default connect (mapDispatchToProps)(BookingModal);

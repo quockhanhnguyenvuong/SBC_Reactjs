@@ -5,7 +5,7 @@ import { FormattedMessage } from "react-intl";
 
 class DefaultClass extends Component{
     constructor(props){
-        super(poprs);
+        super(props);
         this.state = {
 
         }

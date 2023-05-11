@@ -18,7 +18,7 @@ class ProfileDoctor extends Component{
     }
 
     async componentDidMount(){
-        let data = await this.getInforDoctor(this.props.doctorId);
+        let data = await this.getInforDoctor(this.props.doctorId)
         this.setState({
             dataProfile: data,
         })
@@ -32,6 +32,7 @@ class ProfileDoctor extends Component{
                 result = res.data;
             }
         }
+        return result;
     }
     async componentDidUpdate(prevProps, prevState, snapshot){
         if(this.props.language !== prevProps.language){
@@ -64,7 +65,8 @@ class ProfileDoctor extends Component{
 
     render(){    
         let {dataProfile} = this.state;
-        let {language, isShowDescriptionDoctor, dataTime} = this.props;
+        console.log('check state: nè hihi ', this.state)
+        let {isShowDescriptionDoctor, dataTime} = this.props;
         let nameVi= '', nameEn='';
         if(dataProfile && dataProfile.positionData){
             nameVi = `${dataProfile.positionData.valueVi}, ${dataProfile.lastName} ${dataProfile.fistName}`;
@@ -76,8 +78,7 @@ class ProfileDoctor extends Component{
             <div className="profile-doctor-container">
                 <div className="intro-doctor">
                     <div className="content-left" 
-                        style={{ backgroundImage: `url(${ dataProfile && dataProfile.image ? dataProfile.image:''})`
-                    }}>
+                        style={{ backgroundImage: `url(${ dataProfile && dataProfile.image ? dataProfile.image: ''})` }}>
 
                     </div>
                     <div className="content-right">
@@ -97,7 +98,7 @@ class ProfileDoctor extends Component{
                                 </>
                                 :
                                 <>
-                                    {this.renderTimeBooking()}
+                                    {this.renderTimeBooking(dataTime)}
                                 </>
                             }
                         </div>
