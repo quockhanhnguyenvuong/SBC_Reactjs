@@ -11,7 +11,7 @@ class DetailClinic extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      arrDoctorID: [],
+      arrDoctorId: [],
       dataDetailClinic: {},
     };
   }
@@ -28,24 +28,24 @@ class DetailClinic extends Component {
       });
       if (res && res.errCode === 0) {
         let data = res.data;
-        let arrDoctorID = [];
+        let arrDoctorId = [];
         if (data && !_.isEmpty(res.data)) {
-          let arr = data.doctorSpecialty;
+          let arr = data.doctorClinic;
           if (arr && arr.length > 0) {
             arr.map((item) => {
-              arrDoctorID.push(item.doctorId);
+              arrDoctorId.push(item.doctorId);
             });
           }
         }
         this.setState({
           dataDetailClinic: res.data,
-          arrDoctorID: arrDoctorID,
+          arrDoctorId: arrDoctorId,
         });
       }
     }
   }
   render() {
-    let { arrDoctorID, dataDetailClinic } = this.state;
+    let { arrDoctorId, dataDetailClinic } = this.state;
     console.log("Check state 123 ", this.state);
     return (
       <div className="detail-specialty-container">
@@ -63,9 +63,9 @@ class DetailClinic extends Component {
               </>
             }
           </div>
-          {/* {arrDoctorID &&
-            arrDoctorID.length > 0 &&
-            arrDoctorID.map((item, index) => {
+          {arrDoctorId &&
+            arrDoctorId.length > 0 &&
+            arrDoctorId.map((item, index) => {
               return (
                 <div className="each-doctor" key={index}>
                   <div className="dt-content-left">
@@ -87,7 +87,7 @@ class DetailClinic extends Component {
                   </div>
                 </div>
               );
-            })} */}
+            })}
         </div>
       </div>
     );

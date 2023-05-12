@@ -21,7 +21,7 @@ const editUserService = (inputData) => {
 };
 
 const getAllCodeService = (inputType) => {
-  return axios.get(`/api/allcode?type=${inputType}`, { id: inputType });
+  return axios.get(`/api/allcode?type=${inputType}`);
 };
 
 const getAllDoctors = () => {
@@ -39,16 +39,23 @@ const saveDetailDoctorService = (data) => {
   return axios.post(`/api/save-infor-doctors`, data);
 };
 
+const getAllClinic = () => {
+  return axios.get(`/api/get-clinic`);
+};
+const createNewClinic = (data) => {
+  return axios.post("/api/create-new-clinic", data);
+};
+
+const getDetailClinicById = (data) => {
+  return axios.get(`/api/get-detail-clinic-by-id?id=${data.id}`)
+}
+
 const createNewSpecialty = (data) => {
   return axios.post("/api/create-new-specialty", data);
 };
 
 const getAllSpecialty = () => {
   return axios.get(`/api/get-specialty`);
-};
-
-const getAllClinic = () => {
-  return axios.get(`/api/get-clinic`);
 };
 
 const saveBulkScheduleDoctor = (data) => {
@@ -81,13 +88,8 @@ const getDetailInforDoctor = (inputId) => {
 const getExtraInforDoctorById = (doctorId) => {
   return axios.get(`/api/get-extra-infor-doctor-by-id?doctorId=${doctorId}`);
 };
-
-const createNewClinic = (data) => {
-  return axios.post("/api/create-new-clinic", data);
-};
-
-const getDetailClinicById = (data) => {
-  return axios.get(`/api/get-detail-clinic-by-id?id=${data.id}`)
+const getAllDetailSpecialtyById = (data) =>{
+  return axios.get(`/api/get-detail-specialty-by-id?id=${data.id}&location=${data.location}`)
 }
 
 export {
@@ -113,4 +115,5 @@ export {
   createNewClinic,
   getAllClinic,
   getDetailClinicById,
+  getAllDetailSpecialtyById,
 };

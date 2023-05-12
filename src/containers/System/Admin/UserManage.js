@@ -302,7 +302,7 @@ class UserManage extends Component {
             <div className="container">
               <div className="row">
                 <div className="col-3 mt-4">
-                  <label>Tên người dùng</label>
+                  <label>Email</label>
                   <input
                     type="email"
                     className="form-control"

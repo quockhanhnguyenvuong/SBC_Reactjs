@@ -28,10 +28,10 @@ class OutStandingDoctor extends Component {
     this.props.loadTopDoctors();
   }
   render() {
-    // console.log("Check data:", this.props.topDoctorsRedux);
+    console.log("Check data bác sĩ nổi bật", this.props.topDoctorsRedux);
     let arrDoctor = this.state.arrDoctor;
     // arrDoctor = arrDoctor.concat(arrDoctor).concat(arrDoctor);
-    console.log("Check data:", arrDoctor);
+    console.log("Check data bac sĩ nổi bật tuần qua:", arrDoctor);
     return (
       <div className="section-share section-outstandingdoctor">
         <div className="section-container">
@@ -66,7 +66,7 @@ class OutStandingDoctor extends Component {
                           ></div>
                         </div>
 
-                        <div className="position text-center">
+                        <div className="position">
                           <span>
                             {item.positionID === "P0"
                               ? "Bác sĩ"

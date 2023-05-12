@@ -80,7 +80,7 @@ class ModalRegister extends Component {
       phonenumber: this.state.phonenumber,
       gender: this.state.gender,
       roleID: "R3",
-      positionID: "P5",
+      positionID: "P0",
       // image: this.state.image,
     });
   };

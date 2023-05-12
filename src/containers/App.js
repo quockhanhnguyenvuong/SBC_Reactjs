@@ -16,6 +16,7 @@ import System from "../routes/System";
 import HomePage from "./HomePage/HomePage.js";
 import CustomScrollbars from "../components/CustomScrollbars.js";
 import Doctor from "../routes/Doctor";
+import Header from "./Header/Header";
 import DetailUser from "../Patient/User/DetailUser";
 import ChangePassword from "../Patient/User/ChangePassword";
 import BookingHistory from "../Patient/User//BookingHistory";
@@ -81,7 +82,7 @@ class App extends Component {
                     path={path.DETAIL_SPECIALTY}
                     component={DetailSpecialty}
                   />
-                  <Route
+                   <Route
                     path={path.DETAIL_CLINIC}
                     component={DetailClinic}
                   />

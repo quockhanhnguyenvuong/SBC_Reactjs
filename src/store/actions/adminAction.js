@@ -4,6 +4,8 @@ import {
   saveDetailDoctorService,
   getAllCodeService,
   getTopDoctorHomeService,
+  getAllSpecialty,
+  getAllClinic
 } from "../../services/userService";
 import { toast } from "react-toastify";
 
@@ -91,46 +93,55 @@ export const fetchAllScheduleTime = () => {
 };
 export const fetchTopDoctors = () => {
   return async (dispatch, getState) => {
-    try {
-      let res = await getTopDoctorHomeService("");
-      if (res && res.errCode === 0) {
+    try{ 
+      let res = await getTopDoctorHomeService('');
+      console.log('check data cak:',res)
+      if(res && res.errCode === 0) {
         dispatch({
           type: actionTypes.FETCH_TOP_DOCTOR_SUCCESS,
-          dataDoctors: res.data,
-        });
-      } else {
+          dataDoctors: res.data
+        })
+      }else{
         dispatch({
-          type: actionTypes.FETCH_TOP_DOCTOR_FAILDED,
-        });
+          type: actionTypes.FETCH_TOP_DOCTOR_FAILDED
+        })
       }
     } catch (e) {
-      console.log("FETCH_TOP_DOCTOR_FAILDED: ", e);
+      console.log('FETCH_TOP_DOCTOR_FAILDED: ',e)
       dispatch({
-        type: actionTypes.FETCH_TOP_DOCTOR_FAILDED,
-      });
-    }
-  };
-};
+        type: actionTypes.FETCH_TOP_DOCTOR_FAILDED
+      })
 
-export const getRequiredDoctorInfor = () => {
+    }
+  }
+}
+export const getAllRequiredDoctorInfor = () => {
   return async (dispatch, getState) => {
     try {
       dispatch({ type: actionTypes.FETCH_REQUIRED_DOCTOR_INFOR_START });
-      let resPrice = await getAllCodeService("PRICE");
+      let resFormality = await getAllCodeService("FORMALITY");
       let resPayment = await getAllCodeService("PAYMENT");
       let resProvince = await getAllCodeService("PROVINCE");
+      let resSpecialty = await getAllSpecialty("SPECIALTY");
+      let resClinic = await getAllClinic("CLINIC");
       if (
-        resPrice &&
-        resPrice.errCode === 0 &&
+        resFormality &&
+        resFormality.errCode === 0 &&
         resPayment &&
         resPayment.errCode === 0 &&
         resProvince &&
-        resProvince.errCode === 0
+        resProvince.errCode === 0 &&
+        resSpecialty &&
+        resSpecialty.errCode === 0 &&
+        resClinic &&
+        resClinic.errCode === 0
       ) {
         let data = {
-          resPrice: resPrice.data,
+          resFormality: resFormality.data,
           resPayment: resPayment.data,
           resProvince: resProvince.data,
+          resSpecialty: resSpecialty.data,
+          resClinic: resClinic.data
         };
         dispatch(fetchRequiredDoctorInforSuccess(data));
       } else {
