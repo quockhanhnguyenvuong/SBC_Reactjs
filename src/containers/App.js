@@ -16,7 +16,7 @@ import System from "../routes/System";
 import HomePage from "./HomePage/HomePage.js";
 import CustomScrollbars from "../components/CustomScrollbars.js";
 import Doctor from "../routes/Doctor";
-import VerifyEmail from '../Patient #75/VerifyEmail';
+import VerifyEmail from '../Patient/VerifyEmail';
 
 class App extends Component {
   handlePersistorState = () => {
