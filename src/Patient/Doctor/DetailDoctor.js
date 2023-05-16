@@ -82,7 +82,15 @@ class DetailDoctor extends Component {
               </div>
             </div>
             <div className="col-3">
-              <Map />
+              <Map
+                address={
+                  detailDoctor &&
+                  detailDoctor.Doctor_Infor &&
+                  detailDoctor.Doctor_Infor.addressClinic
+                    ? detailDoctor.Doctor_Infor.addressClinic
+                    : ""
+                }
+              />
             </div>
             <div className="detail-info-doctor col-12">
               {detailDoctor &&

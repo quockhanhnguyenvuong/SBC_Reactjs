@@ -124,7 +124,7 @@ class DoctorExtraInfor extends Component {
           isOpenModal={this.state.isOpenModalBooking}
           closeBookingClose={this.closeBookingClose}
           doctorIdFromParent={this.props.doctorIdFromParent}
-          type={"ExtraInfor"}
+          type={"ATHOME"}
           title={"Thông tin đặt lịch khám bệnh tại nhà"}
         />
       </div>

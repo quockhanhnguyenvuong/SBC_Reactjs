@@ -103,7 +103,21 @@ class ManageDoctor extends Component {
       addressClinic: this.state.addressClinic,
       note: this.state.note,
     });
-    console.log("check save: ", this.state);
+    // console.log("check save: ", this.state);
+    this.setState({
+      contentHTML: "",
+      contentMarkdown: "",
+      selectDoctor: "",
+      description: "",
+      priceOnId: "",
+      priceOffId: "",
+      selectProvince: "",
+      selectPayment: "",
+      selectFormality: "",
+      nameClinic: "",
+      addressClinic: "",
+      note: "",
+    });
   };
 
   /* Select option doctor */
@@ -264,7 +278,6 @@ class ManageDoctor extends Component {
               onChange={(event) => this.handleOnChangeText(event, "priceOnId")}
               value={this.state.priceOnId}
               placeholder="Nhập giá khám..."
-              name="priceOnId"
             />
           </div>
 
@@ -276,7 +289,6 @@ class ManageDoctor extends Component {
               onChange={(event) => this.handleOnChangeText(event, "priceOffId")}
               value={this.state.priceOffId}
               placeholder="Nhập giá khám..."
-              name="priceOffId"
             />
           </div>
 
@@ -285,11 +297,9 @@ class ManageDoctor extends Component {
             <Select
               value={this.state.selectPayment}
               options={this.state.listPayment}
-              onChange={(event) =>
-                this.handleChangeSelectDoctorInfor(event, "selectPayment")
-              }
+              onChange={this.handleChangeSelectDoctorInfor}
               placeholder="Chọn phương thức thanh toán..."
-              name="selectPayment"
+              name={"selectPayment"}
             />
           </div>
 
@@ -299,7 +309,7 @@ class ManageDoctor extends Component {
               value={this.state.selectProvince}
               options={this.state.listProvince}
               onChange={this.handleChangeSelectDoctorInfor}
-              placeholder="Chọn tình thành..."
+              placeholder="Chọn tỉnh thành..."
               name="selectProvince"
             />
           </div>

@@ -52,6 +52,8 @@ class UserManage extends Component {
       roleID: "",
       positionID: "",
       image: "",
+      previewImgURL: "",
+
       active: true,
     });
   };

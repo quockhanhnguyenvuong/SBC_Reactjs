@@ -1,78 +1,76 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import {
   GoogleMap,
   Marker,
   withGoogleMap,
   withScriptjs,
-  Polyline,
 } from "react-google-maps";
-class Map extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      center: { lat: 0, lng: 0 },
-      zoom: 14,
-      currentPosition: null,
-      doctorPosition: { lat: 16.0602535, lng: 108.1823864 },
+import { getLatLng, geocodeByAddress } from "react-google-places-autocomplete";
+
+function Map(props) {
+  const [center, setCenter] = useState({ lat: 0, lng: 0 });
+  const [zoom, setZoom] = useState(16);
+
+  const [doctorPosition, setDoctorPosition] = useState({ lat: 0, lng: 0 });
+  const [map, setMap] = useState(null);
+
+  useEffect(() => {
+    const { address } = props;
+    console.log("address", props);
+    const getCoords = async () => {
+      try {
+        const results = await geocodeByAddress(props.address);
+        const latLng = await getLatLng(results[0]);
+        console.log("toa do: ", latLng);
+        setDoctorPosition({ lat: latLng.lat, lng: latLng.lng });
+      } catch (error) {
+        console.log("Error getting coordinates", error);
+      }
     };
-
-    this.handlePosition = this.handlePosition.bind(this);
-  }
-
-  componentDidMount() {
-    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(this.handlePosition);
+    if (address) {
+      if (window.google && window.google.maps) {
+        getCoords();
+      } else {
+        const script = document.createElement("script");
+        script.src = `https://maps.googleapis.com/maps/api/js?key=${"AIzaSyDsMr6BWfwUsJNCjO-jfwDiVNhbOLBmlE8"}&libraries=places`;
+        script.onload = () => {
+          getCoords();
+        };
+        document.head.appendChild(script);
+      }
     }
-  }
+  }, [props.address]);
 
-  handlePosition(position) {
-    const { latitude, longitude } = position.coords;
+  const handleMapLoad = (map) => {
+    setMap(map);
+  };
 
-    this.setState({
-      center: { lat: latitude, lng: longitude },
-      zoom: 14,
-      currentPosition: { lat: latitude, lng: longitude },
-    });
-  }
+  const MapWithMarker = withScriptjs(
+    withGoogleMap(() => (
+      <GoogleMap
+        center={doctorPosition}
+        zoom={zoom}
+        options={{
+          zoomControl: false,
+          streetViewControl: false,
+          mapTypeControl: false,
+          fullscreenControl: true,
+        }}
+        onLoad={handleMapLoad}
+      >
+        {doctorPosition && <Marker position={doctorPosition} />}
+      </GoogleMap>
+    )),
+  );
 
-  render() {
-    const { center, zoom, currentPosition, doctorPosition } = this.state;
-
-    const MapWithMarker = withScriptjs(
-      withGoogleMap(() => (
-        <GoogleMap
-          defaultCenter={center}
-          defaultZoom={zoom}
-          center={center}
-          zoom={zoom}
-          options={{
-            zoomControl: false,
-            streetViewControl: false,
-            mapTypeControl: false,
-            fullscreenControl: false,
-          }}
-        >
-          {currentPosition && <Marker position={currentPosition} />}
-          {doctorPosition && <Marker position={doctorPosition} />}
-          {currentPosition && doctorPosition && (
-            <Polyline
-              path={[currentPosition, doctorPosition]}
-              options={{ strokeColor: "#FF0000" }}
-            />
-          )}
-        </GoogleMap>
-      )),
-    );
-
-    return (
-      <MapWithMarker
-        googleMapURL={`https://maps.googleapis.com/maps/api/js?key=${"AIzaSyDhVMBWNVrRo5TgKiNB7ArkarWmcl7tKyQ"}`}
-        loadingElement={<div style={{ height: "100%" }} />}
-        containerElement={<div style={{ height: "197px", width: "320px" }} />}
-        mapElement={<div style={{ height: "100%" }} />}
-      />
-    );
-  }
+  return (
+    <MapWithMarker
+      googleMapURL={`https://maps.googleapis.com/maps/api/js?key=${"AIzaSyDsMr6BWfwUsJNCjO-jfwDiVNhbOLBmlE8"}`}
+      loadingElement={<div style={{ height: "100%" }} />}
+      containerElement={<div style={{ height: "300px", width: "319px" }} />}
+      mapElement={<div style={{ height: "100%" }} />}
+    />
+  );
 }
 
 export default Map;

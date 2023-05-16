@@ -60,10 +60,7 @@ class ProfileDoctor extends Component {
   render() {
     let { dataProfile } = this.state;
     let { isShowDescriptionDoctor, type, dataTime } = this.props;
-
-    let data = dataProfile.Doctor_Infor;
-    console.log("check", dataProfile.priceOnId);
-
+    // console.log("check ", dataProfile);
     let nameVi = "";
     if (dataProfile && dataProfile.positionData) {
       nameVi = `${dataProfile.positionData.valueVi}, ${dataProfile.lastName} ${dataProfile.firstName}`;
@@ -91,7 +88,7 @@ class ProfileDoctor extends Component {
                     )}
                 </>
               ) : (
-                <>{this.renderTimeBooking()}</>
+                <>{this.renderTimeBooking(dataTime)}</>
               )}
             </div>
           </div>

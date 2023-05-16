@@ -21,6 +21,7 @@ import ChangePassword from "../Patient/User/ChangePassword";
 import BookingHistory from "../Patient/User//BookingHistory";
 import DetailSpecialty from "./HomePage/Specialty/DetailSpecialty";
 import DetailDoctor from "../Patient/Doctor/DetailDoctor";
+import VerifyEmail from "../Patient/VerifyEmail";
 
 class App extends Component {
   handlePersistorState = () => {
@@ -61,6 +62,10 @@ class App extends Component {
                     component={userIsAuthenticated(System)}
                   />
                   <Route
+                    path={path.VERIFY_EMAIL_BOOKING}
+                    component={VerifyEmail}
+                  />
+                  <Route
                     path={"/doctor/"}
                     component={userIsAuthenticated(Doctor)}
                   />
@@ -82,7 +87,7 @@ class App extends Component {
                   />
                   <Route
                     path={"/home/detail-doctor/:id"}
-                    component={userIsAuthenticated(DetailDoctor)}
+                    component={DetailDoctor}
                   />
 
                   <Route path={path.HOMEPAGE} component={HomePage} />

@@ -89,7 +89,7 @@ class DoctorSchedule extends Component {
       isOpenModalBooking,
       dataScheduleTimeModal,
     } = this.state;
-
+    // console.log("check props", this.props);
     // console.log("check allAvalableTime", dataScheduleTimeModal);
     return (
       <>
@@ -119,12 +119,10 @@ class DoctorSchedule extends Component {
                   <div className="time-content-btns">
                     {allAvalableTime.map((item, index) => {
                       let timeDisplay = item.timeTypeData.valueVI;
-                      // let timeDisplay = language = LANGUAGES.VI ?
-                      //     item.timeTypeData.valueVI : item.timeTypeData.valueEn;
+
                       return (
                         <button
                           key={index}
-                          /*className={language === LANGUAGES.VI ? 'btn-vie' : 'btn-en'}*/
                           onClick={() => this.handleClickScheduleTime(item)}
                         >
                           {timeDisplay}
@@ -154,7 +152,7 @@ class DoctorSchedule extends Component {
           isOpenModal={isOpenModalBooking}
           closeBookingClose={this.closeBookingClose}
           dataTime={dataScheduleTimeModal}
-          type={"Schedule"}
+          type={"ONLINE"}
           title={"Thông tin đặt lịch khám bệnh trực tuyến "}
         />
       </>
