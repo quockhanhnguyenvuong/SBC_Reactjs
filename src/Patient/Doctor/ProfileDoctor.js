@@ -4,6 +4,7 @@ import "./ProfileDoctor.scss";
 import { getProfileDoctorById } from "../../services/userService";
 import _ from "lodash";
 import moment from "moment";
+import { Link } from "react-router-dom";
 
 class ProfileDoctor extends Component {
   constructor(props) {
@@ -59,7 +60,14 @@ class ProfileDoctor extends Component {
 
   render() {
     let { dataProfile } = this.state;
-    let { isShowDescriptionDoctor, type, dataTime } = this.props;
+    let {
+      isShowDescriptionDoctor,
+      type,
+      dataTime,
+      isShowLinkDetail,
+      isShowLinkPrice,
+      doctorId,
+    } = this.props;
     // console.log("check ", dataProfile);
     let nameVi = "";
     if (dataProfile && dataProfile.positionData) {
@@ -93,14 +101,21 @@ class ProfileDoctor extends Component {
             </div>
           </div>
         </div>
-        <div className="price mt-4">
-          Giá khám:{" "}
-          {dataProfile && dataProfile.Doctor_Infor
-            ? type === "Schedule"
-              ? dataProfile.Doctor_Infor.priceOnId
-              : dataProfile.Doctor_Infor.priceOffId
-            : ""}
-        </div>
+        {isShowLinkDetail === true && (
+          <div className="view-detail-doctor">
+            <Link to={`/home/detail-doctor/${doctorId}`}>Xem thêm</Link>
+          </div>
+        )}
+        {isShowLinkPrice && (
+          <div className="price mt-4">
+            Giá khám:{" "}
+            {dataProfile && dataProfile.Doctor_Infor
+              ? type === "Schedule"
+                ? dataProfile.Doctor_Infor.priceOnId
+                : dataProfile.Doctor_Infor.priceOffId
+              : ""}
+          </div>
+        )}
       </div>
     );
   }

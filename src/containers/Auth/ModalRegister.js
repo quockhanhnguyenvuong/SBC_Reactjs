@@ -31,7 +31,7 @@ class ModalRegister extends Component {
     await this.getGenderFormReact();
     let genderArr = this.state.genderArr;
     this.setState({
-      gender: genderArr && genderArr.length > 0 ? genderArr[0].key : "",
+      gender: genderArr && genderArr.length > 0 ? genderArr[0].keyMap : "",
     });
   }
 
@@ -106,7 +106,6 @@ class ModalRegister extends Component {
       "lastName",
       "address",
       "phonenumber",
-      "gender",
     ];
     for (let i = 0; i < arrInput.length; i++) {
       if (!this.state[arrInput[i]]) {
@@ -132,7 +131,7 @@ class ModalRegister extends Component {
         <ModalBody>
           <div className="modal-body">
             <div className="input-container ">
-              <label>Tên người dùng</label>
+              <label>Email đăng nhập</label>
               <input
                 type="text"
                 onChange={(event) => {

@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { FormattedMessage } from "react-intl";
 import { postVerifyBookAppointment } from "../../src/services/userService";
 import HomeHeader from "../containers/HomePage/HomeHeader";
 import "./VerifyEmail.scss";
@@ -15,7 +14,7 @@ class VerifyEmail extends Component {
   }
 
   async componentDidMount() {
-    console.log(">>> hello verify in here, props: ", this.props);
+    // console.log(">>> hello verify in here, props: ", this.props);
     if (this.props.location && this.props.location.search) {
       let urlParams = new URLSearchParams(this.props.location.search);
       let token = urlParams.get("token");
@@ -24,8 +23,7 @@ class VerifyEmail extends Component {
         token: token,
         doctorId: doctorId,
       });
-
-      if (res & (res.errCode === 0)) {
+      if (res) {
         this.setState({
           statusVerify: true,
           errCode: res.errCode,
@@ -33,17 +31,14 @@ class VerifyEmail extends Component {
       } else {
         this.setState({
           statusVerify: true,
-          errCode: res && res.errCode ? res.errCode : -1,
+          errCode: res ? res.errCode : -1,
         });
       }
       console.log("check token and doctorId >>>>:", token, doctorId);
     }
   }
 
-  async componentDidUpdate(prevProps, prevState, snapshot) {
-    if (this.props.language !== prevProps.language) {
-    }
-  }
+  async componentDidUpdate(prevProps, prevState, snapshot) {}
 
   render() {
     let { statusVerify, errCode } = this.state;

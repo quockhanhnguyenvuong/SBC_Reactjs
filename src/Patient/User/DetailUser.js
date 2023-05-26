@@ -181,7 +181,7 @@ class DetailUser extends Component {
           <div className="row">
             <div className="title col-12 mb-4">Hồ sơ của tôi</div>
             <div className="left-banner col-3  mt-5 ">
-              <div
+              {/* <div
                 className="avata"
                 style={{
                   backgroundImage: `url(${image ? image : "1"})`,
@@ -192,7 +192,7 @@ class DetailUser extends Component {
                 <span className="name ">
                   {lastName} {firstName}
                 </span>
-              </div>
+              </div> */}
             </div>
             <div className="right-banner col-8">
               <div className="container">
@@ -215,21 +215,6 @@ class DetailUser extends Component {
                         </div>
                         <div className="col-6 mt-4"></div>
                         <div className="col-6 mt-4">
-                          <label>Tên</label>
-                          {this.state.isEdit === true ? (
-                            <input
-                              type="text"
-                              className="form-control mt-3"
-                              value={firstName}
-                              onChange={(event) =>
-                                this.onChangeInput(event, "firstName")
-                              }
-                            />
-                          ) : (
-                            <p className="userInfor w-100">{firstName}</p>
-                          )}
-                        </div>
-                        <div className="col-6 mt-4">
                           <label>Họ</label>
                           {this.state.isEdit === true ? (
                             <input
@@ -244,6 +229,22 @@ class DetailUser extends Component {
                             <p className="userInfor w-100">{lastName}</p>
                           )}
                         </div>
+                        <div className="col-6 mt-4">
+                          <label>Tên</label>
+                          {this.state.isEdit === true ? (
+                            <input
+                              type="text"
+                              className="form-control mt-3"
+                              value={firstName}
+                              onChange={(event) =>
+                                this.onChangeInput(event, "firstName")
+                              }
+                            />
+                          ) : (
+                            <p className="userInfor w-100">{firstName}</p>
+                          )}
+                        </div>
+
                         <div className="col-6 mt-4">
                           <label>Số điện thoại</label>
                           {this.state.isEdit === true ? (

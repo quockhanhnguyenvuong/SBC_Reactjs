@@ -3,7 +3,7 @@ import "./BookingModal.scss";
 import { connect } from "react-redux";
 import ProfileDoctor from "../ProfileDoctor";
 import _ from "lodash";
-import DatePicker from "../../../components/Input/DatePicker";
+// import DatePicker from "../../../components/Input/DatePicker";
 // import * as actions from "../../../store/actions";
 import { toast } from "react-toastify";
 import {
@@ -21,7 +21,7 @@ class BookingModal extends Component {
       email: "",
       address: "",
       reason: "",
-      birthday: "",
+      yearOld: "",
 
       firstName: "",
       lastName: "",
@@ -31,6 +31,7 @@ class BookingModal extends Component {
       timeType: "",
       fullName: "",
       bookingType: "",
+      currentDate: "",
     };
   }
 
@@ -75,7 +76,7 @@ class BookingModal extends Component {
 
   handleOnchangeDatePicker = (date) => {
     this.setState({
-      birthday: date[0],
+      yearOld: date[0],
     });
   };
 
@@ -113,10 +114,10 @@ class BookingModal extends Component {
   handleConfirmBooking = async () => {
     // validate input
     // data.email || !data.doctorId || !data.timeTypeData || !data.date
-    let date = new Date(this.state.birthday).getTime();
+    // let date = new Date(this.state.yearOld).getTime();
     let timeString = this.buildTimeBooking(this.props.dataTime);
     let doctorName = this.buildDoctorName(this.props.dataTime);
-    // console.log("check time string", timeString);
+    console.log("check state", this.state);
     let res = await postPatientBookAppointment({
       firstName: this.state.firstName,
       lastName: this.state.lastName,
@@ -125,7 +126,8 @@ class BookingModal extends Component {
       email: this.state.email,
       address: this.state.address,
       reason: this.state.reason,
-      date: date,
+      date: this.state.currentDate,
+      yearOld: this.state.yearOld,
       gender: this.state.gender,
       doctorId: this.state.doctorId,
       timeType: this.state.timeType,
@@ -140,7 +142,7 @@ class BookingModal extends Component {
     } else {
       toast.error("Booking a new appointment error!");
     }
-    console.log("check err", this.state);
+    console.log("check err", res);
   };
   handleFillInfoUser = (userInfo) => {
     this.setState({
@@ -159,9 +161,11 @@ class BookingModal extends Component {
     let doctorId = "";
     if (dataTime && !_.isEmpty(dataTime)) {
       doctorId = dataTime.doctorId;
+      this.state.currentDate = dataTime.date;
     }
-    // console.log("check dataTime:", dataTime);
-    console.log("check userInfo:", this.props.userInfo);
+    // console.log("check doctor id", doctorId);
+    // console.log("check dataTime:", this.state.currentDate);
+    // console.log("check userInfo:", this.props.userInfo.gender);
     return (
       <Modal
         isOpen={isOpenModal}
@@ -181,6 +185,8 @@ class BookingModal extends Component {
                 isShowDescriptionDoctor={true}
                 dataTime={dataTime}
                 type={type}
+                isShowLinkDetail={false}
+                isShowLinkPrice={true}
               />
             </div>
 
@@ -235,7 +241,7 @@ class BookingModal extends Component {
                 <div className="col-12 form-group mb-3">
                   <label>Địa chỉ liên hệ</label>
                   <input
-                    className="form-control"
+                    className="form-control w-100"
                     value={this.state.address}
                     onChange={(event) =>
                       this.handleOnchangeInput(event, "address")
@@ -246,7 +252,7 @@ class BookingModal extends Component {
                 <div className="col-12 form-group mb-3">
                   <label>Lý do khám</label>
                   <input
-                    className="form-control"
+                    className="form-control  w-100 "
                     value={this.state.reason}
                     onChange={(event) =>
                       this.handleOnchangeInput(event, "reason")
@@ -256,11 +262,18 @@ class BookingModal extends Component {
 
                 <div className="col-6 form-group mb-3">
                   <label>Ngày sinh</label>
-                  <DatePicker
+                  <input
+                    className="form-control"
+                    value={this.state.yearOld}
+                    onChange={(event) =>
+                      this.handleOnchangeInput(event, "yearOld")
+                    }
+                  />
+                  {/* <DatePicker
                     onChange={this.handleOnchangeDatePicker}
                     className="form-control"
-                    value={this.state.birthday}
-                  />
+                    value={this.state.yearOld}
+                  /> */}
                 </div>
                 <div className="col-6 form-group mb-3">
                   <label>Giới tính </label>

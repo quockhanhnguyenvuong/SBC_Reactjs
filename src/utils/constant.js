@@ -7,6 +7,7 @@ export const path = {
   SYSTEM: "/system",
   DETAIL_SPECIALTY: "/detail-specialty/:id",
   VERIFY_EMAIL_BOOKING: "/verify-booking/",
+  DETAIL_CLINIC: "/detail-clinic/:id",
 };
 
 export const manageActions = {

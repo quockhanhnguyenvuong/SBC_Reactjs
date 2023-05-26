@@ -4,6 +4,8 @@ import {
   saveDetailDoctorService,
   getAllCodeService,
   getTopDoctorHomeService,
+  getAllSpecialty,
+  getAllClinic,
 } from "../../services/userService";
 import { toast } from "react-toastify";
 
@@ -89,6 +91,7 @@ export const fetchAllScheduleTime = () => {
     }
   };
 };
+
 export const fetchTopDoctors = () => {
   return async (dispatch, getState) => {
     try {
@@ -119,18 +122,26 @@ export const getAllRequiredDoctorInfor = () => {
       let resFormality = await getAllCodeService("FORMALITY");
       let resPayment = await getAllCodeService("PAYMENT");
       let resProvince = await getAllCodeService("PROVINCE");
+      let resSpecialty = await getAllSpecialty("SPECIALTY");
+      let resClinic = await getAllClinic("CLINIC");
       if (
         resFormality &&
         resFormality.errCode === 0 &&
         resPayment &&
         resPayment.errCode === 0 &&
         resProvince &&
-        resProvince.errCode === 0
+        resProvince.errCode === 0 &&
+        resSpecialty &&
+        resSpecialty.errCode === 0 &&
+        resClinic &&
+        resClinic.errCode === 0
       ) {
         let data = {
           resFormality: resFormality.data,
           resPayment: resPayment.data,
           resProvince: resProvince.data,
+          resSpecialty: resSpecialty.data,
+          resClinic: resClinic.data,
         };
         dispatch(fetchRequiredDoctorInforSuccess(data));
       } else {
