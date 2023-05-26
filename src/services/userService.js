@@ -4,6 +4,10 @@ const handleLoginApi = (email, password) => {
   return axios.post("/api/login", { email, password });
 };
 
+const handleLoginGmail = (email, password) => {
+  return axios.post("/api/login", { email, password });
+};
+
 const getAllUsers = (inputId) => {
   return axios.get(`/api/get-all-users?id=${inputId}`, { id: inputId });
 };
@@ -98,5 +102,5 @@ export {
   getProfileDoctorById,
   postPatientBookAppointment,
   postVerifyBookAppointment, getAllPatientForDoctor,
-  postSendRemedy, postSendRefuse,
+  postSendRemedy, postSendRefuse, handleLoginGmail
 };

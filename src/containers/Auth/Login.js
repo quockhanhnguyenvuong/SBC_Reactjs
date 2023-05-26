@@ -4,6 +4,8 @@ import { push } from "connected-react-router";
 import * as actions from "../../store/actions";
 import "./Login.scss";
 import { handleLoginApi } from "../../services/userService";
+import { handleLoginGmail } from '../../services/userService';
+import GoogleLogin from 'react-google-login';
 
 class Login extends Component {
   constructor(props) {
@@ -71,6 +73,32 @@ class Login extends Component {
     }
   };
 
+  responseGoogle = async(da) => {
+    let data = await handleLoginGmail(this.state.username, this.state.password);
+    this.props.userLoginSuccess(data.user);
+    console.log("login succeeds");
+    // try {
+    //   let data = await handleLoginGmail(this.state.username, this.state.password);
+    //   if (data && data.errCode !== 0) {
+    //     this.setState({
+    //       errMessage: data.message,
+    //     });
+    //   }
+    //   if (data && data.errCode === 0) {
+    //     this.props.userLoginSuccess(data.user);
+    //     console.log("login succeeds");
+    //   }
+    // } catch (e) {
+    //   if (e.response) {
+    //     if (e.response.data) {
+    //       this.setState({
+    //         errMessage: e.response.data.message,
+    //       });
+    //     }
+    //   }
+    // }
+}
+
   render() {
     return (
       <div className="login-backgroud">
@@ -137,8 +165,15 @@ class Login extends Component {
               <span className="text-other-login">Or Login With:</span>
             </div>
             <div className="col-12 social-login">
-              <i className="fab fa-google-plus-g google"></i>
-              
+              <GoogleLogin
+                  className="GoogleLogin" 
+                  clientId="677626076955-qfb1rsbrm6ijlue1cgd3cut5sav6426d.apps.googleusercontent.com"
+                  buttonText="Google"
+                  icon={true}
+                  onSuccess={this.responseGoogle}
+                  onFailure={this.responseGoogle}
+                  cookiePolicy={'single_host_origin'}
+              />
             </div>
           </div>
         </div>

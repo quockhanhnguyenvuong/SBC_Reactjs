@@ -15,7 +15,7 @@ class ManagePatient extends Component {
     this.state = {
         currentDate: moment(new Date()).startOf("day").valueOf(),
         dataPatient: {},
-        isOpenRemedyModal: false,
+        isOpenRemedyModal: true,
         isOpenRefuseModal: true,
         dataModal: {},
         isShowLoading: false,
