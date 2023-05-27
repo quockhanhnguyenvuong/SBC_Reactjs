@@ -98,6 +98,9 @@ class Login extends Component {
     //   }
     // }
 }
+  handleForgotPassword = () =>{
+    window.location = "http://localhost:3000/forget-password"
+  }
 
   render() {
     return (
@@ -159,7 +162,9 @@ class Login extends Component {
               </button>
             </div>
             <div className="col-12">
-              <span className="forget-password">Forgot your password?</span>
+              <button className='forget-password'
+                  onClick={() => this.handleForgotPassword()}>Forgot your password?
+              </button>
             </div>
             <div className="col-12 text-center mt-3">
               <span className="text-other-login">Or Login With:</span>

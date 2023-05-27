@@ -16,6 +16,10 @@ const createNewUserService = (data) => {
   return axios.post("/api/create-new-user", data);
 };
 
+const createNewPasswordService = (data) => {
+  return axios.post("/api/create-new-password", data);
+};
+
 const deleteUserService = (userID) => {
   return axios.delete("/api/delete-user", { data: { id: userID } });
 };
@@ -84,11 +88,18 @@ const postSendRefuse = (data) => {
   return axios.get(`/api/send-refuse`, data);
 };
 
+const postForgetPassword = (email) => {
+  return axios.post("/api/forget-password", email);
+};
+
+const postSendResetPassword = (email) => {
+  // return axios.post("/api/forget-password", email);
+};
 
 export {
   handleLoginApi,
   getAllUsers,
-  createNewUserService,
+  createNewUserService, createNewPasswordService,
   deleteUserService,
   editUserService,
   getAllCodeService,
@@ -102,5 +113,6 @@ export {
   getProfileDoctorById,
   postPatientBookAppointment,
   postVerifyBookAppointment, getAllPatientForDoctor,
-  postSendRemedy, postSendRefuse, handleLoginGmail
+  postSendRemedy, postSendRefuse, handleLoginGmail, 
+  postForgetPassword, postSendResetPassword
 };

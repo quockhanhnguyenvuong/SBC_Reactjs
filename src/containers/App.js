@@ -17,6 +17,7 @@ import HomePage from "./HomePage/HomePage.js";
 import CustomScrollbars from "../components/CustomScrollbars.js";
 import Doctor from "../routes/Doctor";
 import VerifyEmail from '../Patient/VerifyEmail';
+import forgetPassword from './Auth/forgetPassword';
 
 class App extends Component {
   handlePersistorState = () => {
@@ -64,6 +65,7 @@ class App extends Component {
                   //Còn vài route ở trên.
                   /* route của detail*/
                   <Route path={path.VERIFY_EMAIL_BOOKING} component={VerifyEmail} />
+                  <Route path={path.FORGET_PASSWORD} component={forgetPassword}/>
                 </Switch>
               </CustomScrollbars>
             </div>
