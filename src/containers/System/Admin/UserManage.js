@@ -75,6 +75,30 @@ class UserManage extends Component {
     });
   }
 
+  getArrangeUser = async (role) => {
+    await this.getAllUserFromReact();
+    let { arrUsers } = this.state;
+    let newArr = [];
+    let count = 0;
+    // console.log(arrUsers);
+    arrUsers.map((item, index) => {
+      if (item.roleID === role) newArr[count++] = item;
+    });
+    // console.log(newArr);
+    this.setState({
+      arrUsers: newArr,
+    });
+  };
+
+  getSortUserName = () => {
+    let { arrUsers } = this.state;
+    let newArr = arrUsers.reverse();
+    console.log(arrUsers);
+    this.setState({
+      arrUsers: newArr,
+    });
+  };
+
   // load role
   getRoleFormReact = async () => {
     let response = await getAllCodeService("role");
@@ -458,27 +482,63 @@ class UserManage extends Component {
             </div>
           </div>
           {/* button add new user */}
-          <div className="customer-add-user mx-3 col-12">
-            <button
-              className={
-                this.state.active === true
-                  ? "btn-add px-3 btn btn-primary"
-                  : "btn-add2 px-3 btn "
-              }
-              onClick={() => this.handleSaveUser()}
-            >
-              {this.state.active === true ? (
-                <i class="fas fa-user-plus mx-2"></i>
-              ) : (
-                <i class="fas fa-user-edit"></i>
-              )}
+          <div className="customer-add-user mx-3 mt-4 col-12">
+            <div className="d-flex justify-content-between">
+              <div>
+                <button
+                  className={
+                    this.state.active === true
+                      ? "btn-add px-3 btn btn-primary"
+                      : "btn-add2 px-3 btn "
+                  }
+                  onClick={() => this.handleSaveUser()}
+                >
+                  {this.state.active === true ? (
+                    <i class="fas fa-user-plus mx-2"></i>
+                  ) : (
+                    <i class="fas fa-user-edit"></i>
+                  )}
 
-              <span className="mx-2">
-                {this.state.active === true
-                  ? "Lưu người dùng mới"
-                  : " Lưu thay đổi"}
-              </span>
-            </button>
+                  <span className="mx-2">
+                    {this.state.active === true
+                      ? "Lưu người dùng mới"
+                      : " Lưu thay đổi"}
+                  </span>
+                </button>
+              </div>
+              <div>
+                <button
+                  className="btn btn-info text-white px-2"
+                  onClick={() => this.getAllUserFromReact()}
+                >
+                  All
+                </button>{" "}
+                <button
+                  className="btn btn-info text-white px-2"
+                  onClick={() => this.getArrangeUser("R1")}
+                >
+                  <i class="fas fa-arrows-alt-v"></i>A
+                </button>{" "}
+                <button
+                  className="btn btn-info text-white px-2"
+                  onClick={() => this.getArrangeUser("R2")}
+                >
+                  <i class="fas fa-arrows-alt-v"></i>D
+                </button>{" "}
+                <button
+                  className="btn btn-info text-white px-2"
+                  onClick={() => this.getArrangeUser("R3")}
+                >
+                  <i class="fas fa-arrows-alt-v"></i>P
+                </button>{" "}
+                <button
+                  className="btn btn-info text-white px-2"
+                  onClick={() => this.getSortUserName()}
+                >
+                  <i class="fas fa-sort-alpha-down-alt"></i>
+                </button>
+              </div>
+            </div>
           </div>
           {/* table user manage */}
           <div className="users-table mt-3 mx-3 col-12">

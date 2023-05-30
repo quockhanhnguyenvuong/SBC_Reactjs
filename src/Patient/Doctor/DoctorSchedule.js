@@ -59,8 +59,8 @@ class DoctorSchedule extends Component {
     if (this.props.doctorIdFromParent) {
       let doctorId = this.props.doctorIdFromParent;
       let date = event.target.value;
-      // check lại có chạy thành công kh
       let res = await getscheduleDoctorByDate(doctorId, date);
+      console.log("check res", res);
       if (res && res.errCode === 0) {
         this.setState({
           allAvalableTime: res.data ? res.data : [],

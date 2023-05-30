@@ -11,7 +11,6 @@ class RefuseModal extends Component {
     super(props);
     this.state = {
       email: "",
-      imgBase64: "",
       reason: "",
     };
   }
@@ -38,34 +37,26 @@ class RefuseModal extends Component {
     });
   };
 
-  // handleOnChangeImage = async (event) => {
-  //   let data = event.target.files;
-  //   let file = data[0];
-  //   if (file) {
-  //     let base64 = await CommonUtils.getBase64(file);
-  //     this.setState({
-  //       imgBase64: base64,
-  //     });
-  //   }
-  // };
-
   handleOnchangeInput = (event, id) => {
     let valueInput = event.target.value;
-    let stateCopy = { ...this.state }; //3 dấu ... là copy lại tên biến cần copy
+    let stateCopy = { ...this.state };
     stateCopy[id] = valueInput;
     this.setState({
       ...stateCopy,
     });
-    console.log("ssss: ", stateCopy);
+    // console.log("ssss: ", stateCopy);
   };
 
   handleSendRefuse = () => {
-    this.props.sendRefuse(this.state);
-    console.log("what: ", this.state);
+    let { dataModal } = this.props;
+    dataModal.reason = this.state.reason;
+    this.props.sendRefuse(this.props.dataModal);
+    // console.log("reason: ", dataModal.reason);
   };
 
   render() {
-    let { isOpenModal, closeRefuseModal, dataModal, sendRefuse } = this.props;
+    let { isOpenModal, closeRefuseModal, dataModal } = this.props;
+    // console.log("check data modal:", dataModal);
     return (
       <Modal
         isOpen={isOpenModal}
@@ -93,15 +84,17 @@ class RefuseModal extends Component {
           <div className="row">
             <div className="col-6 form-group">
               <label>Tên Của bệnh nhân:</label>
-              <p> FullName</p>
+              <br />
+              {dataModal.patientName}
             </div>
             <div className="col-6 form-group">
               <label>Thời gian hẹn:</label>
-              <p>time</p>
+              <br />
+              {dataModal.timeTypeDataPatient}
             </div>
           </div>
-          <div className="row">
-            <div className="col-6 form-group mail">
+          <div className="row mt-2">
+            <div className="col-12 form-group mail">
               <label>Email bệnh nhân:</label>
               <input
                 className="form-control"
@@ -110,7 +103,7 @@ class RefuseModal extends Component {
                 onChange={(event) => this.handleOnchangeEmail(event)}
               />
             </div>
-            <div className="col-6 form-group">
+            <div className="col-12 form-group mt-2">
               <label>Lý do từ chối:</label>
               <input
                 className="form-control"
@@ -125,14 +118,14 @@ class RefuseModal extends Component {
             className="btn_modalFooter"
             onClick={this.handleSendRefuse}
           >
-            Send
+            Xác nhận
           </Button>{" "}
           <Button
             color="warning"
             className="btn_modalFooter"
             onClick={closeRefuseModal}
           >
-            Cancel
+            Thoát
           </Button>
         </ModalFooter>
       </Modal>

@@ -127,6 +127,7 @@ class DetailUser extends Component {
     }
   };
   handleEditUser = async () => {
+    // alert("Xác nhận lưu thông tin?");
     // console.log("check state:", this.state);
     let isValid = this.checkValidateInput();
     if (isValid === false) return;
@@ -137,7 +138,7 @@ class DetailUser extends Component {
       address: this.state.address,
       phonenumber: this.state.phonenumber,
       gender: this.state.gender,
-      // image: this.state.image,
+      image: this.state.image,
     });
   };
   // get value input
@@ -180,7 +181,7 @@ class DetailUser extends Component {
         <div className="container mt-5">
           <div className="row">
             <div className="title col-12 mb-4">Hồ sơ của tôi</div>
-            <div className="left-banner col-3  mt-5 ">
+            <div className="left-banner col-2  mt-5 ">
               {/* <div
                 className="avata"
                 style={{
@@ -374,9 +375,9 @@ class DetailUser extends Component {
                               hidden
                               id="previewImage"
                               className="form-control "
-                              // onChange={(event) =>
-                              //   this.handleOnChangeImage(event)
-                              // }
+                              onChange={(event) =>
+                                this.handleOnChangeImage(event)
+                              }
                             />
                             {this.state.isEdit === false ? (
                               ""

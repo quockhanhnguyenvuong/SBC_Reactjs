@@ -11,7 +11,7 @@ class RemedyModal extends Component {
     super(props);
     this.state = {
       email: "",
-      imgBase64: "",
+      // imgBase64: "",
     };
   }
 
@@ -49,11 +49,14 @@ class RemedyModal extends Component {
   };
 
   handleSendRemedy = () => {
-    this.props.sendRemedy(this.state);
+    this.props.sendRemedy(this.props.dataModal);
+    // console.log("checksendRemedy", this.props.sendRemedy);
   };
 
   render() {
-    let { isOpenModal, closeRemedyModal, dataModal, sendRemedy } = this.props;
+    let { isOpenModal, closeRemedyModal, dataModal } = this.props;
+    // console.log("check data modal remedy", dataModal);
+
     return (
       <Modal
         isOpen={isOpenModal}
@@ -80,12 +83,14 @@ class RemedyModal extends Component {
         <ModalBody>
           <div className="row">
             <div className="col-6 form-group">
-              <label>Tên Của bệnh nhân:</label>
-              <p> FullName</p>
+              <label>Tên bệnh nhân:</label>
+              <br />
+              {dataModal.patientName}
             </div>
             <div className="col-6 form-group">
               <label>Thời gian hẹn:</label>
-              <p>time</p>
+              <br />
+              {dataModal.timeTypeDataPatient}
             </div>
           </div>
           <div className="row">
@@ -106,14 +111,14 @@ class RemedyModal extends Component {
             className="btn_modalFooter"
             onClick={this.handleSendRemedy}
           >
-            Send
+            Xác nhận
           </Button>{" "}
           <Button
             color="warning"
             className="btn_modalFooter"
             onClick={closeRemedyModal}
           >
-            Cancel
+            Thoát
           </Button>
         </ModalFooter>
       </Modal>

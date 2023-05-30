@@ -49,6 +49,7 @@ class ManageDoctor extends Component {
     this.props.fetchAllDoctors();
     this.props.getAllRequiredDoctorInfor();
   }
+
   componentDidUpdate(prevProps, prevState, snapshot) {
     if (prevProps.allDoctors !== this.props.allDoctors) {
       let dataSelectDoctor = this.buildDataInputSelect(
@@ -196,10 +197,10 @@ class ManageDoctor extends Component {
           return item.label === formality;
         });
         selectSpecialty = listSpecialty.find((item) => {
-          return item.label === specialtyId;
+          return item.value === specialtyId;
         });
         selectClinic = listClinic.find((item) => {
-          return item.label === clinicId;
+          return item.value === clinicId;
         });
       }
       // console.log("check select:", selectFormality);
@@ -396,6 +397,28 @@ class ManageDoctor extends Component {
             />
           </div>
 
+          <div className="col-4 mb-3">
+            <label>Chọn phòng khám:</label>
+            <Select
+              value={this.state.selectClinic}
+              options={this.state.listClinic}
+              onChange={this.handleChangeSelectDoctorInfor}
+              name="selectClinic"
+              placeholder="Chọn phòng khám..."
+            />
+          </div>
+
+          <div className="col-4 mb-3">
+            <label>Chọn chuyên khoa:</label>
+            <Select
+              value={this.state.selectSpecialty}
+              options={this.state.listSpecialty}
+              onChange={this.handleChangeSelectDoctorInfor}
+              name="selectSpecialty"
+              placeholder="Chọn chuyên khoa..."
+            />
+          </div>
+
           <div className="col-6">
             <label>Địa chỉ phòng khám:</label>
             <input
@@ -418,26 +441,6 @@ class ManageDoctor extends Component {
             ></textarea>
           </div>
 
-          <div className="col-4 mb-3">
-            <label>Chọn phòng khám:</label>
-            <Select
-              value={this.state.selectClinic}
-              options={this.state.listClinic}
-              onChange={this.handleChangeSelectDoctorInfor}
-              name="selectClinic"
-              placeholder="Chọn phòng khám..."
-            />
-          </div>
-          <div className="col-4 mb-3">
-            <label>Chọn chuyên khoa:</label>
-            <Select
-              value={this.state.selectSpecialty}
-              options={this.state.listSpecialty}
-              onChange={this.handleChangeSelectDoctorInfor}
-              name="selectSpecialty"
-              placeholder="Chọn chuyên khoa..."
-            />
-          </div>
           {/* Markdown */}
           <div className="manage-doctor-editor col-12 mt-4">
             <MdEditor

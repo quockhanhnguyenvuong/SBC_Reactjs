@@ -8,7 +8,7 @@ import {
 import { getLatLng, geocodeByAddress } from "react-google-places-autocomplete";
 // import haversine from 'haversine-distance';
 import { FaDirections } from "react-icons/fa";
-// import "./Map.scss";
+import "./Map.scss";
 
 function Map(props) {
   const [center, setCenter] = useState({ lat: 0, lng: 0 });
@@ -36,7 +36,7 @@ function Map(props) {
         getCoords();
       } else {
         const script = document.createElement("script");
-        script.src = `https://maps.googleapis.com/maps/api/js?key=${"AIzaSyD-YD9kJSh7grvsCUafJLK5mwmhpv7PYKc"}&libraries=places`;
+        script.src = `https://maps.googleapis.com/maps/api/js?key=${"AIzaSyBJs-bpgSJv89Ux2TreGrl1EJP6wmhzeY4"}&libraries=places`;
         script.onload = () => {
           getCoords();
         };
@@ -86,7 +86,7 @@ function Map(props) {
         </a>
       </div>
       <MapWithMarker
-        googleMapURL={`https://maps.googleapis.com/maps/api/js?key=${"AIzaSyD-YD9kJSh7grvsCUafJLK5mwmhpv7PYKc"}`}
+        googleMapURL={`https://maps.googleapis.com/maps/api/js?key=${"AIzaSyBJs-bpgSJv89Ux2TreGrl1EJP6wmhzeY4"}`}
         loadingElement={<div style={{ height: "100%" }} />}
         containerElement={<div style={{ height: "300px", width: "400px" }} />}
         mapElement={<div style={{ height: "100%" }} />}

@@ -43,12 +43,17 @@ class Header extends Component {
         </div>
         <div className="welcome">
           <span>
-            Welcom,{" "}
+            Welcome,{" "}
             {userInfo && userInfo.firstName ? " " + userInfo.firstName : ""} !
           </span>
         </div>
         {/* nút logout */}
         <div>
+          <div className="btn ">
+            <a href="/" className="btn-home">
+              <i class="fas fa-home"></i>
+            </a>
+          </div>
           <div className="btn btn-logout" onClick={processLogout}>
             <i className="fas fa-sign-out-alt"></i>
           </div>

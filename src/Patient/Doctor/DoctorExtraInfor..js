@@ -53,19 +53,23 @@ class DoctorExtraInfor extends Component {
 
   render() {
     let { isShowDetailInfor, extraInfor } = this.state;
-    // console.log("check data:", extraInfor);
+    console.log("check data:", extraInfor);
     // console.log("doctor id:", this.props.doctorIdFromParent);
     return (
       <div className="doctor-extra-infor-container">
         <div className="content-up">
-          <div className="text-address">
-            Đặt khám tại nhà <i className="far fa-hand-point-right"></i>{" "}
-            <button
-              className="btn btn-booking-at-home"
-              onClick={() => this.handleClickBooking()}
-            >
-              Tại đây{" "}
-            </button>
+          <div className="text-address mb-1">
+            <div className="pt-1">
+              Đặt khám tại nhà <i className="far fa-hand-point-right"></i>{" "}
+            </div>
+            <div>
+              <button
+                className="btn btn-booking-at-home text-danger"
+                onClick={() => this.handleClickBooking()}
+              >
+                Tại đây
+              </button>
+            </div>
           </div>
           <div className="name-clinic">
             {extraInfor && extraInfor.nameClinic ? extraInfor.nameClinic : ""}
@@ -130,6 +134,7 @@ class DoctorExtraInfor extends Component {
         <BookingModal
           isOpenModal={this.state.isOpenModalBooking}
           closeBookingClose={this.closeBookingClose}
+          doctorName={extraInfor.User}
           doctorIdFromParent={this.props.doctorIdFromParent}
           type={"ATHOME"}
           title={"Thông tin đặt lịch khám bệnh tại nhà"}

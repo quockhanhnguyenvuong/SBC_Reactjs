@@ -21,7 +21,7 @@ const editUserService = (inputData) => {
 };
 
 const getAllCodeService = (inputType) => {
-  return axios.get(`/api/allcode?type=${inputType}`, { id: inputType });
+  return axios.get(`/api/allcode?type=${inputType}`);
 };
 
 const getAllDoctors = () => {
@@ -86,11 +86,11 @@ const getAllPatientForDoctor = (data) => {
 };
 
 const postSendRemedy = (data) => {
-  return axios.get(`/api/send-remedy`, data);
+  return axios.post(`/api/send-remedy`, data);
 };
 
 const postSendRefuse = (data) => {
-  return axios.get(`/api/send-refuse`, data);
+  return axios.post(`/api/send-refuse`, data);
 };
 
 const getAllClinic = () => {
@@ -103,6 +103,7 @@ const createNewClinic = (data) => {
 const getDetailClinicById = (data) => {
   return axios.get(`/api/get-detail-clinic-by-id?id=${data.id}`);
 };
+
 const getAllDetailSpecialtyById = (data) => {
   return axios.get(
     `/api/get-detail-specialty-by-id?id=${data.id}&location=${data.location}`,
