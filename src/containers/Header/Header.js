@@ -34,7 +34,7 @@ class Header extends Component {
 
   render() {
     const { processLogout, userInfo } = this.props;
-    console.log("check user info: ", userInfo);
+    // console.log("check user info: ", userInfo);
     return (
       <div className="header-container">
         {/* thanh navigator */}
@@ -49,11 +49,15 @@ class Header extends Component {
         </div>
         {/* nút logout */}
         <div>
-          <div className="btn ">
-            <a href="/" className="btn-home">
-              <i class="fas fa-home"></i>
-            </a>
-          </div>
+          {userInfo.roleId === USER_ROLE.PATIENT ? (
+            <div className="btn ">
+              <a href="/" className="btn-home">
+                <i class="fas fa-home"></i>
+              </a>
+            </div>
+          ) : (
+            ""
+          )}
           <div className="btn btn-logout" onClick={processLogout}>
             <i className="fas fa-sign-out-alt"></i>
           </div>

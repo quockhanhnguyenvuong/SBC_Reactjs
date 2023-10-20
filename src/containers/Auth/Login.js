@@ -5,6 +5,7 @@ import * as actions from "../../store/actions";
 import "./Login.scss";
 import { handleLoginApi } from "../../services/userService";
 import ModalRegister from "./ModalRegister";
+import ModalForgotPassword from "./ModalForgotPassword";
 
 class Login extends Component {
   constructor(props) {
@@ -16,6 +17,7 @@ class Login extends Component {
       errMessage: "",
 
       isOpenModalRegister: false,
+      isOpenModalForgotPassword: false,
     };
   }
 
@@ -80,10 +82,20 @@ class Login extends Component {
       isOpenModalRegister: true,
     });
   };
+  handleForgotPasswor = () => {
+    this.setState({
+      isOpenModalForgotPassword: true,
+    });
+  };
 
   toggleModal = () => {
     this.setState({
       isOpenModalRegister: !this.state.isOpenModalRegister,
+    });
+  };
+  toggleModalForgotPassword = () => {
+    this.setState({
+      isOpenModalForgotPassword: !this.state.isOpenModalForgotPassword,
     });
   };
 
@@ -94,7 +106,16 @@ class Login extends Component {
           isOpen={this.state.isOpenModalRegister}
           toggleFromParent={this.toggleModal}
         />
+        <ModalForgotPassword
+          isOpen={this.state.isOpenModalForgotPassword}
+          toggleFromParent={this.toggleModalForgotPassword}
+        />
         <div className="login-container">
+          <div className="btn ">
+            <a href="/" className="btn-home">
+              <i class="fas fa-home"></i>
+            </a>
+          </div>
           <div className="login-content">
             <div className=" text-login">Đăng nhập</div>
             <div className=" form-group">
@@ -149,10 +170,17 @@ class Login extends Component {
               </button>
             </div>
             <div className="">
-              <span className="forget-password ">Quên mật khẩu?</span>
-              <span className="forget-password mx-0">
-                {/* <a href="/register">Đăng kí?</a> */}
-                <span onClick={() => this.handleAddNewUser()}>Đăng ký?</span>
+              <span
+                className="forget-password "
+                onClick={() => this.handleForgotPasswor()}
+              >
+                Quên mật khẩu?
+              </span>
+              <span
+                className="forget-password mx-0"
+                onClick={() => this.handleAddNewUser()}
+              >
+                Đăng ký?
               </span>
             </div>
 

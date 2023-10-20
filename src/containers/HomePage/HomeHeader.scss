@@ -23,18 +23,19 @@
         color: #22c1c3;
         text-decoration: none;
       }
-      // .header-logo {
-      //   height: 100%;
-      //   width: 100%;
-      //   cursor: pointer;
-      //   transform: scale(0.5, 0.5);
-      //   margin-left: -45px;
-      // }
-      // i {
-      //   font-size: 25px;
-      //   color: gray;
-      //   cursor: pointer;
-      // }
+      i {
+        height: 40px;
+        width: 40px;
+        font-size: 20px;
+        color: white;
+        cursor: pointer;  
+        border-radius: 50%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-color: #22c1c3;
+        margin-right: 5px;
+      }
     }
     .center-content {
       // width: 55%;

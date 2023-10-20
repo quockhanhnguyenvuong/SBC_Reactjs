@@ -35,9 +35,10 @@ class HomeHeader extends Component {
         <div className="home-header-container container-fluid">
           <div className="home-header-content row">
             <div className="left-content col-8">
-              {/* <i className="fa-solid fa-bars"></i>
-              <img className="header-logo" src={logo} /> */}
-              <div className="header-logo"></div>
+              {/* <div className="header-logo">
+                <i class="fas fa-laptop-medical"></i>
+              </div> */}
+              <i class="fas fa-laptop-medical"></i>
               <a href="/">Smart Booking Care</a>
             </div>
             <div className="right-content col-4">

@@ -15,14 +15,7 @@ import Login from "./Auth/Login";
 import System from "../routes/System";
 import HomePage from "./HomePage/HomePage.js";
 import CustomScrollbars from "../components/CustomScrollbars.js";
-import Doctor from "../routes/Doctor";
-import DetailUser from "../Patient/User/DetailUser";
-import ChangePassword from "../Patient/User/ChangePassword";
-import BookingHistory from "../Patient/User//BookingHistory";
-import DetailSpecialty from "./HomePage/Specialty/DetailSpecialty";
-import DetailDoctor from "../Patient/Doctor/DetailDoctor";
-import VerifyEmail from "../Patient/VerifyEmail";
-import DetailClinic from "../Patient/Clinic/DetailClinic ";
+i;
 
 class App extends Component {
   handlePersistorState = () => {
@@ -61,35 +54,6 @@ class App extends Component {
                   <Route
                     path={path.SYSTEM}
                     component={userIsAuthenticated(System)}
-                  />
-                  <Route
-                    path={path.VERIFY_EMAIL_BOOKING}
-                    component={VerifyEmail}
-                  />
-                  <Route
-                    path={"/doctor/"}
-                    component={userIsAuthenticated(Doctor)}
-                  />
-                  <Route
-                    path={"/home/detail-user/"}
-                    component={userIsAuthenticated(DetailUser)}
-                  />
-                  <Route
-                    path={"/home/change-password/"}
-                    component={userIsAuthenticated(ChangePassword)}
-                  />
-                  <Route
-                    path={"/home/history-user/"}
-                    component={userIsAuthenticated(BookingHistory)}
-                  />
-                  <Route
-                    path={path.DETAIL_SPECIALTY}
-                    component={DetailSpecialty}
-                  />
-                  <Route path={path.DETAIL_CLINIC} component={DetailClinic} />
-                  <Route
-                    path={"/home/detail-doctor/:id"}
-                    component={DetailDoctor}
                   />
 
                   <Route path={path.HOMEPAGE} component={HomePage} />

@@ -2,11 +2,8 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { Redirect, Route, Switch } from "react-router-dom";
 import UserManage from "../containers/System/Admin/UserManage";
-import ManageSchedule from "../containers/System/Doctor/ManageSchedule";
-import DoctorManage from "../containers/System/Admin/ManageDoctor";
-import ManageSpecialty from "../containers/System/Specialty/ManageSpecialty";
+
 import Header from "../containers/Header/Header";
-import ManageClinic from "../containers/System/Clinic/ManageClinic";
 
 class System extends Component {
   render() {
@@ -17,13 +14,7 @@ class System extends Component {
         <div className="system-list">
           <Switch>
             <Route path="/system/user-manage" component={UserManage} />
-            <Route path="/doctor/manage-doctor" component={DoctorManage} />
-            <Route path="/doctor/manage-schedule" component={ManageSchedule} />
-            <Route
-              path="/system/manage-specialty"
-              component={ManageSpecialty}
-            />
-            <Route path="/system/manage-clinic" component={ManageClinic} />
+
             <Route
               component={() => {
                 return <Redirect to={systemMenuPath} />;
