@@ -1,11 +1,12 @@
 .home-header-container {
-  height: 60px;
+  height: 75px;
   width: 100%;
   padding: 0 40px;
   position: sticky;
   top: 0;
-  background-color: white;
+  background-color: #EDD0D0;
   z-index: 100;
+  border-bottom: 1px solid #9a9a9a;
 
   .home-header-content {
     width: 100%;
@@ -35,6 +36,12 @@
       justify-content: space-between;
       align-items: center;
       .child-content {
+        width: 200px;
+        font-size: 16px;
+        background-color: #ffadad;
+        border-radius: 40px !important;
+        padding: 1px 5px;
+        text-align: center;
         .subs-title {
           font-weight: 400;
           font-size: 12px;
@@ -51,6 +58,21 @@
         display: flex;
         align-items: center;
         cursor: pointer;
+        i {
+          font-size: 15px;
+          margin-right: 5px;
+        }
+      }
+      .login{
+        padding-right: 50px;
+        display: flex;
+        align-items: center;
+        cursor: pointer;
+        a{
+          color: #333 !important;
+          text-decoration: none !important;
+        }
+        
         i {
           font-size: 15px;
           margin-right: 5px;
@@ -87,9 +109,9 @@
   }
 }
 .home-header-banner {
-  background-image: url("../../assets/header-background.jpg"),
+  background-image: url("../../assets/images/Img_Login.png"),
     linear-gradient(rgba(126, 126, 126, 0.25), rgba(255, 255, 255, 0.1));
-  height: 520px;
+  height: 600px;
   background-repeat: no-repeat;
   background-size: cover;
   background-position: center;
@@ -117,10 +139,10 @@
       display: flex;
       justify-content: center;
       align-items: center;
-      margin: 0 auto;
+      margin: 10px auto;
       padding: 10px;
       border-radius: 25px;
-      background: #f7d800;
+      background: #FBA7A7;
       i {
         margin: 0 5px;
       }

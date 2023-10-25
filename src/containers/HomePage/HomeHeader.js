@@ -10,7 +10,7 @@ class HomeHeader extends Component {
         <div className="home-header-container">
           <div className="home-header-content">
             <div className="left-content">
-              <i className="fa-solid fa-bars"></i>
+              {/* <i className="fa-solid fa-bars"></i> */}
               <img className="header-logo" src={logo} style={{width: '250px', height:'230px', marginTop:'10px'}} />
               <div className="header-logo"></div>
             </div>
@@ -45,6 +45,9 @@ class HomeHeader extends Component {
             <div className="right-content">
               <div className="support">
                 <i className="fa-solid fa-circle-question"></i> Hỗ trợ
+              </div>
+              <div className="login">
+                <a href="http://localhost:3000/login"><i class="fas fa-sign-in-alt"></i> Sign In</a>
               </div>
             </div>
           </div>
