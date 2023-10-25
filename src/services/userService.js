@@ -89,7 +89,9 @@ const postSendRefuse = (data) => {
 };
 
 const postForgetPassword = (email) => {
+  console.log('email nè: ', email)
   return axios.post("/api/forget-password", email);
+  
 };
 
 const postSendResetPassword = (email) => {

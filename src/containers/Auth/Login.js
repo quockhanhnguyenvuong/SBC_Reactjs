@@ -6,6 +6,7 @@ import "./Login.scss";
 import { handleLoginApi } from "../../services/userService";
 import { handleLoginGmail } from '../../services/userService';
 import GoogleLogin from 'react-google-login';
+import ModalRegister from './ModalRegister'
 
 class Login extends Component {
   constructor(props) {
@@ -15,6 +16,7 @@ class Login extends Component {
       password: "",
       isShowPassword: false,
       errMessage: "",
+      isOpenModalRegister: false,
     };
   }
 
@@ -77,34 +79,32 @@ class Login extends Component {
     let data = await handleLoginGmail(this.state.username, this.state.password);
     this.props.userLoginSuccess(data.user);
     console.log("login succeeds");
-    // try {
-    //   let data = await handleLoginGmail(this.state.username, this.state.password);
-    //   if (data && data.errCode !== 0) {
-    //     this.setState({
-    //       errMessage: data.message,
-    //     });
-    //   }
-    //   if (data && data.errCode === 0) {
-    //     this.props.userLoginSuccess(data.user);
-    //     console.log("login succeeds");
-    //   }
-    // } catch (e) {
-    //   if (e.response) {
-    //     if (e.response.data) {
-    //       this.setState({
-    //         errMessage: e.response.data.message,
-    //       });
-    //     }
-    //   }
-    // }
+    
 }
   handleForgotPassword = () =>{
     window.location = "http://localhost:3000/forget-password"
   }
+  
+  //modal register
+  handleAddNewUser = () => {
+    this.setState({
+      isOpenModalRegister: true,
+    });
+  };
+
+  toggleModal = () => {
+    this.setState({
+      isOpenModalRegister: !this.state.isOpenModalRegister,
+    });
+  };
 
   render() {
     return (
       <div className="login-backgroud">
+        <ModalRegister
+          isOpen={this.state.isOpenModalRegister}
+          toggleFromParent={this.toggleModal}
+        />
         <div className="login-container">
           <div className="login-content">
             <div className="col-12 text-login">Login</div>
@@ -162,6 +162,11 @@ class Login extends Component {
               </button>
             </div>
             <div className="col-12">
+              <span style={{}}>
+                <input type="checkbox"/>
+                <span style={{marginLeft: '3px', fontSize: '15px'}}>Remember</span>
+              </span>
+              {/*  quên mk */}
               <button className='forget-password'
                   onClick={() => this.handleForgotPassword()}>Forgot your password?
               </button>
@@ -181,7 +186,12 @@ class Login extends Component {
               />
             </div>
           </div>
+          {/* đki */}
+          <button className='Register'>
+                <span onClick={() => this.handleAddNewUser()}>Don't have an account? <span style={{color:'rgb(253, 45, 45)', fontWeight: 'bold'}}> Sign Up Free !</span></span>
+              </button>
         </div>
+        
       </div>
     );
   }
