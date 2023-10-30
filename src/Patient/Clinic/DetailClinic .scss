@@ -1,0 +1,75 @@
+.manage-schedule-container{
+    .datePicker{
+        position: relative;
+        left: -14px;
+        height: 65%;
+        width: 80%;
+        border-radius: 5px;
+        border: 1px solid #ccc;
+    }
+    .pick-hour-container{
+        padding-top:  20px;
+        padding-bottom: 20px;
+        display: flex;
+        gap:20px;
+        flex-wrap: wrap;
+        button{
+            padding :0 15px;
+            border: 1px solid grey;
+            background-color: rgb(252, 252, 178);
+            color: black;
+            outline: none;
+        }
+    }
+    .btn-schedule{
+        &.active{
+            background-color: orange;
+            color: black;
+            outline: none;
+        }
+    }
+    .btn-save-schedule{
+        padding: 0 15px;
+    }
+}
+
+.detail-specialty-container{
+    .detail-specialty-body{
+        margin: 0 100px;
+    }
+    .description-specialty{
+
+        height: 200px;
+    }
+    .each-doctor{
+        display: flex;
+        width: 100%;
+        min-height: 300px;
+        margin: 15px 0;
+        padding: 10px;
+        background-color: #fff;
+        box-shadow: 0 1px 6px #20212447;
+        border-radius: 8px;
+
+        .dt-content-left{
+            width: 50%;
+        }
+        .dt-content-right{
+            width: 50%;
+            padding: 10px;
+            .doctor-schdule{
+                .doctor-schdule-container{
+                    border-right: unset !important;
+                }
+            }
+            .doctor-extra-infor{
+                margin-top: 10px;
+                padding-top: 10px;
+                .doctor-extra-infor-containter{
+                    padding-left: 0 !important;
+                }
+
+            }
+        }
+    }
+}
