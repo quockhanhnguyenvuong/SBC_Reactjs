@@ -171,10 +171,10 @@ class Login extends Component {
               </button>
             </div>
             <div className="d-flex justify-content-between">
-              {/* <span onClick={() => this.handleForgotPasswor()}>
+              <span onClick={() => this.handleForgotPasswor()}>
                 Quên mật khẩu?
-              </span> */}
-              <span>Quên mật khẩu?</span>
+              </span>
+              {/* <span>Quên mật khẩu?</span> */}
               <span onClick={() => this.handleAddNewUser()}>
                 Đăng ký miến phí?
               </span>

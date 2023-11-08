@@ -15,7 +15,6 @@ class DetailDoctor extends Component {
       currentDoctorId: -1,
     };
   }
-
   async componentDidMount() {
     if (
       this.props.match &&
@@ -32,7 +31,7 @@ class DetailDoctor extends Component {
           detailDoctor: res.data,
         });
       }
-      // console.log("check data:", this.state.detailDoctor);
+      console.log("check data:", this.state.detailDoctor);
     }
   }
   componentDidUpdate(prevProps, prevState, snapshot) {}

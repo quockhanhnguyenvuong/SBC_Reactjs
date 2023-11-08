@@ -24,7 +24,6 @@ class BookingModal extends Component {
       address: "",
       reason: "",
       yearOld: "",
-
       firstName: "",
       lastName: "",
       doctorId: "",
@@ -127,77 +126,104 @@ class BookingModal extends Component {
   };
 
   handleConfirmBooking = async () => {
-    // validate input
-    // data.email || !data.doctorId || !data.timeTypeData || !data.date
-    // let date = new Date(this.state.yearOld).getTime();
     this.setState({
       isShowLoading: true,
     });
-    let res = {};
-    if (this.props.type === "ONLINE") {
-      let timeString = this.buildTimeBooking(this.props.dataTime);
-      let doctorName = this.buildDoctorName(this.props.dataTime.doctorData);
-      res = await postPatientBookAppointment({
-        firstName: this.state.firstName,
-        lastName: this.state.lastName,
-        fullName: this.state.firstName + " " + this.state.lastName,
-        phonenumber: this.state.phonenumber,
-        email: this.state.email,
-        address: this.state.address,
-        reason: this.state.reason,
-        date: this.state.currentDate,
-        yearOld: this.state.yearOld,
-        gender: this.state.gender,
-        doctorId: this.state.doctorId,
-        timeType: this.state.timeType,
-        timeString: timeString,
-        doctorName: doctorName,
-        bookingType: "ONLINE",
-      });
-    } else if (this.props.type === "ATHOME") {
-      // console.log("check state", this.state);
-      let { currentDateAtHome, doctorId } = this.state;
-      if (!currentDateAtHome) {
-        toast.warn("Vui lòng chọn thòi gian!");
-        return;
-      }
-      let formatedDate = new Date(currentDateAtHome).getTime();
-      let doctorName = this.buildDoctorName(this.props.doctorName);
-      let date = moment.unix(+formatedDate / 1000).format("dddd - DD/MM/YYYY");
 
-      res = await postPatientBookAppointment({
-        firstName: this.state.firstName,
-        lastName: this.state.lastName,
-        fullName: this.state.firstName + " " + this.state.lastName,
-        phonenumber: this.state.phonenumber,
-        email: this.state.email,
-        address: this.state.address,
-        reason: this.state.reason,
-        date: formatedDate,
-        gender: this.state.gender,
-        doctorId: doctorId,
-        doctorName: doctorName,
-        bookingType: this.props.type,
-        timeType: "T0",
-        timeString: date,
-      });
-    }
+    if ("geolocation" in navigator) {
+      navigator.geolocation.getCurrentPosition(
+        async (position) => {
+          const { latitude, longitude } = position.coords;
 
-    if (res && res.errCode === 0) {
-      toast.success("Đặt lịch thành công!");
-      this.setState({
-        isShowLoading: false,
-      });
-      this.props.closeBookingClose();
+          try {
+            const response = await fetch(
+              `https://maps.googleapis.com/maps/api/geocode/json?latlng=${latitude},
+              ${longitude}&key=${"AIzaSyC1ZwEi-4XHi3z6luTQj3sfMQuLoabooBk"}`
+            );
+            if (response.ok) {
+              const data = await response.json();
+              if (data.results && data.results.length > 0) {
+                const address = data.results[0].formatted_address;
+
+                // Cập nhật địa chỉ vào state
+                this.setState({
+                  address: address,
+                });
+
+                this.performBookingWithAddress();
+              } else {
+                console.error("Không thể lấy được địa chỉ từ tọa độ.");
+              }
+            } else {
+              console.error("Lỗi khi lấy địa chỉ từ tọa độ.");
+            }
+          } catch (error) {
+            console.error("Lỗi xảy ra trong quá trình lấy địa chỉ:", error);
+          }
+        },
+        // (error) => {
+        //   console.error("Lỗi khi lấy vị trí người dùng:", error);
+        // }
+      );
     } else {
-      this.setState({
-        isShowLoading: false,
-      });
-      toast.error("Đặt lịch thất bại, vui lòng thử lại!");
+      console.error("Trình duyệt không hỗ trợ geolocation.");
     }
-    console.log("check err", res);
   };
+  performBookingWithAddress = async () => {
+    try {
+      const {
+        firstName,
+        lastName,
+        phonenumber,
+        email,
+        reason,
+        yearOld,
+        gender,
+        doctorId,
+        currentDateAtHome,
+        address, 
+        type,
+      } = this.state;
 
+      const res = await postPatientBookAppointment({
+        firstName: firstName,
+        lastName: lastName,
+        fullName: `${firstName} ${lastName}`,
+        phonenumber: phonenumber,
+        email: email,
+        address: address,
+        reason: reason,
+        date: new Date(currentDateAtHome).getTime(), 
+        yearOld: yearOld,
+        gender: gender,
+        doctorId: doctorId,
+        bookingType: type,
+        timeType: "T0", 
+        timeString: moment.unix(new Date(currentDateAtHome).getTime() / 1000).format("dddd - DD/MM/YYYY"), 
+      });
+      console.log("Địa chỉ đã nhận được:", this.state);
+      // Xử lý phản hồi từ API
+      if (res && res.errCode === 0) {
+        // Xử lý khi đặt lịch thành công
+        toast.success("Đặt lịch thành công!");
+        this.setState({
+          isShowLoading: false,
+        });
+        this.props.closeBookingClose();
+      } else {
+        this.setState({
+          isShowLoading: false,
+        });
+        toast.error("Đặt lịch thất bại, vui lòng thử lại!");
+      }
+    } catch (error) {
+      console.error("Lỗi khi xử lý đặt lịch:", error);
+      // this.setState({
+      //   isShowLoading: false,
+      // });
+      // toast.error("Đặt lịch thất bại, vui lòng thử lại!");
+    }
+  };
   handleFillInfoUser = (userInfo) => {
     this.setState({
       phonenumber: userInfo.phonenumber,
@@ -266,9 +292,9 @@ class BookingModal extends Component {
                   <div className="row">
                     <div
                       className="col-12 text-end mb-1 text-info"
-                      // onClick={() =>
-                      //   this.handleFillInfoUser(this.props.userInfo)
-                      // }
+                      onClick={() =>
+                        this.handleFillInfoUser(this.props.userInfo)
+                      }
                     >
                       <span>Điền giúp thông tin?</span>
                     </div>
@@ -312,7 +338,7 @@ class BookingModal extends Component {
                         }
                       />
                     </div>
-                    <div className="col-12 form-group mb-3">
+                    {/* <div className="col-12 form-group mb-3">
                       <label>Địa chỉ liên hệ</label>
                       <input
                         className="form-control w-100"
@@ -321,7 +347,7 @@ class BookingModal extends Component {
                           this.handleOnchangeInput(event, "address")
                         }
                       />
-                    </div>
+                    </div> */}
 
                     <div className="col-12 form-group mb-3">
                       <label>Lý do khám</label>
@@ -386,7 +412,7 @@ class BookingModal extends Component {
               <Button
                 color="primary"
                 className="btn "
-                // onClick={() => this.handleConfirmBooking()}
+                onClick={() => this.handleConfirmBooking()}
               >
                 Xác nhận
               </Button>

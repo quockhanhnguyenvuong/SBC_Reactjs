@@ -70,7 +70,7 @@ class ManageClinic extends Component {
         <div className="add-new-specialty row">
           <div className="ms-title col-12">Quản lý phòng khám</div>
 
-          {/* <div className="col-6 form-group">
+          <div className="col-6 form-group">
             <label>Tên phòng khám</label>
             <input
               className="form-control"
@@ -112,7 +112,7 @@ class ManageClinic extends Component {
             >
               Lưu thông tin
             </button>
-          </div> */}
+          </div>
         </div>
       </div>
     );

@@ -36,7 +36,7 @@ function Map(props) {
         getCoords();
       } else {
         const script = document.createElement("script");
-        script.src = `https://maps.googleapis.com/maps/api/js?key=${"AIzaSyB0M2HOZPKdY7BiMvXdMJrv_d6yr-cdNio"}&libraries=places`;
+        script.src = `https://maps.googleapis.com/maps/api/js?key=${"AIzaSyBEwzDQ3k6uwilVENydxKctZ2OSZwUFOJg"}&libraries=places`;
         script.onload = () => {
           getCoords();
         };
@@ -44,7 +44,6 @@ function Map(props) {
       }
     }
   }, [props.address]);
-
   const handleMapLoad = (map) => {
     setMap(map);
   };
