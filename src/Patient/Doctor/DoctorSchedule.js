@@ -84,18 +84,11 @@ class DoctorSchedule extends Component {
   };
 
   handleClickScheduleTime = (time) => {
-    let textConfirm = "Cho phép hệ thống truy cập vị trí ?";
-    if(window.confirm(textConfirm)=== true){
       this.setState({
         isOpenModalBooking: true,
         dataScheduleTimeModal: time,
       });
-    }else {
-      this.setState({
-        isOpenModalBooking: false,
-      })
-      toast.warn("Vui lòng cho phép truy cập vị trí trước khi đặt lịch!");
-    }
+    
   };
 
   closeBookingClose = () => {

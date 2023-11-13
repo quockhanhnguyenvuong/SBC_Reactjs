@@ -14,7 +14,6 @@ import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from "reactstrap";
 import moment from "moment";
 import DatePicker from "../../../components/Input/DatePicker";
 import LoadingOverlay from "react-loading-overlay";
-
 class BookingModal extends Component {
   constructor(props) {
     super(props);
@@ -124,106 +123,179 @@ class BookingModal extends Component {
     }
     return "";
   };
+  handleGetCurrentPosition = async () => {
+    let textConfirm = "Cho phép hệ thống truy cập vị trí ?";
+    if (window.confirm(textConfirm) === true) {
+      if ("geolocation" in navigator) {
+        navigator.geolocation.getCurrentPosition(
+          async (position) => {
+            const { latitude, longitude } = position.coords;
 
+            try {
+              const response = await fetch(
+                `https://maps.googleapis.com/maps/api/geocode/json?latlng=${latitude},
+                ${longitude}&key=${"AIzaSyDxgcfnzE-s5HN1gZqXB_1VEziwFQpzZAY"}`
+              );
+              if (response.ok) {
+                const data = await response.json();
+                if (data.results && data.results.length > 0) {
+                  const address = data.results[0].formatted_address;
+
+                  // Cập nhật địa chỉ vào state
+                  this.setState({
+                    address: address,
+                  });
+
+                  this.performBookingWithAddress();
+                } else {
+                  console.error("Không thể lấy được địa chỉ từ tọa độ.");
+                }
+              } else {
+                console.error("Lỗi khi lấy địa chỉ từ tọa độ.");
+              }
+            } catch (error) {
+              console.error("Lỗi xảy ra trong quá trình lấy địa chỉ:", error);
+            }
+          },
+          // (error) => {
+          //   console.error("Lỗi khi lấy vị trí người dùng:", error);
+          // }
+        );
+      } else {
+        console.error("Trình duyệt không hỗ trợ geolocation.");
+      }
+    } else {
+      toast.warn("Vui lòng cho phép truy cập vị trí trước khi đặt lịch!");
+    }
+
+  }
   handleConfirmBooking = async () => {
+    // validate input
+    // data.email || !data.doctorId || !data.timeTypeData || !data.date
+    // let date = new Date(this.state.yearOld).getTime();
     this.setState({
       isShowLoading: true,
     });
-
-    if ("geolocation" in navigator) {
-      navigator.geolocation.getCurrentPosition(
-        async (position) => {
-          const { latitude, longitude } = position.coords;
-
-          try {
-            const response = await fetch(
-              `https://maps.googleapis.com/maps/api/geocode/json?latlng=${latitude},
-              ${longitude}&key=${"AIzaSyC1ZwEi-4XHi3z6luTQj3sfMQuLoabooBk"}`
-            );
-            if (response.ok) {
-              const data = await response.json();
-              if (data.results && data.results.length > 0) {
-                const address = data.results[0].formatted_address;
-
-                // Cập nhật địa chỉ vào state
-                this.setState({
-                  address: address,
-                });
-
-                this.performBookingWithAddress();
-              } else {
-                console.error("Không thể lấy được địa chỉ từ tọa độ.");
-              }
-            } else {
-              console.error("Lỗi khi lấy địa chỉ từ tọa độ.");
-            }
-          } catch (error) {
-            console.error("Lỗi xảy ra trong quá trình lấy địa chỉ:", error);
-          }
-        },
-        // (error) => {
-        //   console.error("Lỗi khi lấy vị trí người dùng:", error);
-        // }
-      );
-    } else {
-      console.error("Trình duyệt không hỗ trợ geolocation.");
-    }
-  };
-  performBookingWithAddress = async () => {
-    try {
-      const {
-        firstName,
-        lastName,
-        phonenumber,
-        email,
-        reason,
-        yearOld,
-        gender,
-        doctorId,
-        currentDateAtHome,
-        address, 
-        type,
-      } = this.state;
-
-      const res = await postPatientBookAppointment({
-        firstName: firstName,
-        lastName: lastName,
-        fullName: `${firstName} ${lastName}`,
-        phonenumber: phonenumber,
-        email: email,
-        address: address,
-        reason: reason,
-        date: new Date(currentDateAtHome).getTime(), 
-        yearOld: yearOld,
-        gender: gender,
-        doctorId: doctorId,
-        bookingType: type,
-        timeType: "T0", 
-        timeString: moment.unix(new Date(currentDateAtHome).getTime() / 1000).format("dddd - DD/MM/YYYY"), 
+    let res = {};
+    if (this.props.type === "ONLINE") {
+      let timeString = this.buildTimeBooking(this.props.dataTime);
+      let doctorName = this.buildDoctorName(this.props.dataTime.doctorData);
+      res = await postPatientBookAppointment({
+        firstName: this.state.firstName,
+        lastName: this.state.lastName,
+        fullName: this.state.firstName + " " + this.state.lastName,
+        phonenumber: this.state.phonenumber,
+        email: this.state.email,
+        address: this.state.address,
+        reason: this.state.reason,
+        date: this.state.currentDate,
+        yearOld: this.state.yearOld,
+        gender: this.state.gender,
+        doctorId: this.state.doctorId,
+        timeType: this.state.timeType,
+        timeString: timeString,
+        doctorName: doctorName,
+        bookingType: "ONLINE",
       });
-      console.log("Địa chỉ đã nhận được:", this.state);
-      // Xử lý phản hồi từ API
-      if (res && res.errCode === 0) {
-        // Xử lý khi đặt lịch thành công
-        toast.success("Đặt lịch thành công!");
-        this.setState({
-          isShowLoading: false,
-        });
-        this.props.closeBookingClose();
-      } else {
-        this.setState({
-          isShowLoading: false,
-        });
-        toast.error("Đặt lịch thất bại, vui lòng thử lại!");
+    } else if (this.props.type === "ATHOME") {
+      // console.log("check state", this.state);
+      let { currentDateAtHome, doctorId } = this.state;
+      if (!currentDateAtHome) {
+        toast.warn("Vui lòng chọn thòi gian!");
+        return;
       }
-    } catch (error) {
-      console.error("Lỗi khi xử lý đặt lịch:", error);
-      // this.setState({
-      //   isShowLoading: false,
-      // });
-      // toast.error("Đặt lịch thất bại, vui lòng thử lại!");
+      let formatedDate = new Date(currentDateAtHome).getTime();
+      let doctorName = this.buildDoctorName(this.props.doctorName);
+      let date = moment.unix(+formatedDate / 1000).format("dddd - DD/MM/YYYY");
+
+      res = await postPatientBookAppointment({
+        firstName: this.state.firstName,
+        lastName: this.state.lastName,
+        fullName: this.state.firstName + " " + this.state.lastName,
+        phonenumber: this.state.phonenumber,
+        email: this.state.email,
+        address: this.state.address,
+        reason: this.state.reason,
+        date: formatedDate,
+        gender: this.state.gender,
+        doctorId: doctorId,
+        doctorName: doctorName,
+        bookingType: this.props.type,
+        timeType: "T0",
+        timeString: date,
+      });
     }
+
+    if (res && res.errCode === 0) {
+      toast.success("Đặt lịch thành công!");
+      this.setState({
+        isShowLoading: false,
+      });
+      this.props.closeBookingClose();
+    } else {
+      this.setState({
+        isShowLoading: false,
+      });
+      toast.error("Đặt lịch thất bại, vui lòng thử lại!");
+    }
+    // console.log("check err", res);
   };
+  // performBookingWithAddress = async () => {
+  //   try {
+  //     const {
+  //       firstName,
+  //       lastName,
+  //       phonenumber,
+  //       email,
+  //       reason,
+  //       yearOld,
+  //       gender,
+  //       fullName,
+  //       doctorId,
+  //       currentDateAtHome,
+  //       address,
+  //       type,
+  //     } = this.state;
+
+  //     const res = await postPatientBookAppointment({
+  //       firstName: firstName,
+  //       lastName: lastName,
+  //       fullName: `${firstName} ${lastName}`,
+  //       phonenumber: phonenumber,
+  //       email: email,
+  //       address: address,
+  //       reason: reason,
+  //       date: new Date(currentDateAtHome).getTime(),
+  //       yearOld: yearOld,
+  //       gender: gender,
+  //       doctorId: doctorId,
+  //       bookingType: type,
+  //       timeType: "T0",
+  //       timeString: moment.unix(new Date(currentDateAtHome).getTime() / 1000).format("dddd - DD/MM/YYYY"),
+  //     });
+  //     console.log("Địa chỉ đã nhận được:", this.state);
+  //     // Xử lý phản hồi từ API
+  //     if (res && res.errCode === 0) {
+  //       // Xử lý khi đặt lịch thành công
+  //       toast.success("Đặt lịch thành công!");
+  //       this.setState({
+  //         isShowLoading: false,
+  //       });
+  //       this.props.closeBookingClose();
+  //     } else {
+  //       this.setState({
+  //         isShowLoading: false,
+  //       });
+  //       toast.error("Đặt lịch thất bại, vui lòng thử lại!");
+  //     }
+  //   } catch (error) {
+  //     console.error("Lỗi khi xử lý đặt lịch:", error);
+  //     this.setState({
+  //       isShowLoading: false,
+  //     });
+  //     toast.error("Đặt lịch thất bại, vui lòng thử lại!");
+  //   }
+  // };
   handleFillInfoUser = (userInfo) => {
     this.setState({
       phonenumber: userInfo.phonenumber,
@@ -231,7 +303,7 @@ class BookingModal extends Component {
       firstName: userInfo.firstName,
       lastName: userInfo.lastName,
       gender: userInfo.gender,
-      address: userInfo.address,
+      // address: userInfo.address,
     });
   };
 
@@ -266,7 +338,7 @@ class BookingModal extends Component {
             className="modal-container"
             size="lg"
             centered
-            // backdrop={true}
+          // backdrop={true}
           >
             <ModalHeader className="d-flex">
               <span className="left">{this.props.title}</span>
@@ -338,16 +410,23 @@ class BookingModal extends Component {
                         }
                       />
                     </div>
-                    {/* <div className="col-12 form-group mb-3">
+                    <div className="col-12 form-group mb-3">
                       <label>Địa chỉ liên hệ</label>
-                      <input
-                        className="form-control w-100"
-                        value={this.state.address}
-                        onChange={(event) =>
-                          this.handleOnchangeInput(event, "address")
-                        }
-                      />
-                    </div> */}
+                      <div style={{ display: 'flex' }}>
+                        <input
+                          className="form-control w-100"
+                          placeholder="Click vào icon để cho phép truy cập vị trí trước khi đặt lịch "
+                          value={this.state.address}
+                          readOnly
+                          onChange={(event) =>
+                            this.handleOnchangeInput(event, "address")
+                          }
+                        />
+                        <i class="fas fa-user" style={{ padding: '10px', border: "1px solid #000" }}
+                          onClick={() => this.handleGetCurrentPosition()}                        
+                        ></i>
+                      </div>
+                    </div>
 
                     <div className="col-12 form-group mb-3">
                       <label>Lý do khám</label>
