@@ -15,7 +15,7 @@ import MapDoctor from "../../../Patient/Map/MapDoctor.js";
 import { toast } from "react-toastify";
 import LoadingOverlay from "react-loading-overlay";
 
-class ManagePatient extends Component {
+class ManagePatientAtHome extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -27,7 +27,7 @@ class ManagePatient extends Component {
       isShowLoading: false,
       arrayPatient: [],
       addressDoctor: "",
-      dataPatientBookOnline: [],
+      dataPatientBookAtHome: [],
       date: "",
       isDisable: true,
     };
@@ -51,21 +51,21 @@ class ManagePatient extends Component {
       doctorId: user.id,
       date: formattedDate,
     });
-    let arrTempOnline = [];
+    let arrTempAtHome = [];
     let arr = res.data;
-    let countOnline = 0;
+    let countAtHome = 0;
 
     for (let i = 0; i < arr.length; i++) {
-      if (arr[i].bookingType === "ONLINE")
+      if (arr[i].bookingType === "ATHOME")
         if (arr[i].statusId === "S2" || arr[i].statusId === "S3")
-          arrTempOnline[countOnline++] = arr[i];
+          arrTempAtHome[countAtHome++] = arr[i];
     }
 
     // console.log("check arr ", res.data);
     if (res && res.errCode == 0) {
       this.setState({
         dataPatient: res.data,
-        dataPatientBookOnline: arrTempOnline,
+        dataPatientBookAtHome: arrTempAtHome,
         date: date,
       });
     }
@@ -84,16 +84,16 @@ class ManagePatient extends Component {
     );
   };
 
-  handleBtnConfirmOn = (item) => {
+  handleBtnConfirmAtHome = (item) => {
     // console.log(">>> Check item: ", item);
     let data = {
       doctorId: item.doctorId,
       patientId: item.patientId,
       email: item.patientData.email,
       timeType: item.timeType,
-      timeTypeDataPatient: item.timeTypeDataPatient.valueVI,
+      time: "",
       patientName: item.patientData.lastName + " " + item.patientData.firstName,
-      bookingType: "ONLINE",
+      bookingType: "ATHOME",
       date: this.state.date,
     };
     this.setState({
@@ -226,9 +226,9 @@ class ManagePatient extends Component {
       isOpenRemedyModal,
       isOpenRefuseModal,
       dataModal,
-      dataPatientBookOnline,
+      dataPatientBookAtHome,
     } = this.state;
-    console.log("arr Online", dataPatientBookOnline);
+    console.log("arr At home", dataPatientBookAtHome);
     return (
       <>
         <LoadingOverlay
@@ -251,14 +251,13 @@ class ManagePatient extends Component {
                 />
               </div>
               <div className="col-12 table-m-p mt-3">
-                <p className="h5">
-                  Danh sách bệnh nhân đặt lịch khám trực tuyến:
+                <p className="h5 mt-4">
+                  Danh sách bệnh nhân đặt lịch khám tại nhà:
                 </p>
                 <table style={{ width: "100%" }}>
                   <tbody>
                     <tr>
                       <th>STT</th>
-                      <th>Thời gian</th>
                       <th>Họ và tên</th>
                       <th>Email</th>
                       <th>Địa chỉ</th>
@@ -266,13 +265,12 @@ class ManagePatient extends Component {
                       <th>Lý do</th>
                       <th>Actions</th>
                     </tr>
-                    {dataPatientBookOnline &&
-                    dataPatientBookOnline.length > 0 ? (
-                      dataPatientBookOnline.map((item, index) => {
-                        return item.bookingType === "ONLINE" ? (
+                    {dataPatientBookAtHome &&
+                    dataPatientBookAtHome.length > 0 ? (
+                      dataPatientBookAtHome.map((item, index) => {
+                        return item.bookingType === "ATHOME" ? (
                           <tr key={index}>
                             <td>{index + 1}</td>
-                            <td>{item.timeTypeDataPatient.valueVI}</td>
                             <td>
                               {item.patientData.lastName +
                                 " " +
@@ -285,7 +283,9 @@ class ManagePatient extends Component {
                             <td>
                               <button
                                 className="btn btn-info px-1 mx-1"
-                                onClick={() => this.handleBtnConfirmOn(item)}
+                                onClick={() =>
+                                  this.handleBtnConfirmAtHome(item)
+                                }
                                 hidden={item.statusId === "S2" ? false : true}
                               >
                                 Đồng ý
@@ -321,7 +321,16 @@ class ManagePatient extends Component {
               </div>
             </div>
           </div>
-
+          <div className="container-fluid">
+            <div className="row">
+              <div className="col-12 mt-4">
+                <MapDoctor
+                  address={this.state.addressDoctor}
+                  arrayPatient={this.state.dataPatientBookAtHome}
+                />
+              </div>
+            </div>
+          </div>
           <RemedyModal
             isOpenModal={isOpenRemedyModal}
             dataModal={dataModal}
@@ -349,4 +358,7 @@ const mapDispatchToProps = (dispatch) => {
   return {};
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(ManagePatient);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(ManagePatientAtHome);

@@ -23,8 +23,7 @@ class BookingModal extends Component {
       email: "",
       address: "",
       reason: "",
-      yearOld: "",
-
+      // yearOld: "",
       firstName: "",
       lastName: "",
       doctorId: "",
@@ -89,12 +88,6 @@ class BookingModal extends Component {
     });
   };
 
-  handleOnchangeDatePicker = (date) => {
-    this.setState({
-      yearOld: date[0],
-    });
-  };
-
   onChangInput = (event, id) => {
     let copyState = { ...this.state };
     copyState[id] = event.target.value;
@@ -127,12 +120,10 @@ class BookingModal extends Component {
   };
 
   handleConfirmBooking = async () => {
-    // validate input
-    // data.email || !data.doctorId || !data.timeTypeData || !data.date
-    // let date = new Date(this.state.yearOld).getTime();
     this.setState({
       isShowLoading: true,
     });
+
     let res = {};
     if (this.props.type === "ONLINE") {
       let timeString = this.buildTimeBooking(this.props.dataTime);
@@ -146,7 +137,6 @@ class BookingModal extends Component {
         address: this.state.address,
         reason: this.state.reason,
         date: this.state.currentDate,
-        yearOld: this.state.yearOld,
         gender: this.state.gender,
         doctorId: this.state.doctorId,
         timeType: this.state.timeType,
@@ -215,6 +205,52 @@ class BookingModal extends Component {
     });
   };
 
+  handleGetCurrentPosition = async () => {
+    let textConfirm = "Cho phép hệ thống truy cập vị trí ?";
+    if (window.confirm(textConfirm) === true) {
+      if ("geolocation" in navigator) {
+        navigator.geolocation.getCurrentPosition(
+          async (position) => {
+            const { latitude, longitude } = position.coords;
+
+            try {
+              const response = await fetch(
+                `https://maps.googleapis.com/maps/api/geocode/json?latlng=${latitude},
+                ${longitude}&key=${"AIzaSyAyQEOM66oqAYAXSCPgZH-ayZwi2RYexlA"}`,
+              );
+              if (response.ok) {
+                const data = await response.json();
+                if (data.results && data.results.length > 0) {
+                  const address = data.results[0].formatted_address;
+
+                  // Cập nhật địa chỉ vào state
+                  this.setState({
+                    address: address,
+                  });
+
+                  this.performBookingWithAddress();
+                } else {
+                  console.error("Không thể lấy được địa chỉ từ tọa độ.");
+                }
+              } else {
+                console.error("Lỗi khi lấy địa chỉ từ tọa độ.");
+              }
+            } catch (error) {
+              console.error("Lỗi xảy ra trong quá trình lấy địa chỉ:", error);
+            }
+          },
+          // (error) => {
+          //   console.error("Lỗi khi lấy vị trí người dùng:", error);
+          // }
+        );
+      } else {
+        console.error("Trình duyệt không hỗ trợ geolocation.");
+      }
+    } else {
+      toast.warn("Vui lòng cho phép truy cập vị trí trước khi đặt lịch!");
+    }
+  };
+
   render() {
     let { isOpenModal, closeBookingClose, dataTime, type, doctorIdFromParent } =
       this.props;
@@ -226,8 +262,7 @@ class BookingModal extends Component {
     }
 
     let today = new Date(new Date().setDate(new Date().getDate()));
-    // console.log("check data from booking modal", this.props);
-    // console.log("check dataTime:", this.state.currentDate);
+    // console.log("check data from booking modal", this.state);
     return (
       <>
         <LoadingOverlay
@@ -266,9 +301,9 @@ class BookingModal extends Component {
                   <div className="row">
                     <div
                       className="col-12 text-end mb-1 text-info"
-                      // onClick={() =>
-                      //   this.handleFillInfoUser(this.props.userInfo)
-                      // }
+                      onClick={() =>
+                        this.handleFillInfoUser(this.props.userInfo)
+                      }
                     >
                       <span>Điền giúp thông tin?</span>
                     </div>
@@ -280,6 +315,7 @@ class BookingModal extends Component {
                         onChange={(event) =>
                           this.handleOnchangeInput(event, "lastName")
                         }
+                        placeholder="Vui lòng nhập họ ..."
                       />
                     </div>
                     <div className="col-6 form-group mb-3">
@@ -290,6 +326,7 @@ class BookingModal extends Component {
                         onChange={(event) =>
                           this.handleOnchangeInput(event, "firstName")
                         }
+                        placeholder="Vui lòng nhập tên ..."
                       />
                     </div>
                     <div className="col-6 form-group mb-3">
@@ -300,6 +337,7 @@ class BookingModal extends Component {
                         onChange={(event) =>
                           this.handleOnchangeInput(event, "phonenumber")
                         }
+                        placeholder="Vui lòng nhập số điện thoại..."
                       />
                     </div>
                     <div className="col-6 form-group mb-3">
@@ -310,6 +348,7 @@ class BookingModal extends Component {
                         onChange={(event) =>
                           this.handleOnchangeInput(event, "email")
                         }
+                        placeholder="Vui lòng nhập email ..."
                       />
                     </div>
                     <div className="col-12 form-group mb-3">
@@ -320,7 +359,12 @@ class BookingModal extends Component {
                         onChange={(event) =>
                           this.handleOnchangeInput(event, "address")
                         }
+                        placeholder="Vui lòng nhập địa chỉ liên hệ ..."
                       />
+                      <i
+                        className="fa-solid fa-map-location-dot ggmap"
+                        onClick={() => this.handleGetCurrentPosition()}
+                      ></i>
                     </div>
 
                     <div className="col-12 form-group mb-3">
@@ -331,20 +375,12 @@ class BookingModal extends Component {
                         onChange={(event) =>
                           this.handleOnchangeInput(event, "reason")
                         }
+                        placeholder="Vui lòng nhập lý do khám bệnh ..."
                       />
                     </div>
 
                     {type === "ONLINE" ? (
-                      <div className="col-6 form-group mb-3">
-                        <label>Ngày sinh</label>
-                        <input
-                          className="form-control"
-                          value={this.state.yearOld}
-                          onChange={(event) =>
-                            this.handleOnchangeInput(event, "yearOld")
-                          }
-                        />
-                      </div>
+                      <></>
                     ) : (
                       <div className="col-6 form-group mb-3">
                         <label>Chọn ngày khám</label>
@@ -386,7 +422,7 @@ class BookingModal extends Component {
               <Button
                 color="primary"
                 className="btn "
-                // onClick={() => this.handleConfirmBooking()}
+                onClick={() => this.handleConfirmBooking()}
               >
                 Xác nhận
               </Button>

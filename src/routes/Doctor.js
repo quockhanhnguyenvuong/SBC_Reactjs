@@ -5,6 +5,7 @@ import ManageSchedule from "../containers/System/Doctor/ManageSchedule";
 import Header from "../containers/Header/Header";
 import ManageDocTor from "../containers/System/Admin/ManageDoctor";
 import ManagePatient from "../containers/System/Doctor/ManagePatient";
+import ManagePatientAtHome from "../containers/System/Doctor/ManagePatientAtHome";
 class Home extends Component {
   render() {
     const { isLoggedIn } = this.props;
@@ -20,7 +21,11 @@ class Home extends Component {
                 component={ManageSchedule}
               />
               <Route path="/doctor/manage-patient" component={ManagePatient} />
-              <Route path="/doctor/manage-doctor" component={ManageDocTor} />
+              <Route
+                path="/doctor/manage-patient-at-home"
+                component={ManagePatientAtHome}
+              />
+              {/* <Route path="/system/manage-doctor" component={ManageDocTor} /> */}
             </Switch>
           </div>
         </div>

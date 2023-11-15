@@ -91,8 +91,7 @@ class HomeHeader extends Component {
                               <a href="/home/detail-user/">Tài khoản của tôi</a>
                             </DropdownItem>
                             <DropdownItem>
-                              {/* <a href="/home/history-user/">Lịch sử của tôi</a> */}
-                              <a href="">Lịch sử của tôi</a>
+                              <a href="/home/history-user/">Lịch sử của tôi</a>
                             </DropdownItem>
                             <DropdownItem>
                               <a href="/home/change-password/">Đổi mật khẩu</a>

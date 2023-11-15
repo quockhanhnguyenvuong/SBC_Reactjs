@@ -110,7 +110,7 @@ class DoctorSchedule extends Component {
       isOpenModalBooking,
       dataScheduleTimeModal,
     } = this.state;
-    console.log("check props", this.props.userInfo);
+    // console.log("check props", this.props.userInfo);
     // console.log("check allAvalableTime", dataScheduleTimeModal);
     return (
       <>

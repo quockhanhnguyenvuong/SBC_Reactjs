@@ -32,14 +32,13 @@ class DetailDoctor extends Component {
           detailDoctor: res.data,
         });
       }
-      // console.log("check data:", this.state.detailDoctor);
     }
   }
   componentDidUpdate(prevProps, prevState, snapshot) {}
 
   render() {
-    // console.log("check userinfo :", this.props.userInfo);
-    // console.log("check 2:", this.state.currentDoctorId);
+    let infor = this.state.detailDoctor;
+    console.log("check data:", infor);
     let { detailDoctor } = this.state;
     let nameVi = "";
     if (detailDoctor && detailDoctor.positionData) {
@@ -80,6 +79,7 @@ class DetailDoctor extends Component {
               <div className="content-right">
                 <DoctorExtraInfor
                   doctorIdFromParent={this.state.currentDoctorId}
+                  userInfo={this.state.detailDoctor}
                 />
               </div>
             </div>
@@ -88,8 +88,8 @@ class DetailDoctor extends Component {
                 address={
                   detailDoctor &&
                   detailDoctor.Doctor_Infor &&
-                  detailDoctor.Doctor_Infor.addressClinic
-                    ? detailDoctor.Doctor_Infor.addressClinic
+                  detailDoctor.Doctor_Infor.Clinic.address
+                    ? detailDoctor.Doctor_Infor.Clinic.address
                     : ""
                 }
               />

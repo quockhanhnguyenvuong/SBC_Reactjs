@@ -38,8 +38,8 @@ class ManageDoctor extends Component {
       selectProvince: "",
       selectPayment: "",
       selectFormality: "",
-      nameClinic: "",
-      addressClinic: "",
+      // nameClinic: "",
+      // addressClinic: "",
       note: "",
       clinicId: "",
       specialtyId: "",
@@ -139,8 +139,8 @@ class ManageDoctor extends Component {
       selectProvince: "",
       selectPayment: "",
       selectFormality: "",
-      nameClinic: "",
-      addressClinic: "",
+      // nameClinic: "",
+      // addressClinic: "",
       note: "",
     });
   };
@@ -161,9 +161,9 @@ class ManageDoctor extends Component {
     if (res && res.errCode === 0 && res.data.Markdown) {
       let markdown = res.data.Markdown;
 
-      let addressClinic = "",
-        nameClinic = "",
-        note = "",
+      // let addressClinic = "",
+      //   nameClinic = "",
+      let note = "",
         paymentId = "",
         provinceId = "",
         priceOnId = "",
@@ -178,8 +178,8 @@ class ManageDoctor extends Component {
         selectClinic = "";
 
       if (res.data.Doctor_Infor) {
-        addressClinic = res.data.Doctor_Infor.addressClinic;
-        nameClinic = res.data.Doctor_Infor.nameClinic;
+        // addressClinic = res.data.Doctor_Infor.addressClinic;
+        // nameClinic = res.data.Doctor_Infor.nameClinic;
         note = res.data.Doctor_Infor.note;
         paymentId = res.data.Doctor_Infor.paymentId;
         provinceId = res.data.Doctor_Infor.provinceId;
@@ -212,8 +212,8 @@ class ManageDoctor extends Component {
         description: markdown.description,
         hasOldData: true,
 
-        addressClinic: addressClinic,
-        nameClinic: nameClinic,
+        // addressClinic: addressClinic,
+        // nameClinic: nameClinic,
         note: note,
         priceOnId: priceOnId,
         priceOffId: priceOffId,
@@ -230,8 +230,8 @@ class ManageDoctor extends Component {
         description: "",
         hasOldData: false,
 
-        addressClinic: "",
-        nameClinic: "",
+        // addressClinic: "",
+        // nameClinic: "",
         note: "",
         priceOnId: "",
         priceOffId: "",
@@ -333,6 +333,28 @@ class ManageDoctor extends Component {
             ></textarea>
           </div>
 
+          <div className="col-4 mb-3">
+            <label>Chọn phương thức thanh toán:</label>
+            <Select
+              value={this.state.selectPayment}
+              options={this.state.listPayment}
+              onChange={this.handleChangeSelectDoctorInfor}
+              placeholder="Chọn phương thức thanh toán..."
+              name={"selectPayment"}
+            />
+          </div>
+
+          <div className="col-4 mb-3">
+            <label>Chọn hình thức khám bệnh:</label>
+            <Select
+              value={this.state.selectFormality}
+              options={this.state.listFormality}
+              onChange={this.handleChangeSelectDoctorInfor}
+              name="selectFormality"
+              placeholder="Chọn hình thức khám bệnh..."
+            />
+          </div>
+
           <div className="col-4">
             <label>Nhập giá khám trực tuyến:</label>
             <input
@@ -352,17 +374,6 @@ class ManageDoctor extends Component {
               onChange={(event) => this.handleOnChangeText(event, "priceOffId")}
               value={this.state.priceOffId}
               placeholder="Nhập giá khám..."
-            />
-          </div>
-
-          <div className="col-4 mb-3">
-            <label>Chọn phương thức thanh toán:</label>
-            <Select
-              value={this.state.selectPayment}
-              options={this.state.listPayment}
-              onChange={this.handleChangeSelectDoctorInfor}
-              placeholder="Chọn phương thức thanh toán..."
-              name={"selectPayment"}
             />
           </div>
 
@@ -387,17 +398,6 @@ class ManageDoctor extends Component {
               placeholder="Nhập tên phòng khám..."
             />
           </div> */}
-
-          <div className="col-4 mb-3">
-            <label>Chọn hình thức khám bệnh:</label>
-            <Select
-              value={this.state.selectFormality}
-              options={this.state.listFormality}
-              onChange={this.handleChangeSelectDoctorInfor}
-              name="selectFormality"
-              placeholder="Chọn hình thức khám bệnh..."
-            />
-          </div>
 
           <div className="col-4 mb-3">
             <label>Chọn phòng khám:</label>

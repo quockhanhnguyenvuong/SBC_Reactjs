@@ -79,7 +79,7 @@ function MapDoctor(props) {
   useEffect(() => {
     setCenter(doctorPosition);
     const { arrayPatient } = props;
-    console.log("check arrayPatient", arrayPatient);
+    // console.log("check arrayPatient", arrayPatient);
 
     try {
       const getPatientCoordinates = async () => {
@@ -217,8 +217,8 @@ function MapDoctor(props) {
   const renderPatientInfo = () => {
     return patientPositions.slice(1, 10000).map((patient, index) => {
       const distance = (haversine(doctorPosition, patient) / 1000) * 1.2; // Quãng đường tính bằng mét, chuyển sang km
-      const speed = 35;
-      const time = (distance / speed) * 60;
+      // const speed = 35;
+      // const time = (distance / speed) * 60;
       const patientName = String.fromCharCode(66 + index);
 
       return (
@@ -227,7 +227,14 @@ function MapDoctor(props) {
           <td>{`${patientAddresses[index]}`}</td>
           <td>{`${distance.toFixed(2)} km`}</td>
           {/* <td>{`${speed} km/h`}</td> */}
-          <td>{`${time.toFixed(0)} phút`}</td>
+          {/* <td>{`${time.toFixed(0)} phút`}</td> */}
+          <td>
+            <button className="btn btn-success px-1 mx-1">Hoàn thành</button>
+            <button className="btn btn-danger px-1 mx-1">Hủy lịch</button>
+            <button className="btn btn-danger px-1 mx-1">
+              Thêm vào danh sách đen
+            </button>
+          </td>
         </tr>
       );
     });
@@ -259,7 +266,8 @@ function MapDoctor(props) {
                 <th>Địa chỉ</th>
                 <th>Quãng đường</th>
                 {/* <th>Vận tốc</th> */}
-                <th>Thời gian</th>
+                {/* <th>Thời gian</th> */}
+                <th>Actions</th>
               </tr>
             </thead>
             <tbody>{renderPatientInfo()}</tbody>

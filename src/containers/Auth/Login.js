@@ -171,10 +171,9 @@ class Login extends Component {
               </button>
             </div>
             <div className="d-flex justify-content-between">
-              {/* <span onClick={() => this.handleForgotPasswor()}>
+              <span onClick={() => this.handleForgotPasswor()}>
                 Quên mật khẩu?
-              </span> */}
-              <span>Quên mật khẩu?</span>
+              </span>
               <span onClick={() => this.handleAddNewUser()}>
                 Đăng ký miến phí?
               </span>
@@ -183,18 +182,16 @@ class Login extends Component {
             <div className="text-center mt-3">
               <span className="text-other-login">hoặc:</span>
             </div>
-            {/* <div className=" social-login">
-              <i className="fab fa-google-plus-g google"></i>
-            </div> */}
+
             <div className="col-12 social-login">
               <GoogleLogin
                 className="GoogleLogin"
                 clientId="677626076955-qfb1rsbrm6ijlue1cgd3cut5sav6426d.apps.googleusercontent.com"
                 buttonText="Google"
                 icon={true}
-                // onSuccess={this.responseGoogle}
-                // onFailure={this.responseGoogle}
-                // cookiePolicy={"single_host_origin"}
+                onSuccess={this.responseGoogle}
+                onFailure={this.responseGoogle}
+                cookiePolicy={"single_host_origin"}
               />
             </div>
           </div>

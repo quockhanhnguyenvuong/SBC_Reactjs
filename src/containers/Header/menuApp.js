@@ -10,7 +10,7 @@ export const adminMenu = [
       },
       {
         name: "Quản lý thông tin bác sĩ",
-        link: "/doctor/manage-doctor",
+        link: "/system/manage-doctor",
       },
       // {
       //   name: "Quản lý lịch khám bệnh",
@@ -46,17 +46,17 @@ export const doctorMenu = [
     //hệ thống
     name: "Quản lý hệ thống",
     menus: [
-      // {
-      //   name: "Quản lý thông tin",
-      //   link: "/doctor/manage-doctor",
-      // },
       {
         name: "Lịch của tôi",
         link: "/doctor/manage-schedule",
       },
       {
-        name: "Quản lý lịch hẹn",
+        name: "Quản lý lịch hẹn trực tiếp",
         link: "/doctor/manage-patient",
+      },
+      {
+        name: "Quản lý lịch hẹn tại nhà",
+        link: "/doctor/manage-patient-at-home",
       },
     ],
   },
