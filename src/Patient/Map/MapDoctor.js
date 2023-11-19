@@ -200,6 +200,7 @@
 //           <Marker key={index} position={patient} />
 //         ))}
 
+<<<<<<< HEAD
 //         {directions && (
 //           <DirectionsRenderer
 //             directions={directions}
@@ -269,5 +270,94 @@
 //     </div>
 //   );
 // }
+=======
+        {directions && (
+          <DirectionsRenderer
+            directions={directions}
+            options={{
+              polylineOptions: {
+                strokeColor: "#385897",
+                strokeWeight: 6,
+              },
+            }}
+          />
+        )}
+      </GoogleMap>
+    )),
+  );
+  const renderPatientInfo = () => {
+    return patientPositions.slice(1, 10000).map((patient, index) => {
+      const distance = (haversine(doctorPosition, patient) / 1000) * 1.2; // Quãng đường tính bằng mét, chuyển sang km
+      // const speed = 35;
+      // const time = (distance / speed) * 60;
+      const patientName = String.fromCharCode(66 + index);
+
+      return (
+        <tr key={index}>
+          <td>{`${patientName}`}</td>
+          <td>{`${patientAddresses[index]}`}</td>
+          <td>{`${distance.toFixed(2)} km`}</td>
+          {/* <td>{`${speed} km/h`}</td> */}
+          {/* <td>{`${time.toFixed(0)} phút`}</td> */}
+            <td>
+              <button
+                className="btn btn-success px-1 mx-1"
+              >
+                Hoàn thành
+              </button>
+              <button
+                className="btn btn-danger px-1 mx-1"
+              >
+                Hủy lịch
+              </button>
+              <button
+                className="btn btn-danger px-1 mx-1"
+              >
+                Thêm vào danh sách đen
+              </button>
+            </td>
+        </tr>
+      );
+    });
+  };
+  return (
+    <div className="center container-fluid">
+      <div className="map col-12 ">
+        <MapWithMarker
+          googleMapURL={`https://maps.googleapis.com/maps/api/js?key=${"AIzaSyB0M2HOZPKdY7BiMvXdMJrv_d6yr-cdNio"}`}
+          loadingElement={<div style={{ height: "100%" }} />}
+          containerElement={
+            <div
+              style={{
+                height: "100%",
+                width: "670px",
+                margin: "0",
+                padding: "0",
+              }}
+            />
+          }
+          mapElement={<div style={{ height: "100%" }} />}
+        />
+        <div className="patient-info">
+          <h2>Thông tin bệnh nhân</h2>
+          <table>
+            <thead>
+              <tr>
+                <th>Tọa độ</th>
+                <th>Địa chỉ</th>
+                <th>Quãng đường</th>
+                {/* <th>Vận tốc</th> */}
+                {/* <th>Thời gian</th> */}
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>{renderPatientInfo()}</tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  );
+}
+>>>>>>> 346c61230831f78be41b190ec9f53bb9b0e88c72
 
 // export default MapDoctor;
