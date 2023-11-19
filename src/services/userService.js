@@ -114,6 +114,13 @@ const getAllDetailSpecialtyById = (data) => {
   );
 };
 
+const checkAccount = (data) => {
+  return axios.post("/api/check-email", data);
+};
+
+const handleResetPassword = (data) => {
+  return axios.post("/api/check-OTP-reset-Password", data);
+};
 export {
   handleLoginApi,
   getAllUsers,
@@ -142,4 +149,6 @@ export {
   getDetailClinicById,
   getAllDetailSpecialtyById,
   getConfirm,
+  checkAccount,
+  handleResetPassword
 };

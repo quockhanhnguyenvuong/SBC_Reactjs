@@ -83,7 +83,7 @@ class Login extends Component {
       isOpenModalRegister: true,
     });
   };
-  handleForgotPasswor = () => {
+  handleForgotPassword = () => {
     this.setState({
       isOpenModalForgotPassword: true,
     });
@@ -171,7 +171,7 @@ class Login extends Component {
               </button>
             </div>
             <div className="d-flex justify-content-between">
-              <span onClick={() => this.handleForgotPasswor()}>
+              <span onClick={() => this.handleForgotPassword()}>
                 Quên mật khẩu?
               </span>
               {/* <span>Quên mật khẩu?</span> */}
