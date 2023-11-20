@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-// import { FormattedMessage } from "react-intl";
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from "reactstrap";
 import { connect } from "react-redux";
 import { toast } from "react-toastify";

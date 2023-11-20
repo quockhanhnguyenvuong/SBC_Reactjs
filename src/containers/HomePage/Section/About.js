@@ -6,18 +6,18 @@ class About extends Component {
     return (
       <div className="section-share section-about">
         <div className="section-about-header">
-          Những lợi ích khi dùng System Booking A Medical Appointment
+          Những lợi ích khi dùng Booking Doctor
         </div>
         <div className="section-about-content">
           <div className="content-left">
             <iframe
-              width="100%"
+              width="500px"
               height="400px"
               src="https://www.youtube.com/embed/rWCTDQgF2-o"
               title="Dấu hiệu nghi ngờ mắc bệnh lao phổi ​| Sống khỏe mỗi ngày - Kỳ 976"
-              frameborder="0"
+              // frameborder="0"
               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-              allowfullscreen
+              // allowfullscreen
             ></iframe>
           </div>
           <div className="content right">

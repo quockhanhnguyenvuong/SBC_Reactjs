@@ -228,7 +228,7 @@ class ManagePatientAtHome extends Component {
       dataModal,
       dataPatientBookAtHome,
     } = this.state;
-    console.log("arr At home", dataPatientBookAtHome);
+    // console.log("arr At home", dataPatientBookAtHome);
     return (
       <>
         <LoadingOverlay

@@ -10,15 +10,24 @@ import {
   DropdownMenu,
   DropdownItem,
 } from "reactstrap";
+import { getAllUsers } from "../../services/userService";
 
-import logo from "../../assets/images/logo4.png";
+import logo from "../../assets/images/logo7.png";
+// import logo from "../../assets/images/nursing home.png";
 
 class HomeHeader extends Component {
   constructor(props) {
     super(props);
     this.state = {
       dropdownOpen: false,
+      arrUser: {},
+      userId: "",
     };
+  }
+
+  async componentDidMount() {
+    const { userInfo } = this.props;
+    if (userInfo) await this.getAllUserFromReact();
   }
 
   toggle = () => {
@@ -27,126 +36,153 @@ class HomeHeader extends Component {
     });
   };
 
+  getAllUserFromReact = async () => {
+    let response = await getAllUsers(this.props.userInfo.id);
+    if (response && response.errCode === 0) {
+      this.setState({
+        arrUser: response.users,
+      });
+    }
+  };
+
   render() {
     const { processLogout, userInfo } = this.props;
-    console.log("user info:", userInfo);
+    // console.log("check user data:", this.state.arrUser);
+    // console.log("check userInfo:", userInfo);
     return (
       <React.Fragment>
         <div className="home-header-container container-fluid">
           <div className="home-header-content row">
-            <div className="left-content col-3 mt-3">
-              <img
-                className="header-logo"
-                src={logo}
-                style={{
-                  width: "150px",
-                  height: "160px",
-                  position: "absolute",
-                  left: "10px",
-                }}
-              />
-              {/* <i class="fas fa-laptop-medical"></i> */}
-              <a href="/">Booking Doctor</a>
+            <div className="left-content col-3">
+              <a href="/">
+                <img
+                  className="header-logo"
+                  src={logo}
+                  style={{
+                    width: "160px",
+                    position: "absolute",
+                    top: "-40px",
+                    left: "75px",
+                    zIndex: "1",
+                    cursor: "pointer",
+                  }}
+                />
+                <p style={{ paddingTop: "12px" }}>BookingDoctor</p>
+              </a>
             </div>
             <div className="center-content col-7">
               <div className="child-content">
                 <div>
                   <b>Bác sĩ</b>
                 </div>
-                <div className="subs-title">Chọn bác sĩ giỏi</div>
+                <div className="subs-title">Danh sách bác sĩ</div>
               </div>
-              <div className="child-content">
-                <div>
-                  <b> Chuyên khoa</b>
+              <a href="/detail-specialty-all">
+                <div className="child-content">
+                  <div>
+                    <b>Chuyên khoa</b>
+                  </div>
+                  <div className="subs-title">Chuyên khoa phổ biến</div>
                 </div>
-                <div className="subs-title">
-                  Tìm kiếm bác sĩ theo chuyên khoa
-                </div>
-              </div>
+              </a>
               <div className="child-content">
                 <div>
                   <b>Cơ sở y tế</b>
                 </div>
-                <div className="subs-title">Chọn phòng khám/cơ sở y tế</div>
+                <div className="subs-title">Cơ sở y tế nổi bật</div>
+              </div>
+              <div className="child-content" style={{ margin: "0" }}>
+                <div className="search">
+                  <i className="fa-sharp fa-solid fa-magnifying-glass"></i>
+                  <input type="text" placeholder="Tìm chuyên khoa" />
+                </div>
               </div>
             </div>
             <div className="right-content col-2">
-              <div className="container-fluid">
-                <div className="row">
-                  <div className="col-4"></div>
-                  <div className="register col-8">
-                    {userInfo ? (
-                      <Dropdown
-                        isOpen={this.state.dropdownOpen}
-                        toggle={this.toggle}
-                      >
-                        <DropdownToggle caret color="none" className="name">
-                          {/* <i className="fas fa-user-tie mx-3 avatar"></i> */}
-                          {this.props.userInfo.firstName}
-                        </DropdownToggle>
-                        {userInfo.roleId === USER_ROLE.PATIENT ? (
-                          <DropdownMenu>
-                            {/* <DropdownItem header>Header</DropdownItem> */}
-                            <DropdownItem>
-                              <a href="/home/detail-user/">Tài khoản của tôi</a>
-                            </DropdownItem>
-                            <DropdownItem>
-                              <a href="/home/history-user/">Lịch sử của tôi</a>
-                            </DropdownItem>
-                            <DropdownItem>
-                              <a href="/home/change-password/">Đổi mật khẩu</a>
-                            </DropdownItem>
-                            <DropdownItem>
-                              <div
-                                className="btn btn-logout"
-                                onClick={processLogout}
-                              >
-                                <i className="fas fa-sign-out-alt "></i> Đăng
-                                xuất
-                              </div>
-                            </DropdownItem>
-                          </DropdownMenu>
-                        ) : userInfo.roleId === USER_ROLE.DOCTOR ? (
-                          <DropdownMenu>
-                            <DropdownItem>
-                              <a href="/doctor/">Quản lý khám bệnh</a>
-                            </DropdownItem>
-                            <DropdownItem>
-                              <div
-                                className="btn btn-logout"
-                                onClick={processLogout}
-                              >
-                                <i className="fas fa-sign-out-alt "></i> Đăng
-                                xuất
-                              </div>
-                            </DropdownItem>
-                          </DropdownMenu>
-                        ) : (
-                          <DropdownMenu>
-                            <DropdownItem>
-                              <a href="/doctor/">Quản lý hệ thống</a>
-                            </DropdownItem>
-                            <DropdownItem>
-                              <div
-                                className="btn btn-logout"
-                                onClick={processLogout}
-                              >
-                                <i className="fas fa-sign-out-alt "></i> Đăng
-                                xuất
-                              </div>
-                            </DropdownItem>
-                          </DropdownMenu>
-                        )}
-                      </Dropdown>
+              <div className="register">
+                {userInfo ? (
+                  <Dropdown
+                    isOpen={this.state.dropdownOpen}
+                    toggle={this.toggle}
+                  >
+                    <DropdownToggle
+                      caret
+                      color="none"
+                      onFocus={true}
+                      className="name d-flex align-items-center"
+                      style={{ marginBottom: "2px" }}
+                    >
+                      {/* avatar */}
+                      <div
+                        className="avatar"
+                        style={{
+                          backgroundImage: `url(${userInfo.image})`,
+                          backgroundSize: "contain",
+                        }}
+                      ></div>
+                      {/*  */}
+                      {/* <div className="avatar">
+                        <i className="fas fa-user-tie"></i>
+                      </div> */}
+                      {userInfo.firstName}
+                    </DropdownToggle>
+                    {userInfo.roleId === USER_ROLE.PATIENT ? (
+                      <DropdownMenu>
+                        <DropdownItem>
+                          <a href="/home/detail-user/">Tài khoản của tôi</a>
+                        </DropdownItem>
+                        <DropdownItem>
+                          <a href="/home/history-user/">Lịch sử của tôi</a>
+                        </DropdownItem>
+                        <DropdownItem>
+                          <a href="/home/change-password/">Đổi mật khẩu</a>
+                        </DropdownItem>
+                        <DropdownItem>
+                          <div
+                            className="btn btn-logout"
+                            onClick={processLogout}
+                          >
+                            <i className="fas fa-sign-out-alt "></i> Đăng xuất
+                          </div>
+                        </DropdownItem>
+                      </DropdownMenu>
+                    ) : userInfo.roleId === USER_ROLE.DOCTOR ? (
+                      <DropdownMenu>
+                        <DropdownItem>
+                          <a href="/doctor/">Quản lý khám bệnh</a>
+                        </DropdownItem>
+                        <DropdownItem>
+                          <div
+                            className="btn btn-logout"
+                            onClick={processLogout}
+                          >
+                            <i className="fas fa-sign-out-alt "></i> Đăng xuất
+                          </div>
+                        </DropdownItem>
+                      </DropdownMenu>
                     ) : (
-                      <div className="login">
-                        <a href="/login" className="btn btn-register">
-                          <i className="fas fa-sign-in-alt"></i> Đăng nhập
-                        </a>
-                      </div>
+                      <DropdownMenu>
+                        <DropdownItem>
+                          <a href="/doctor/">Quản lý hệ thống</a>
+                        </DropdownItem>
+                        <DropdownItem>
+                          <div
+                            className="btn btn-logout"
+                            onClick={processLogout}
+                          >
+                            <i className="fas fa-sign-out-alt "></i> Đăng xuất
+                          </div>
+                        </DropdownItem>
+                      </DropdownMenu>
                     )}
+                  </Dropdown>
+                ) : (
+                  <div className="login">
+                    <a href="/login" className="btn btn-register">
+                      <i className="fas fa-sign-in-alt"></i> Đăng nhập
+                    </a>
                   </div>
-                </div>
+                )}
               </div>
             </div>
           </div>

@@ -32,7 +32,6 @@ class DetailSpecialty extends Component {
         location: "ALL",
       });
       let resProvince = await getAllCodeService("PROVINCE");
-      console.log("Check respppp", res);
       if (
         res &&
         res.errCode === 0 &&
@@ -64,6 +63,7 @@ class DetailSpecialty extends Component {
           listProvince: dataProvince ? dataProvince : [],
         });
       }
+      console.log("Check respppp", res);
     }
   }
   handleOnchangeSelect = async (event) => {

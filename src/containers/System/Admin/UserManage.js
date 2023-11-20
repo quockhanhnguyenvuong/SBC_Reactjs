@@ -158,6 +158,7 @@ class UserManage extends Component {
 
   // get value input
   onChangInput = (event, id) => {
+    // console.log(event.target.value);
     let copyState = { ...this.state };
     copyState[id] = event.target.value;
     this.setState({
@@ -214,6 +215,7 @@ class UserManage extends Component {
 
   //fill info user , handleEditUesrFromParent
   handleFillUserInfo = async (user) => {
+    console.log("check data:", this.state.roleID);
     let imageBase64 = "";
     if (user.image) {
       imageBase64 = new Buffer(user.image, "base64").toString("binary");
@@ -226,7 +228,6 @@ class UserManage extends Component {
       firstName: user.firstName,
       lastName: user.lastName,
       phonenumber: user.phonenumber,
-      // address: user.address,
       gender: user.gender,
       roleID: user.roleID,
       positionID: user.positionID,
@@ -249,7 +250,6 @@ class UserManage extends Component {
         password: this.state.password,
         firstName: this.state.firstName,
         lastName: this.state.lastName,
-        // address: this.state.address,
         phonenumber: this.state.phonenumber,
         gender: this.state.gender,
         roleID: this.state.roleID,
@@ -264,7 +264,6 @@ class UserManage extends Component {
         password: this.state.password,
         firstName: this.state.firstName,
         lastName: this.state.lastName,
-        // address: this.state.address,
         phonenumber: this.state.phonenumber,
         gender: this.state.gender,
         roleID: this.state.roleID,
@@ -327,138 +326,146 @@ class UserManage extends Component {
           <div className="user-body col-12">
             <div className="container">
               <div className="row">
-                <div className="col-3 mt-4">
-                  <label>Email</label>
-                  <input
-                    type="email"
-                    className="form-control"
-                    value={email}
-                    onChange={(event) => {
-                      this.onChangInput(event, "email");
-                    }}
-                    disabled={this.state.active === false}
-                  />
-                </div>
-                <div className="col-3 mt-4">
-                  <label>Mật khẩu</label>
-                  <input
-                    type="password"
-                    className="form-control"
-                    value={password}
-                    onChange={(event) => {
-                      this.onChangInput(event, "password");
-                    }}
-                    disabled={this.state.active === false}
-                  />
-                </div>
-                <div className="col-3 mt-4">
-                  <label>Tên</label>
-                  <input
-                    type="text"
-                    className="form-control"
-                    value={firstName}
-                    onChange={(event) => {
-                      this.onChangInput(event, "firstName");
-                    }}
-                  />
-                </div>
-                <div className="col-3 mt-4">
-                  <label>Họ</label>
-                  <input
-                    type="text"
-                    className="form-control"
-                    value={lastName}
-                    onChange={(event) => {
-                      this.onChangInput(event, "lastName");
-                    }}
-                  />
-                </div>
-                <div className="col-3 mt-4">
-                  <label>Số điện thoại</label>
-                  <input
-                    type="text"
-                    className="form-control"
-                    value={phonenumber}
-                    onChange={(event) => {
-                      this.onChangInput(event, "phonenumber");
-                    }}
-                  />
-                </div>
-                {/* <div className="col-9 mt-4">
-                  <label>Địa chỉ</label>
-                  <input
-                    type="text"
-                    className="form-control"
-                    value={address}
-                    onChange={(event) => {
-                      this.onChangInput(event, "address");
-                    }}
-                  />
-                </div> */}
-                <div className="col-3 mt-4">
-                  <label>Giới tính </label>
-                  <select
-                    className="form"
-                    value={gender}
-                    onChange={(event) => {
-                      this.onChangInput(event, "gender");
-                    }}
-                  >
-                    {genders &&
-                      genders.length > 0 &&
-                      genders.map((item, index) => {
-                        return (
-                          <option selected key={index} value={item.keyMap}>
-                            {item.valueVI}
-                          </option>
-                        );
-                      })}
-                  </select>
-                </div>
-                <div className="col-3 mt-4">
-                  <label>Chức vụ</label>
-                  <select
-                    value={positionID}
-                    className="form"
-                    onChange={(event) => {
-                      this.onChangInput(event, "positionID");
-                    }}
-                  >
-                    {positionArr &&
-                      positionArr.length > 0 &&
-                      positionArr.map((item, index) => {
-                        return (
-                          <option selected key={index} value={item.keyMap}>
-                            {item.valueVI}
-                          </option>
-                        );
-                      })}
-                  </select>
-                </div>
-                <div className="col-3 mt-4">
-                  <label>Vai trò</label>
-                  <select
-                    value={roleID}
-                    className="form"
-                    onChange={(event) => {
-                      this.onChangInput(event, "roleID");
-                    }}
-                  >
-                    {roleArr &&
-                      roleArr.length > 0 &&
-                      roleArr.map((item, index) => {
-                        return (
-                          <option selected key={index} value={item.keyMap}>
-                            {item.valueVI}
-                          </option>
-                        );
-                      })}
-                  </select>
+                <div className="col-9">
+                  <div className="container">
+                    <div className="row">
+                      <div className="col-4 mt-4">
+                        <label>Email</label>
+                        <input
+                          type="email"
+                          className="form-control"
+                          value={email}
+                          onChange={(event) => {
+                            this.onChangInput(event, "email");
+                          }}
+                          disabled={this.state.active === false}
+                        />
+                      </div>
+                      <div className="col-4 mt-4">
+                        <label>Mật khẩu</label>
+                        <input
+                          type="password"
+                          className="form-control"
+                          value={password}
+                          onChange={(event) => {
+                            this.onChangInput(event, "password");
+                          }}
+                          disabled={this.state.active === false}
+                        />
+                      </div>
+                      <div className="col-4 mt-4">
+                        <label>Giới tính </label>
+                        <select
+                          className="form"
+                          value={gender}
+                          onChange={(event) => {
+                            this.onChangInput(event, "gender");
+                          }}
+                        >
+                          {genders &&
+                            genders.length > 0 &&
+                            genders.map((item, index) => {
+                              return (
+                                <option
+                                  selected
+                                  key={index}
+                                  value={item.keyMap}
+                                >
+                                  {item.valueVI}
+                                </option>
+                              );
+                            })}
+                        </select>
+                      </div>
+                      <div className="col-4 mt-4">
+                        <label>Tên</label>
+                        <input
+                          type="text"
+                          className="form-control"
+                          value={firstName}
+                          onChange={(event) => {
+                            this.onChangInput(event, "firstName");
+                          }}
+                        />
+                      </div>
+                      <div className="col-4 mt-4">
+                        <label>Họ</label>
+                        <input
+                          type="text"
+                          className="form-control"
+                          value={lastName}
+                          onChange={(event) => {
+                            this.onChangInput(event, "lastName");
+                          }}
+                        />
+                      </div>
+                      <div className="col-4 mt-4">
+                        <label>Số điện thoại</label>
+                        <input
+                          type="text"
+                          className="form-control"
+                          value={phonenumber}
+                          onChange={(event) => {
+                            this.onChangInput(event, "phonenumber");
+                          }}
+                        />
+                      </div>
+
+                      <div className="col-4 mt-4" style={{ height: "55px" }}>
+                        <label>Chức vụ</label>
+                        <select
+                          value={positionID}
+                          className="form"
+                          onChange={(event) => {
+                            this.onChangInput(event, "positionID");
+                          }}
+                        >
+                          {positionArr &&
+                            positionArr.length > 0 &&
+                            positionArr.map((item, index) => {
+                              return (
+                                <option
+                                  selected
+                                  key={index}
+                                  value={item.keyMap}
+                                >
+                                  {item.valueVI}
+                                </option>
+                              );
+                            })}
+                        </select>
+                      </div>
+                      <div className="col-4 mt-4" style={{ height: "55px" }}>
+                        <label>Vai trò</label>
+                        <select
+                          value={roleID}
+                          className="form"
+                          onChange={(event) => {
+                            this.onChangInput(event, "roleID");
+                          }}
+                        >
+                          {roleArr &&
+                            roleArr.length > 0 &&
+                            roleArr.map((item, index) => {
+                              return (
+                                <option
+                                  selected
+                                  key={index}
+                                  value={item.keyMap}
+                                >
+                                  {item.valueVI}
+                                </option>
+                              );
+                            })}
+                        </select>
+                      </div>
+                    </div>
+                  </div>
                 </div>
                 {/* upload image */}
                 <div className="col-3 mt-4">
-                  <label>Ảnh đại diện</label>
-                  <div>
+                  <div className="d-flex justify-content-between">
+                    <label>Ảnh đại diện: </label>
                     <input
                       type="file"
                       hidden
@@ -467,16 +474,17 @@ class UserManage extends Component {
                       onChange={(event) => this.handleOnChangeImage(event)}
                     />
                     <label htmlFor="previewImage" className="lb-upload-image">
-                      Tải ảnh <i class="fas fa-images"></i>
+                      Tải ảnh <i className="fas fa-images"></i>
                     </label>
-                    <div
-                      className="preview-image"
-                      style={{
-                        backgroundImage: `url(${this.state.previewImgURL})`,
-                      }}
-                      onClick={() => this.openPreviewImage()}
-                    ></div>
                   </div>
+                  <div
+                    className="preview-image"
+                    style={{
+                      backgroundImage: `url(${this.state.previewImgURL})`,
+                      backgroundSize: "contain",
+                    }}
+                    onClick={() => this.openPreviewImage()}
+                  ></div>
                 </div>
               </div>
             </div>

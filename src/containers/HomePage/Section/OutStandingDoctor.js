@@ -3,6 +3,7 @@ import { connect } from "react-redux";
 import Slider from "react-slick";
 import * as actions from "../../../store/actions";
 import { withRouter } from "react-router";
+
 class OutStandingDoctor extends Component {
   constructor(props) {
     super(props);
@@ -31,12 +32,12 @@ class OutStandingDoctor extends Component {
     // console.log("Check data:", this.props.topDoctorsRedux);
     let arrDoctor = this.state.arrDoctor;
     // arrDoctor = arrDoctor.concat(arrDoctor).concat(arrDoctor);
-    console.log("Check data:", arrDoctor);
+    // console.log("Check data:", arrDoctor);
     return (
       <div className="section-share section-outstandingdoctor">
         <div className="section-container">
           <div className="section-header">
-            <span className="title-section">Bác sĩ phổ biến</span>
+            <span className="title-section">Danh sách bác sĩ</span>
             {/* <button className="btn-section">Xem thêm</button> */}
           </div>
           <div className="section-body">
@@ -68,13 +69,13 @@ class OutStandingDoctor extends Component {
 
                         <div className="position">
                           <span>
-                            {item.positionID === "P0"
+                            {item.positionID === "P1"
                               ? "Bác sĩ"
-                              : item.positionID === "P1"
-                              ? "Thạc sĩ"
                               : item.positionID === "P2"
-                              ? "Tiến sĩ"
+                              ? "Thạc sĩ"
                               : item.positionID === "P3"
+                              ? "Tiến sĩ"
+                              : item.positionID === "P4"
                               ? "Phó giáo sư"
                               : "Giáo sư"}
                           </span>

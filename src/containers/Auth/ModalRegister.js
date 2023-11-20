@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-// import { FormattedMessage } from "react-intl";
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from "reactstrap";
 import { connect } from "react-redux";
 import "./ModalRegister.scss";
@@ -18,11 +17,7 @@ class ModalRegister extends Component {
       firstName: "",
       lastName: "",
       phonenumber: "",
-      // address: "",
       gender: "",
-      //   roleID: "",
-      //   positionID: "",
-      //   image: "",
       genderArr: [],
       apartmentNumber: "",
       wards: "",
@@ -79,14 +74,6 @@ class ModalRegister extends Component {
       password: this.state.password,
       firstName: this.state.firstName,
       lastName: this.state.lastName,
-      // address:
-      //   this.state.apartmentNumber +
-      //   ", " +
-      //   this.state.wards +
-      //   ", " +
-      //   this.state.district +
-      //   ", " +
-      //   this.state.city,
       phonenumber: this.state.phonenumber,
       gender: this.state.gender,
       roleID: "R3",

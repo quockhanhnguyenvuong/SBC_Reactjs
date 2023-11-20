@@ -78,8 +78,9 @@ function MapDoctor(props) {
 
   useEffect(() => {
     setCenter(doctorPosition);
-    const { arrayPatient } = props;
-    // console.log("check arrayPatient", arrayPatient);
+    const { arrayPatient, address } = props;
+    console.log("check arrayPatient", arrayPatient);
+    console.log("check address of doctor", address);
 
     try {
       const getPatientCoordinates = async () => {
@@ -260,16 +261,15 @@ function MapDoctor(props) {
         <div className="patient-info">
           <h2>Thông tin bệnh nhân</h2>
           <table>
-            <thead>
-              <tr>
-                <th>Tọa độ</th>
-                <th>Địa chỉ</th>
-                <th>Quãng đường</th>
-                {/* <th>Vận tốc</th> */}
-                {/* <th>Thời gian</th> */}
-                <th>Actions</th>
-              </tr>
-            </thead>
+            <tr>
+              <th>Tọa độ</th>
+              <th>Địa chỉ</th>
+              <th>Quãng đường</th>
+              {/* <th>Vận tốc</th> */}
+              {/* <th>Thời gian</th> */}
+              <th>Actions</th>
+            </tr>
+
             <tbody>{renderPatientInfo()}</tbody>
           </table>
         </div>

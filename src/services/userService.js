@@ -16,8 +16,24 @@ const deleteUserService = (userID) => {
   return axios.delete("/api/delete-user", { data: { id: userID } });
 };
 
+const deleteClinicService = (clinicID) => {
+  return axios.delete("/api/delete-clinic", { data: { id: clinicID } });
+};
+
 const editUserService = (inputData) => {
   return axios.put("/api/edit-user", inputData);
+};
+
+const editClinicService = (inputData) => {
+  return axios.put("/api/edit-clinic", inputData);
+};
+
+const editSpecialtyService = (inputData) => {
+  return axios.put("/api/edit-specialty", inputData);
+};
+
+const deleteSpecialtyService = (specialtyId) => {
+  return axios.delete("/api/delete-specialty", { data: { id: specialtyId } });
 };
 
 const getAllCodeService = (inputType) => {
@@ -114,6 +130,10 @@ const getAllDetailSpecialtyById = (data) => {
   );
 };
 
+const getAllDetailSpecialty = () => {
+  return axios.get(`/api/get-all-specialty`);
+};
+
 export {
   handleLoginApi,
   getAllUsers,
@@ -142,4 +162,9 @@ export {
   getDetailClinicById,
   getAllDetailSpecialtyById,
   getConfirm,
+  deleteClinicService,
+  editClinicService,
+  editSpecialtyService,
+  deleteSpecialtyService,
+  getAllDetailSpecialty,
 };
