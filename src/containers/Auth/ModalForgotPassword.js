@@ -5,7 +5,7 @@ import { connect } from "react-redux";
 import { toast } from "react-toastify";
 import "./ModalForgotPassword.scss";
 import {getEmailForgotPassword} from "../../services/userService";
-import { checkAccount, handleResetPassword } from "../../services/userService";
+import { checkAccount, handleResetPassword, checkPassword } from "../../services/userService";
 import { tail } from "lodash";
 
 class ModalForgotPassword extends Component {
@@ -15,22 +15,13 @@ class ModalForgotPassword extends Component {
       email: "",
       code: "",
       newPassword: "",
-      cofirmPassword: "",
+      checkNewPassword: "",
       isShowPassword1: false,
       isShowPassword2: false,
     };
   }
   async componentDidMount() {
-    // handleShowHidePassword1 = () => {
-    //   this.setState({
-    //     isShowPassword1: !this.state.isShowPassword1,
-    //   });
-    // };
-    // handleShowHidePassword2 = () => {
-    //   this.setState({
-    //     isShowPassword2: !this.state.isShowPassword2,
-    //   });
-    // };
+
   }
 
   handleShowHidePassword1 = () => {
@@ -110,7 +101,7 @@ class ModalForgotPassword extends Component {
       "email",
       "code",
       "newPassword",
-      "cofirmPassword"
+      "checkNewPassword"
 
     ];
     for (let i = 0; i < arrInput.length; i++) {
@@ -119,7 +110,7 @@ class ModalForgotPassword extends Component {
         if (arrInput[i] === "email") toast.warn("Vui lòng nhập email của bạn");
         if (arrInput[i] === "code") toast.warn("Vui lòng nhập mã OTP của bạn");
         if (arrInput[i] === "newPassword") toast.warn("Vui lòng nhập mật khẩu mới của bạn");
-        if (arrInput[i] === "cofirmPassword") toast.warn("Vui lòng nhập xác nhận mật khẩu mới của bạn");
+        if (arrInput[i] === "checkNewPassword") toast.warn("Vui lòng nhập xác nhận mật khẩu mới của bạn");
         break;
       }
     }
@@ -136,31 +127,34 @@ class ModalForgotPassword extends Component {
       email: this.state.email,
       code: this.state.code,
       newPassword: this.state.newPassword,
-      cofirmPassword: this.state.cofirmPassword,
+      checkNewPassword: this.state.checkNewPassword,
     });
-   
     
   };
 
   //check mã otp đúng không
   checkOTP = async (data) => {
     try {
-      let response = await handleResetPassword(data);
-      // console.log("check user: ", data);
-      if (response && response.errCode == 0) { 
+      let response_Otp = await handleResetPassword(data);
+      let response_Password = await checkPassword(data);
+      console.log("check user: ", data);
+      if (response_Otp && response_Otp.errCode == 0 && response_Password && response_Password.errCode == 0) { 
         toast.success("Bạn đã thay đổi mật khẩu thành công!");
         this.toggle();
-      } else {
+      } 
+     else if (response_Otp && response_Otp.errCode != 0) {
         toast.error("Mã OTP sai vui lòng nhập lại");
       }
+      else if (response_Password && response_Password.errCode != 0) {
+        toast.error("Mật khẩu không trùng nhau vui lòng nhập lại");
+      }
+
     } catch (e) {
       console.log(e);
     }
 
-    // console.log("check data from child :", data);
+    console.log("check data from child :", data);
   };
-
-
 
   render() {
     return (
@@ -245,11 +239,11 @@ class ModalForgotPassword extends Component {
               <div className="col2">
                 <input
                   className="input"
-                  value={this.state.cofirmPassword}
+                  value={this.state.checkNewPassword}
                   type={this.state.isShowPassword2 ? "text" : "password"}
                   placeholder="Nhập lại mật khẩu mới"
                   onChange={(event) => {
-                    this.handleChangeInput(event, "cofirmPassword");
+                    this.handleChangeInput(event, "checkNewPassword");
                   }}
                 />
                 <span

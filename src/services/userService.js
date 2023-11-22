@@ -121,6 +121,10 @@ const checkAccount = (data) => {
 const handleResetPassword = (data) => {
   return axios.post("/api/check-OTP-reset-Password", data);
 };
+
+const checkPassword = (data) => {
+  return axios.post("/api/check-reset-password", { data });
+};
 export {
   handleLoginApi,
   getAllUsers,
@@ -150,5 +154,6 @@ export {
   getAllDetailSpecialtyById,
   getConfirm,
   checkAccount,
-  handleResetPassword
+  handleResetPassword,
+  checkPassword
 };

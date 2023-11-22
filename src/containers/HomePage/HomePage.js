@@ -12,6 +12,18 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import Header from "../Header/Header";
 class HomePage extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      email: "",
+      code: "",
+      newPassword: "",
+      cofirmPassword: "",
+      isShowPassword1: false,
+      isShowPassword2: false,
+    };
+  }
+
   render() {
     let settings = {
       dots: true,
@@ -29,7 +41,19 @@ class HomePage extends Component {
             <div className="title2">Chăm sóc sức khỏe toàn diện</div>
             <div className="search">
               <i className="fa-sharp fa-solid fa-magnifying-glass"></i>
-              <input type="text" placeholder="Tìm chuyên khoa khám bệnh" />
+              <input 
+                type="text" 
+                placeholder="Tìm chuyên khoa khám bệnh" 
+                
+              />
+              <span className="input-group-btn">
+                <button 
+                  onClick={this.handleSearch}
+                  className="btn-search"
+                >
+                    Tìm
+                </button>
+              </span>
             </div>
           </div>
         </div>
