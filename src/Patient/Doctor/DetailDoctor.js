@@ -56,6 +56,7 @@ class DetailDoctor extends Component {
                   backgroundImage: `url(${
                     detailDoctor && detailDoctor.image ? detailDoctor.image : ""
                   })`,
+                  backgroundSize: "cover",
                 }}
               ></div>
               <div className="content-right">

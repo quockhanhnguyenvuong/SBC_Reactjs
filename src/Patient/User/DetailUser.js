@@ -334,6 +334,7 @@ class DetailUser extends Component {
                               className="avata"
                               style={{
                                 backgroundImage: `url(${image})`,
+                                backgroundSize: "cover",
                               }}
                               onClick={() => this.openPreviewImage()}
                             ></div>

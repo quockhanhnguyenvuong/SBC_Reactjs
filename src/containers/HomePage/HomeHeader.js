@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import "./HomeHeader.scss";
 import * as actions from "../../store/actions";
-import { withRouter } from "react-router";
 import { USER_ROLE } from "../../utils";
 import {
   Dropdown,
@@ -11,8 +10,13 @@ import {
   DropdownItem,
 } from "reactstrap";
 import { getAllUsers } from "../../services/userService";
+import logo from "../../assets/images/logo9.png";
+import Container from "react-bootstrap/Container";
+import Nav from "react-bootstrap/Nav";
+import Navbar from "react-bootstrap/Navbar";
+import NavDropdown from "react-bootstrap/NavDropdown";
 
-import logo from "../../assets/images/logo7.png";
+// import { withRouter } from "react-router";
 // import logo from "../../assets/images/nursing home.png";
 
 class HomeHeader extends Component {
@@ -48,145 +52,146 @@ class HomeHeader extends Component {
   render() {
     const { processLogout, userInfo } = this.props;
     // console.log("check user data:", this.state.arrUser);
-    // console.log("check userInfo:", userInfo);
+    console.log("check userInfo:", userInfo);
     return (
       <React.Fragment>
-        <div className="home-header-container container-fluid">
-          <div className="home-header-content row">
-            <div className="left-content col-3">
-              <a href="/">
-                <img
-                  className="header-logo"
-                  src={logo}
-                  style={{
-                    width: "160px",
-                    position: "absolute",
-                    top: "-40px",
-                    left: "75px",
-                    zIndex: "1",
-                    cursor: "pointer",
-                  }}
-                />
-                <p style={{ paddingTop: "12px" }}>BookingDoctor</p>
-              </a>
-            </div>
-            <div className="center-content col-7">
-              <div className="child-content">
-                <div>
-                  <b>Bác sĩ</b>
-                </div>
-                <div className="subs-title">Danh sách bác sĩ</div>
-              </div>
-              <a href="/detail-specialty-all">
-                <div className="child-content">
-                  <div>
-                    <b>Chuyên khoa</b>
+        <Navbar expand="lg" className="bg-body-tertiary">
+          <Container fluid>
+            <Navbar.Brand href="/">
+              <img
+                className="header-logo"
+                src={logo}
+                style={{
+                  width: "90px",
+                }}
+              />
+              <p style={{ paddingTop: "13px" }}>BookingDoctor</p>
+            </Navbar.Brand>
+            <Navbar.Toggle aria-controls="basic-navbar-nav" />
+            <Navbar.Collapse id="basic-navbar-nav">
+              <Nav>
+                <Nav.Link href="/home/detail-doctor-all">
+                  <div className="child-content">
+                    <div>
+                      <b>Bác sĩ</b>
+                    </div>
+                    <div className="subs-title">Chọn bác sĩ giỏi</div>
                   </div>
-                  <div className="subs-title">Chuyên khoa phổ biến</div>
-                </div>
-              </a>
-              <div className="child-content">
-                <div>
-                  <b>Cơ sở y tế</b>
-                </div>
-                <div className="subs-title">Cơ sở y tế nổi bật</div>
-              </div>
-              <div className="child-content" style={{ margin: "0" }}>
-                <div className="search">
-                  <i className="fa-sharp fa-solid fa-magnifying-glass"></i>
-                  <input type="text" placeholder="Tìm chuyên khoa" />
-                </div>
-              </div>
-            </div>
-            <div className="right-content col-2">
-              <div className="register">
+                </Nav.Link>
+                <Nav.Link href="/home/detail-specialty-all">
+                  <div className="child-content">
+                    <div>
+                      <b>Chuyên khoa</b>
+                    </div>
+                    <div className="subs-title">
+                      Tìm bác sĩ theo chuyên khoa
+                    </div>
+                  </div>
+                </Nav.Link>
+                <Nav.Link href="/home/detail-clinic-all">
+                  <div className="child-content">
+                    <div>
+                      <b>Cơ sở y tế</b>
+                    </div>
+                    <div className="subs-title">Chọn phòng khám/cơ sở y tế</div>
+                  </div>
+                </Nav.Link>
+                <Nav.Link>
+                  <div className="child-content" style={{ margin: "0" }}>
+                    <div className="search">
+                      <i className="fa-sharp fa-solid fa-magnifying-glass"></i>
+                      <input type="text" placeholder="Tìm chuyên khoa" />
+                    </div>
+                  </div>
+                </Nav.Link>
+
                 {userInfo ? (
-                  <Dropdown
-                    isOpen={this.state.dropdownOpen}
-                    toggle={this.toggle}
-                  >
-                    <DropdownToggle
-                      caret
-                      color="none"
-                      onFocus={true}
-                      className="name d-flex align-items-center"
-                      style={{ marginBottom: "2px" }}
+                  <div className="register">
+                    <Dropdown
+                      isOpen={this.state.dropdownOpen}
+                      toggle={this.toggle}
                     >
-                      {/* avatar */}
-                      <div
-                        className="avatar"
-                        style={{
-                          backgroundImage: `url(${userInfo.image})`,
-                          backgroundSize: "contain",
-                        }}
-                      ></div>
-                      {/*  */}
-                      {/* <div className="avatar">
-                        <i className="fas fa-user-tie"></i>
-                      </div> */}
-                      {userInfo.firstName}
-                    </DropdownToggle>
-                    {userInfo.roleId === USER_ROLE.PATIENT ? (
-                      <DropdownMenu>
-                        <DropdownItem>
-                          <a href="/home/detail-user/">Tài khoản của tôi</a>
-                        </DropdownItem>
-                        <DropdownItem>
-                          <a href="/home/history-user/">Lịch sử của tôi</a>
-                        </DropdownItem>
-                        <DropdownItem>
-                          <a href="/home/change-password/">Đổi mật khẩu</a>
-                        </DropdownItem>
-                        <DropdownItem>
-                          <div
-                            className="btn btn-logout"
-                            onClick={processLogout}
-                          >
-                            <i className="fas fa-sign-out-alt "></i> Đăng xuất
-                          </div>
-                        </DropdownItem>
-                      </DropdownMenu>
-                    ) : userInfo.roleId === USER_ROLE.DOCTOR ? (
-                      <DropdownMenu>
-                        <DropdownItem>
-                          <a href="/doctor/">Quản lý khám bệnh</a>
-                        </DropdownItem>
-                        <DropdownItem>
-                          <div
-                            className="btn btn-logout"
-                            onClick={processLogout}
-                          >
-                            <i className="fas fa-sign-out-alt "></i> Đăng xuất
-                          </div>
-                        </DropdownItem>
-                      </DropdownMenu>
-                    ) : (
-                      <DropdownMenu>
-                        <DropdownItem>
-                          <a href="/doctor/">Quản lý hệ thống</a>
-                        </DropdownItem>
-                        <DropdownItem>
-                          <div
-                            className="btn btn-logout"
-                            onClick={processLogout}
-                          >
-                            <i className="fas fa-sign-out-alt "></i> Đăng xuất
-                          </div>
-                        </DropdownItem>
-                      </DropdownMenu>
-                    )}
-                  </Dropdown>
-                ) : (
-                  <div className="login">
-                    <a href="/login" className="btn btn-register">
-                      <i className="fas fa-sign-in-alt"></i> Đăng nhập
-                    </a>
+                      <DropdownToggle
+                        caret
+                        color="none"
+                        onFocus={true}
+                        className="name d-flex align-items-center"
+                        style={{ marginBottom: "2px" }}
+                      >
+                        {/* avatar */}
+                        <div
+                          className="avatar"
+                          style={{
+                            backgroundImage: `url(${userInfo.image})`,
+                            backgroundSize: "cover",
+                          }}
+                        ></div>
+                        {userInfo.firstName}
+                      </DropdownToggle>
+                      {userInfo.roleId === USER_ROLE.PATIENT ? (
+                        <DropdownMenu>
+                          <DropdownItem>
+                            <a href="/home/detail-user/">Tài khoản của tôi</a>
+                          </DropdownItem>
+                          <DropdownItem>
+                            <a href="/home/history-user/">Lịch sử của tôi</a>
+                          </DropdownItem>
+                          <DropdownItem>
+                            <a href="/home/change-password/">Đổi mật khẩu</a>
+                          </DropdownItem>
+                          <DropdownItem>
+                            <div
+                              className="btn btn-logout"
+                              onClick={processLogout}
+                            >
+                              <i className="fas fa-sign-out-alt "></i> Đăng xuất
+                            </div>
+                          </DropdownItem>
+                        </DropdownMenu>
+                      ) : userInfo.roleId === USER_ROLE.DOCTOR ? (
+                        <DropdownMenu>
+                          <DropdownItem>
+                            <a href="/doctor/">Quản lý khám bệnh</a>
+                          </DropdownItem>
+                          <DropdownItem>
+                            <div
+                              className="btn btn-logout"
+                              onClick={processLogout}
+                            >
+                              <i className="fas fa-sign-out-alt "></i> Đăng xuất
+                            </div>
+                          </DropdownItem>
+                        </DropdownMenu>
+                      ) : (
+                        <DropdownMenu>
+                          <DropdownItem>
+                            <a href="/doctor/">Quản lý hệ thống</a>
+                          </DropdownItem>
+                          <DropdownItem>
+                            <div
+                              className="btn btn-logout"
+                              onClick={processLogout}
+                            >
+                              <i className="fas fa-sign-out-alt "></i> Đăng xuất
+                            </div>
+                          </DropdownItem>
+                        </DropdownMenu>
+                      )}
+                    </Dropdown>
                   </div>
+                ) : (
+                  <Nav.Link href="/login">
+                    <div className="child-content">
+                      <div className="login">
+                        <i className="fas fa-sign-in-alt"></i> Đăng nhập
+                      </div>
+                    </div>
+                  </Nav.Link>
                 )}
-              </div>
-            </div>
-          </div>
-        </div>
+              </Nav>
+            </Navbar.Collapse>
+          </Container>
+        </Navbar>
       </React.Fragment>
     );
   }

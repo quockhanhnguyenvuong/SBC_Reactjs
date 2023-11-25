@@ -134,6 +134,14 @@ const getAllDetailSpecialty = () => {
   return axios.get(`/api/get-all-specialty`);
 };
 
+const checkAccount = (data) => {
+  return axios.post("/api/check-email", data);
+};
+
+const handleResetPassword = (data) => {
+  return axios.post("/api/check-OTP-reset-Password", data);
+};
+
 export {
   handleLoginApi,
   getAllUsers,
@@ -167,4 +175,6 @@ export {
   editSpecialtyService,
   deleteSpecialtyService,
   getAllDetailSpecialty,
+  checkAccount,
+  handleResetPassword,
 };

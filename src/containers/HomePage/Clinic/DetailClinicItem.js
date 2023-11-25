@@ -1,18 +1,18 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import "./DetailSpecialtyAll.scss";
+import "./DetailClinicAll.scss";
 import { withRouter } from "react-router";
 
-class SpecialtyItem extends Component {
+class DetailClinicItem extends Component {
   constructor(props) {
     super(props);
     this.state = {};
   }
   async componentDidMount() {}
 
-  handleViewDetailSpecialty = (id) => {
+  handleViewDetailClinic = (id) => {
     if (this.props.history) {
-      this.props.history.push(`/home/detail-specialty/${id}`);
+      this.props.history.push(`/home/detail-clinic/${id}`);
     }
   };
 
@@ -20,19 +20,19 @@ class SpecialtyItem extends Component {
     // console.log("check props:", this.props);
     let data = this.props.data;
     return (
-      <div className="detail-specialty-all">
+      <div className="detail-clinic-all">
         <div
-          className="detail-specialty-all-container"
-          onClick={() => this.handleViewDetailSpecialty(data.id)}
+          className="detail-clinic-all-container"
+          onClick={() => this.handleViewDetailClinic(data.id)}
         >
-          <div
-            className="images"
-            style={{
-              backgroundImage: `url(${data.image})`,
-              backgroundSize: "contain",
-              width: "263px",
-            }}
-          ></div>
+          <div className="img-container">
+            <div
+              className="images"
+              style={{
+                backgroundImage: `url(${data.image})`,
+              }}
+            ></div>
+          </div>
           <div className="contents">
             <span>{data.name}</span>
           </div>
@@ -51,5 +51,5 @@ const mapDispatchToProps = (dispatch) => {
 };
 
 export default withRouter(
-  connect(mapStateToProps, mapDispatchToProps)(SpecialtyItem),
+  connect(mapStateToProps, mapDispatchToProps)(DetailClinicItem),
 );

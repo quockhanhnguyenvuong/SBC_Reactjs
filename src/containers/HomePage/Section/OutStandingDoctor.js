@@ -59,7 +59,10 @@ class OutStandingDoctor extends Component {
                       key={index}
                       onClick={() => this.handleViewDetailDoctor(item)}
                     >
-                      <div className="customize-border">
+                      <div
+                        className="customize-border"
+                        style={{ display: "grid", justifyContent: "center" }}
+                      >
                         <div className="outer-bg">
                           <div
                             className="bg-image section-outstandingdoctor"

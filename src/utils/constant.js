@@ -5,9 +5,9 @@ export const path = {
   LOGIN: "/login",
   LOG_OUT: "/logout",
   SYSTEM: "/system",
-  DETAIL_SPECIALTY: "/detail-specialty/:id",
+  DETAIL_SPECIALTY: "/home/detail-specialty/:id",
   VERIFY_EMAIL_BOOKING: "/verify-booking/",
-  DETAIL_CLINIC: "/detail-clinic/:id",
+  DETAIL_CLINIC: "/home/detail-clinic/:id",
 };
 
 export const manageActions = {

@@ -27,7 +27,9 @@ class HomePage extends Component {
         <OutStandingDoctor settings={settings} />
         <MedicalFacility settings={settings} />
         <About />
-        <HomeFooter />
+        <div style={{ position: "relative", marginTop: "30px" }}>
+          <HomeFooter />
+        </div>
       </div>
     );
   }

@@ -21,7 +21,7 @@ class MedicalFacility extends Component {
   }
   handleViewDetailClinic = (clinic) => {
     if (this.props.history) {
-      this.props.history.push(`/detail-clinic/${clinic.id}`);
+      this.props.history.push(`/home/detail-clinic/${clinic.id}`);
     }
   };
   render() {

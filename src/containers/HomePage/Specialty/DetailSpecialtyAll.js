@@ -1,8 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import "./DetailSpecialty.scss";
 import HomeHeader from "../HomeHeader";
-import HomeFooter from "../HomeFooter";
 import "./DetailSpecialtyAll.scss";
 import _ from "lodash";
 import SpecialtyItem from "../Specialty/SpecialtyItem";
@@ -13,7 +11,7 @@ class DetailSpecialtyAll extends Component {
     this.state = {
       arrSpecialty: [],
       currentPage: 1,
-      newsPerPage: 3,
+      newsPerPage: 5,
     };
   }
 
@@ -32,11 +30,11 @@ class DetailSpecialtyAll extends Component {
     });
   };
 
-  select = (event) => {
-    this.setState({
-      newsPerPage: event.target.value,
-    });
-  };
+  // select = (event) => {
+  //   this.setState({
+  //     newsPerPage: event.target.value,
+  //   });
+  // };
 
   render() {
     let { arrSpecialty } = this.state;
@@ -63,11 +61,10 @@ class DetailSpecialtyAll extends Component {
     }
 
     return (
-      <div style={{ height: "100vh", marginBottom: "15px" }}>
+      <div>
+        <HomeHeader />
         <div className="detail-specialty-container">
-          <HomeHeader />
-
-          <div className="news-per-page">
+          {/* <div className="news-per-page">
             <select defaultValue="0" onChange={this.select}>
               <option value="0" disabled>
                 Get by
@@ -76,8 +73,11 @@ class DetailSpecialtyAll extends Component {
               <option value="5">5</option>
               <option value="7">7</option>
             </select>
-          </div>
-
+          </div> */}
+          <h3 style={{ marginLeft: "15%", marginTop: "10px" }}>
+            {" "}
+            Khám chuyên khoa
+          </h3>
           <div className="render-data">{renderDatas}</div>
 
           <div className="pagination-custom">
@@ -100,7 +100,6 @@ class DetailSpecialtyAll extends Component {
             </ul>
           </div>
         </div>
-        <HomeFooter />
       </div>
     );
   }

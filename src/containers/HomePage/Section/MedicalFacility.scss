@@ -1,5 +1,7 @@
 .clinic-child{
     cursor: pointer;
+    display: grid !important;
+    justify-content: center;
     .clinic-name {
         padding: 10px 0;
         &:hover{
