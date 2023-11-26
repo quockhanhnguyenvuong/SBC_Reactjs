@@ -6,7 +6,7 @@ import { toast } from "react-toastify";
 import moment from "moment";
 import { CommonUtils } from "../../../utils";
 
-class RemedyModal extends Component {
+class WarningModal extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -49,12 +49,13 @@ class RemedyModal extends Component {
     }
   };
 
-  handleSendRemedy = () => {
+  handleSendWarning = () => {
     let { dataModal } = this.props;
+    console.log(dataModal)
     if (dataModal.bookingType === "ATHOME") {
       dataModal.time = this.state.time;
     }
-    this.props.sendRemedy(this.props.dataModal);
+    this.props.sendWarning(this.props.dataModal);
     // console.log("checksendRemedy", this.props.sendRemedy);
   };
 
@@ -69,7 +70,7 @@ class RemedyModal extends Component {
   };
 
   render() {
-    let { isOpenModal, closeRemedyModal, dataModal } = this.props;
+    let { isOpenModal, closeWarningModal, dataModal } = this.props;
     // console.log("check data modal remedy", dataModal);
 
     return (
@@ -82,13 +83,13 @@ class RemedyModal extends Component {
       >
         <div className="modal-header">
           <h5 className="modal-title">
-            Bạn có chắc chắn xác nhận lịch hẹn này?
+            Chắc chắn thêm bệnh nhân này vào danh sách đen?
           </h5>
           <button
             type="button"
             className="close"
             aria-label="Close"
-            onClick={closeRemedyModal}
+            onClick={closeWarningModal}
           >
             <span>
               <i class="fa-sharp fa-regular fa-circle-xmark"></i>
@@ -98,30 +99,16 @@ class RemedyModal extends Component {
         <ModalBody>
           <div className="row">
             <div className="col-6 form-group">
-              <label>Tên bệnh nhân:</label>
+              <label>Tên của bệnh nhân:</label>
               <br />
               {dataModal.patientName}
             </div>
-            <div className="col-6 form-group">
+            {/* <div className="col-6 form-group">
               <label>Thời gian hẹn:</label>
               <br />
-              {dataModal.bookingType === "ONLINE" ? (
-                dataModal.timeTypeDataPatient
-              ) : (
-                <div>
-                  <input
-                    className="form-control"
-                    type="text"
-                    onChange={(event) =>
-                      this.handleOnchangeInput(event, "time")
-                    }
-                  />
-                </div>
-              )}
-            </div>
-          </div>
-          <div className="row">
-            <div className="col-12 form-group mail">
+              {dataModal.timeTypeDataPatient}
+            </div> */}
+            <div className="col-6 form-group mail">
               <label>Email bệnh nhân:</label>
               <input
                 className="form-control"
@@ -131,19 +118,28 @@ class RemedyModal extends Component {
               />
             </div>
           </div>
+          <div className="row mt-2">
+            <div className="col-12 form-group mt-2">
+              <label>Lý do:</label>
+              <input
+                className="form-control"
+                onChange={(event) => this.handleOnchangeInput(event, "reason")}
+              />
+            </div>
+          </div>
         </ModalBody>
         <ModalFooter>
           <Button
             color="primary"
             className="btn_modalFooter"
-            onClick={this.handleSendRemedy}
+            onClick={this.handleSendWarning}
           >
             Xác nhận
           </Button>{" "}
           <Button
             color="warning"
             className="btn_modalFooter"
-            onClick={closeRemedyModal}
+            onClick={closeWarningModal}
           >
             Thoát
           </Button>
@@ -161,4 +157,4 @@ const mapDispatchToProps = (dispatch) => {
   return {};
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(RemedyModal);
+export default connect(mapStateToProps, mapDispatchToProps)(WarningModal);

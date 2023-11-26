@@ -84,7 +84,11 @@ const getAllPatientForDoctor = (data) => {
     `/api/get-list-patient-for-doctor?doctorId=${data.doctorId}&date=${data.date}`,
   );
 };
-
+const getListPatientForHistory = (data) =>{
+  return axios.get(
+    `/api/get-patient-for-history?doctorId=${data.doctorId}`,
+  )
+}
 const postSendRemedy = (data) => {
   return axios.post(`/api/send-remedy`, data);
 };
@@ -92,10 +96,21 @@ const postSendRemedy = (data) => {
 const getConfirm = (data) => {
   return axios.post(`/api/get-confirm`, data);
 };
-
+const getCancel = (data) => {
+  return axios.post(`/api/get-cancel`,data);
+}
+const postSendWarning = (data) => {
+  return axios.post(`/api/send-warning`, data);
+}
 const postSendRefuse = (data) => {
   return axios.post(`/api/send-refuse`, data);
 };
+const getListPatientS7 = (data) => {
+  return axios.get(`/api/get-list-patient-s7?doctorId=${data.doctorId}&patientId=${data.patientId}`);
+}
+const getBlacklistEmail = (data) => {
+  return axios.get(`/api/get-blacklist-email?doctorId=${data.doctorId}&email=${data.email}`)
+} 
 
 const getAllClinic = () => {
   return axios.get(`/api/get-clinic`);
@@ -113,6 +128,16 @@ const getAllDetailSpecialtyById = (data) => {
     `/api/get-detail-specialty-by-id?id=${data.id}&location=${data.location}`,
   );
 };
+const getListPatientOnline = (data) => { 
+  return axios.get(
+    `/api/get-list-patient-online?doctorId=${data.doctorId}&date=${data.date}`,
+  )
+}
+const getListPatientAtHome = (data) => { 
+  return axios.get(
+    `/api/get-list-patient-at-home?doctorId=${data.doctorId}&date=${data.date}`,
+  )
+}
 
 export {
   handleLoginApi,
@@ -139,7 +164,14 @@ export {
   postSendRefuse,
   createNewClinic,
   getAllClinic,
+  getListPatientS7,
   getDetailClinicById,
   getAllDetailSpecialtyById,
   getConfirm,
+  getCancel,
+  postSendWarning,
+  getListPatientForHistory,
+  getListPatientOnline,
+  getListPatientAtHome,
+  getBlacklistEmail
 };

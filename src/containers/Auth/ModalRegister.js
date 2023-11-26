@@ -18,7 +18,7 @@ class ModalRegister extends Component {
       firstName: "",
       lastName: "",
       phonenumber: "",
-      address: "",
+      // address: "",
       gender: "",
       //   roleID: "",
       //   positionID: "",
@@ -79,14 +79,14 @@ class ModalRegister extends Component {
       password: this.state.password,
       firstName: this.state.firstName,
       lastName: this.state.lastName,
-      address:
-        this.state.apartmentNumber +
-        ", " +
-        this.state.wards +
-        ", " +
-        this.state.district +
-        ", " +
-        this.state.city,
+      // address:
+      //   this.state.apartmentNumber +
+      //   ", " +
+      //   this.state.wards +
+      //   ", " +
+      //   this.state.district +
+      //   ", " +
+      //   this.state.city,
       phonenumber: this.state.phonenumber,
       gender: this.state.gender,
       roleID: "R3",
@@ -114,10 +114,10 @@ class ModalRegister extends Component {
       "password",
       "firstName",
       "lastName",
-      "apartmentNumber",
-      "wards",
-      "district",
-      "city",
+      // "apartmentNumber",
+      // "wards",
+      // "district",
+      // "city",
       "phonenumber",
     ];
     for (let i = 0; i < arrInput.length; i++) {
@@ -127,11 +127,11 @@ class ModalRegister extends Component {
         if (arrInput[i] === "password") alert("Vui lòng nhập : mật khẩu");
         if (arrInput[i] === "firstName") alert("Vui lòng nhập : tên");
         if (arrInput[i] === "lastName") alert("Vui lòng nhập : họ");
-        if (arrInput[i] === "apartmentNumber")
-          alert("Vui lòng nhập : số nhà, tên đường");
-        if (arrInput[i] === "wards") alert("Vui lòng nhập : phường");
-        if (arrInput[i] === "district") alert("Vui lòng nhập : quận");
-        if (arrInput[i] === "city") alert("Vui lòng nhập : thành phố");
+        // if (arrInput[i] === "apartmentNumber")
+        //   alert("Vui lòng nhập : số nhà, tên đường");
+        // if (arrInput[i] === "wards") alert("Vui lòng nhập : phường");
+        // if (arrInput[i] === "district") alert("Vui lòng nhập : quận");
+        // if (arrInput[i] === "city") alert("Vui lòng nhập : thành phố");
         if (arrInput[i] === "phonenumber")
           alert("Vui lòng nhập : số điện thoại");
         break;
@@ -194,7 +194,7 @@ class ModalRegister extends Component {
               />
             </div>
 
-            <div className="input-container">
+            {/* <div className="input-container">
               <label>Số nhà, tên đường</label>
               <input
                 type="text"
@@ -233,7 +233,7 @@ class ModalRegister extends Component {
                 }}
                 value={this.state.city}
               />
-            </div>
+            </div> */}
             <div className="input-container">
               <label>Số điện thoại</label>
               <input

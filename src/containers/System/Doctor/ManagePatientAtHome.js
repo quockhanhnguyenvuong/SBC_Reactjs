@@ -7,31 +7,34 @@ import {
   postSendRemedy,
   postSendRefuse,
   getConfirm,
-  getListPatientOnline,
+  getListPatientAtHome,
   getCancel,
-  postSendWarning
+  postSendWarning,
+  // getBlacklistEmail
 } from "../../../services/userService";
-import _ from "lodash";
 import moment from "moment";
 import RemedyModal from "./RemedyModal";
-import WarningModal from "./WarningModal";
 import RefuseModal from "./RefuseModal";
+import WarningModal from "./WarningModal.js";
+import MapDoctor from "../../../Patient/Map/MapDoctor.js";
 import { toast } from "react-toastify";
 import LoadingOverlay from "react-loading-overlay";
 
-export class ManagePatient extends Component {
+class ManagePatientAtHome extends Component {
   constructor(props) {
     super(props);
     this.state = {
       currentDate: moment(new Date()).startOf("day").valueOf(),
       dataPatient: {},
       isOpenRemedyModal: false,
-      isOpenRefuseModal: false,
       isOpenWarningModal: false,
+      isOpenRefuseModal: false,
       dataModal: {},
       isShowLoading: false,
+      // arrayPatient: [],
       arrayPatientS3: [],
-      dataPatientBookOnline: [],
+      addressDoctor: "",
+      dataPatientBookAtHome: [],
       date: "",
       isDisable: true,
     };
@@ -41,8 +44,9 @@ export class ManagePatient extends Component {
     this.getDataPatient();
     this.getDataPatientS3();
     let { user } = this.props;
-    console.log(this.props)
-
+    this.setState({
+      addressDoctor: user.address,
+    });
   }
 
   getDataPatient = async () => {
@@ -50,46 +54,48 @@ export class ManagePatient extends Component {
     let { currentDate } = this.state;
     let formattedDate = new Date(currentDate).getTime();
     let date = moment.unix(+formattedDate / 1000).format("dddd - DD/MM/YYYY");
-    console.log("date", date);
+    // console.log("date", date);
     let res = await getAllPatientForDoctor({
       doctorId: user.id,
       date: formattedDate,
     });
-    let arrTempOnline = [];
+    let arrTempAtHome = [];
     let arr = res.data;
-    let countOnline = 0;
+    console.log("echs", res.data)
+    let countAtHome = 0;
 
     for (let i = 0; i < arr.length; i++) {
-      if (arr[i].bookingType === "ONLINE")
+      if (arr[i].bookingType === "ATHOME")
         if (arr[i].statusId === "S2" || arr[i].statusId === "S3")
-          arrTempOnline[countOnline++] = arr[i];
+          arrTempAtHome[countAtHome++] = arr[i];
     }
 
     // console.log("check arr ", res.data);
-    if (res && res.errCode === 0) {
+    if (res && res.errCode == 0) {
       this.setState({
         dataPatient: res.data,
-        dataPatientBookOnline: arrTempOnline,
+        dataPatientBookAtHome: arrTempAtHome,
         date: date,
       });
     }
   };
+
   getDataPatientS3 = async () => {
     let { user } = this.props;
     let { currentDate } = this.state;
     let formattedDate = new Date(currentDate).getTime();
     let date = moment.unix(+formattedDate / 1000).format("dddd - DD/MM/YYYY");
-    let res = await getListPatientOnline({
+    let res = await getListPatientAtHome({
       doctorId: user.id,
       date: formattedDate
     });
     let arrS3 = [];
     let arr = res.data;
-    console.log("echk", arr)
+    console.log("check", arr)
     let countS3 = 0;
 
     for (let i = 0; i < arr.length; i++) {
-      if (arr[i].bookingType === "ONLINE")
+      if (arr[i].bookingType === "ATHOME")
         if (arr[i].statusId === "S3")
           arrS3[countS3++] = arr[i];
     }
@@ -103,6 +109,7 @@ export class ManagePatient extends Component {
       });
     }
   };
+
   async componentDidUpdate(prevProps, prevState, snapshot) { }
 
   handleChangeDatePicker = (date) => {
@@ -117,16 +124,16 @@ export class ManagePatient extends Component {
     );
   };
 
-  handleBtnConfirmOn = (item) => {
+  handleBtnConfirmAtHome = (item) => {
     // console.log(">>> Check item: ", item);
     let data = {
       doctorId: item.doctorId,
       patientId: item.patientId,
       email: item.patientData.email,
       timeType: item.timeType,
-      timeTypeDataPatient: item.timeTypeDataPatient.valueVI,
+      time: "",
       patientName: item.patientData.lastName + " " + item.patientData.firstName,
-      bookingType: "ONLINE",
+      bookingType: "ATHOME",
       date: this.state.date,
     };
     this.setState({
@@ -135,24 +142,7 @@ export class ManagePatient extends Component {
     });
     // console.log(">>> Check data: ", data);
   };
-  // buildTimeBooking = (dataTime) => {
-  //   // console.log("check renderTimeBooking: ", dataTime);
-  //   if (dataTime && !_.isEmpty(dataTime)) {
-  //     let time = dataTime.timeTypeData.valueVI;
 
-  //     let date = moment.unix(+dataTime.date / 1000).format("dddd - DD/MM/YYYY");
-  //     return `${time} - ${this.capitalizeFirstLetter(date)}`;
-  //   }
-  //   return "";
-  // };
-
-  buildDoctorName = (dataTime) => {
-    if (dataTime && !_.isEmpty(dataTime)) {
-      let name = `${dataTime.lastName} ${dataTime.firstName}`;
-      return name;
-    }
-    return "";
-  };
   //fix
   handleBtnRefuse = (item) => {
     // console.log(">>> Check item: ", item);
@@ -188,6 +178,43 @@ export class ManagePatient extends Component {
       dataModal: data,
     });
     // console.log(">>> Check data: ", data);
+  };
+  sendWarning = async (dataChild) => {
+    // console.log("check data child", dataChild);
+    this.setState({
+      isShowLoading: true,
+    });
+    let res = await postSendWarning({
+      email: dataChild.email,
+      doctorId: dataChild.doctorId,
+      patientId: dataChild.patientId,
+      timeType: dataChild.timeType,
+      patientName: dataChild.patientName,
+      doctorName: dataChild.doctorName,
+      reason: dataChild.reason,
+      date: this.state.date,
+    });
+    // console.log("check modal:res", res);
+    if (res && res.errCode === 0) {
+      this.setState({
+        isShowLoading: false,
+      });
+      toast.success("Gửi email cảnh báo thành công: ");
+      this.closeWarningModal();
+      await this.getDataPatientS3();
+    } else {
+      this.setState({
+        isShowLoading: false,
+      });
+      toast.error("Có lỗi đang xảy ra... !!!");
+      console.log("Có lỗi khi gửi email: ", res);
+    }
+  };
+  closeWarningModal = () => {
+    this.setState({
+      isOpenWarningModal: false,
+      dataModal: {},
+    });
   };
 
   closeRefuseModal = () => {
@@ -227,48 +254,10 @@ export class ManagePatient extends Component {
       console.log("Có lỗi khi gửi email: ", res);
     }
   };
-  
-  sendWarning = async (dataChild) => {
-    // console.log("check data child", dataChild);
-    this.setState({
-      isShowLoading: true,
-    });
-    let res = await postSendWarning({
-      email: dataChild.email,
-      doctorId: dataChild.doctorId,
-      patientId: dataChild.patientId,
-      timeType: dataChild.timeType,
-      patientName: dataChild.patientName,
-      doctorName: dataChild.doctorName,
-      reason: dataChild.reason,
-      date: this.state.date,
-    });
-    // console.log("check modal:res", res);
-    if (res && res.errCode === 0) {
-      this.setState({
-        isShowLoading: false,
-      });
-      toast.success("Gửi email cảnh báo thành công: ");
-      this.closeWarningModal();
-      await this.getDataPatientS3();
-    } else {
-      this.setState({
-        isShowLoading: false,
-      });
-      toast.error("Có lỗi đang xảy ra... !!!");
-      console.log("Có lỗi khi gửi email: ", res);
-    }
-  };
 
   closeRemedyModal = () => {
     this.setState({
       isOpenRemedyModal: false,
-      dataModal: {},
-    });
-  };
-  closeWarningModal = () => {
-    this.setState({
-      isOpenWarningModal: false,
       dataModal: {},
     });
   };
@@ -353,11 +342,11 @@ export class ManagePatient extends Component {
       email: dataChild.email,
       doctorId: dataChild.doctorId,
       patientId: dataChild.patientId,
-      // timeType:
-      //   dataChild.statusId === "S3"
-      //     ? dataChild.timeTypeDataPatient
-      //     : dataChild.time,
-      timeType: dataChild.time,
+      timeType:
+        dataChild.bookingType === "ATHOME"
+          ? dataChild.timeTypeDataPatient
+          : dataChild.time,
+      // timeType: dataChild.time,
       patientName: dataChild.patientName,
       date: this.state.date,
     });
@@ -379,17 +368,19 @@ export class ManagePatient extends Component {
       console.log("error send remedy: ", res);
     }
   };
-
+  convertToLetter(index) {
+    return String.fromCharCode(66 + index); // 65 là mã Unicode cho chữ 'A'
+  }
   render() {
     let {
       isOpenRemedyModal,
       isOpenRefuseModal,
       isOpenWarningModal,
       dataModal,
-      dataPatientBookOnline,
+      dataPatientBookAtHome,
       arrayPatientS3
     } = this.state;
-    console.log("arr Online", dataPatientBookOnline);
+    console.log("arr At home", arrayPatientS3);
     return (
       <>
         <LoadingOverlay
@@ -412,41 +403,41 @@ export class ManagePatient extends Component {
                 />
               </div>
               <div className="col-12 table-m-p mt-3">
-                <p className="h5" style={{ color: "black", background: "white", border: "1px solid black" }}>
-                  Danh sách bệnh nhân đặt lịch khám trực tuyến:
+                <p className="h5 mt-4">
+                  Danh sách bệnh nhân đặt lịch khám tại nhà:
                 </p>
                 <table style={{ width: "100%" }}>
-                  <tbody>
-                    <tr>
+                  <tbody style={{ textOverflow: "ellipsis" }} >
+                    <tr >
                       <th>STT</th>
-                      <th style={{ width: "120px" }}>Thời gian</th>
-                      <th style={{ width: "230px" }}>Họ và tên</th>
-                      <th style={{ width: "220px", textAlign: "left" }}>Email</th>
-                      <th style={{ width: "260px" }}>Địa chỉ</th>
-                      <th style={{ width: "120px" }}>Giới tính</th>
+                      <th>Họ và tên</th>
+                      <th>Email</th>
+                      <th>Địa chỉ</th>
+                      <th>Giới tính</th>
                       <th>Lý do</th>
                       <th>Actions</th>
                     </tr>
-                    {dataPatientBookOnline &&
-                      dataPatientBookOnline.length > 0 ? (
-                      dataPatientBookOnline.map((item, index) => {
-                        return item.bookingType === "ONLINE" ? (
+                    {dataPatientBookAtHome &&
+                      dataPatientBookAtHome.length > 0 ? (
+                      dataPatientBookAtHome.map((item, index) => {
+                        return item.bookingType === "ATHOME" ? (
                           <tr key={index}>
                             <td>{index + 1}</td>
-                            <td>{item.timeTypeDataPatient.valueVI}</td>
                             <td>
                               {item.patientData.lastName +
                                 " " +
                                 item.patientData.firstName}
                             </td>
-                            <td style={{ textAlign: "left" }}>{item.patientData.email}</td>
+                            <td>{item.patientData.email}</td>
                             <td>{item.address}</td>
                             <td>{item.patientData.genderData.valueVI}</td>
                             <td>{item.reason}</td>
                             <td>
                               <button
                                 className="btn btn-info px-1 mx-1"
-                                onClick={() => this.handleBtnConfirmOn(item)}
+                                onClick={() =>
+                                  this.handleBtnConfirmAtHome(item)
+                                }
                                 hidden={item.statusId === "S2" ? false : true}
                               >
                                 Đồng ý
@@ -482,84 +473,95 @@ export class ManagePatient extends Component {
               </div>
             </div>
           </div>
-          <div className="col-12 table-m-p mt-3 " >
-            <p className="h5" style={{ marginTop: "50px", marginLeft: "20px", width: "97.5%" }}>
-              Danh sách các lịch hẹn
-            </p>
-            <table style={{ width: "97.5%", marginLeft: "20px", tableLayout: "unset" }}>
-              <tbody>
-                <tr>
-                  <th>STT</th>
-                  <th style={{ width: "100px" }}>Khung giờ</th>
-                  <th style={{ width: "140px" }}>Họ và tên</th>
-                  <th style={{ width: "100px" }}>Số điện thoại</th>
-                  <th style={{ width: "140px", textAlign: "left" }}>Email</th>
-                  <th>Địa chỉ</th>
-                  {/* <th>Lý do</th> */}
-                  <th style={{ width: "90px" }}>Actions</th>
-                </tr>
-                {arrayPatientS3 &&
-                  arrayPatientS3.length > 0 ? (
-                  arrayPatientS3.map((item, index) => {
-                    return item.statusId === "S3" ? (
-                      <tr key={index}>
-                        <td>{index + 1}</td>
-                        <td>{item.timeTypeDataPatient.valueVI}</td>
-                        <td>
-                          {item.patientData.lastName +
-                            " " +
-                            item.patientData.firstName}
-                        </td>
-                        <td>{item.patientData.phonenumber}</td>
-                        <td style={{ textAlign: "left" }}>{item.patientData.email}</td>
-                        <td>{item.address}</td>
-                        {/* <td>{item.reason}</td> */}
-                        <td>
-                          <button
-                            className="btn btn-info px-1 mx-1"
-                            onClick={() => this.handleBtnConfirmOn(item)}
-                            hidden={item.statusId === "S2" ? false : true}
-                          >
-                            Đồng ý
-                          </button>
-                          <button
-                            className="btn btn-success px-3 mx-1"
-                            onClick={() => this.handleConfirm(item)}
-                            hidden={item.statusId === "S3" ? false : true}
-                          >
-                            <i class="fa-regular fa-circle-check"></i>
-                          </button>
-                          <button
-                            className="btn btn-danger px-3 mx-1"
-                            onClick={() => this.handleCancel(item)}
-                          >
-                            <i class="fa-solid fa-ban"></i>
-                          </button>
-                          <button
-                            style={{ backgroundColor: "black", color: "white" }}
-                            className="btn px-3 mx-1"
-                            onClick={() => this.handleBtnWarning(item)}
-                          // onClick={() => this.handleBtnRefuse(item)}
-                          >
-                            <i class="fa-solid fa-lock"></i>
+          <div className="container-fluid">
+            <div className="row">
+              <div className="col-6 mt-4">
+                <MapDoctor
+                  address={this.state.addressDoctor}
+                  arrayPatientS3={this.state.arrayPatientS3}
+                  handleConfirm={this.handleConfirm}
+                />
+              </div>
+              <div className="col-6 table-m-p mt-4">
+                {/* <div className="col-12  mt-3 " > */}
+                <p className="h5" style={{width: "115%", marginLeft: "-120px" }}>
+                  Danh sách các lịch hẹn
+                </p>
+                <table style={{ width: "115%", marginLeft: "-120px", tableLayout: "unset", border: "1px solid black" }}>
+                  <tbody style={{border: "1px solid black"}}>
+                    <tr>
+                      <th>Tọa độ</th>
+                      <th style={{ width: "140px" }}>Họ và tên</th>
+                      <th style={{ width: "100px" }}>Số điện thoại</th>
+                      <th style={{ width: "140px" }}>Địa chỉ</th>
+                      {/* <th>Lý do</th> */}
+                      <th style={{ width: "150px", textAlign: "center" }}>Actions</th>
+                    </tr>
+                    {arrayPatientS3 &&
+                      arrayPatientS3.length > 0 ? (
+                      arrayPatientS3.map((item, index) => {
+                        return item.statusId === "S3" ? (
+                          <tr key={index}>
+                            <td style={{textAlign: "center"}}>{this.convertToLetter(index)}</td>
+                           
+                            <td>
+                              {item.patientData.lastName +
+                                " " +
+                                item.patientData.firstName}
+                            </td>
+                            <td>{item.patientData.phonenumber}</td>
+                            
+                            <td>{item.address}</td>
+                            {/* <td>{item.reason}</td> */}
+                            <td style={{ paddingBottom: "5px"}}>
+                              <button
+                                className="btn btn-info px-1 mx-1"
+                                onClick={() => this.handleBtnConfirmOn(item)}
+                                hidden={item.statusId === "S2" ? false : true}
+                              >
+                                Đồng ý
+                              </button>
+                              <button
+                                className="btn btn-success px-3 mx-1"
+                                onClick={() => this.handleConfirm(item)}
+                                hidden={item.statusId === "S3" ? false : true}
+                              >
+                                <i class="fa-regular fa-circle-check"></i>
+                              </button>
+                              <button
+                                className="btn btn-danger px-3 mx-1"
+                                onClick={() => this.handleCancel(item)}
+                              >
+                                <i class="fa-solid fa-ban"></i>
+                              </button>
+                              <button
+                                style={{ backgroundColor: "black", color: "white" }}
+                                className="btn px-3 mx-1"
+                                onClick={() => this.handleBtnWarning(item)}
+                              // onClick={() => this.handleBtnRefuse(item)}
+                              >
+                                <i class="fa-solid fa-lock"></i>
 
-                          </button>
-                        </td>
+                              </button>
+                            </td>
 
-                      </tr>
+                          </tr>
+                        ) : (
+                          ""
+                        );
+                      })
                     ) : (
-                      ""
-                    );
-                  })
-                ) : (
-                  <tr>
-                    <td colspan="8" className="no-data" style={{ color: "red", fontWeight: "600" }}>
-                      Lịch sử trống
-                    </td>
-                  </tr>
-                )}
-              </tbody>
-            </table>
+                      <tr>
+                        <td colspan="8" className="no-data" style={{ color: "red", fontWeight: "600", textAlign: "center" }}>
+                          Lịch sử trống
+                        </td>
+                      </tr>
+                    )}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+            {/* </div> */}
           </div>
           <RemedyModal
             isOpenModal={isOpenRemedyModal}
@@ -573,7 +575,7 @@ export class ManagePatient extends Component {
             closeRefuseModal={this.closeRefuseModal}
             sendRefuse={this.sendRefuse}
           />
-          <WarningModal
+           <WarningModal
             isOpenModal={isOpenWarningModal}
             dataModal={dataModal}
             closeWarningModal={this.closeWarningModal}
@@ -594,5 +596,7 @@ const mapDispatchToProps = (dispatch) => {
   return {};
 };
 
-  
-export default connect(mapStateToProps, mapDispatchToProps)(ManagePatient);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(ManagePatientAtHome);

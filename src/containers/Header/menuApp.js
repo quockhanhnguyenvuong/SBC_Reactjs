@@ -46,18 +46,22 @@ export const doctorMenu = [
     //hệ thống
     name: "Quản lý hệ thống",
     menus: [
-      // {
-      //   name: "Quản lý thông tin",
-      //   link: "/doctor/manage-doctor",
-      // },
       {
         name: "Lịch của tôi",
         link: "/doctor/manage-schedule",
       },
       {
-        name: "Quản lý lịch hẹn",
+        name: "Quản lý lịch hẹn trực tuyến",
         link: "/doctor/manage-patient",
       },
+      {
+        name: "Quản lý lịch hẹn tại nhà",
+        link: "/doctor/manage-patient-at-home",
+      },
+      {
+        name: "Quản lý lịch sử",
+        link: "/doctor/manage-history",
+      }
     ],
   },
 ];

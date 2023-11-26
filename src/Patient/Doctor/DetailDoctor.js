@@ -39,6 +39,7 @@ class DetailDoctor extends Component {
   render() {
     // console.log("check userinfo :", this.props.userInfo);
     // console.log("check 2:", this.state.currentDoctorId);
+    let infor = this.state.detailDoctor;
     let { detailDoctor } = this.state;
     let nameVi = "";
     if (detailDoctor && detailDoctor.positionData) {
@@ -87,8 +88,8 @@ class DetailDoctor extends Component {
                 address={
                   detailDoctor &&
                   detailDoctor.Doctor_Infor &&
-                  detailDoctor.Doctor_Infor.addressClinic
-                    ? detailDoctor.Doctor_Infor.addressClinic
+                  detailDoctor.Doctor_Infor.Clinic.address
+                    ? detailDoctor.Doctor_Infor.Clinic.address
                     : ""
                 }
               />

@@ -6,9 +6,12 @@ import {
   withScriptjs,
   DirectionsRenderer,
 } from "react-google-maps";
+
 import { getLatLng, geocodeByAddress } from "react-google-places-autocomplete";
 import haversine from "haversine-distance";
 import "./MapForDoctor.scss";
+import "dotenv";
+
 
 function MapDoctor(props) {
   const [center, setCenter] = useState({ lat: 0, lng: 0 });
@@ -29,6 +32,7 @@ function MapDoctor(props) {
       try {
         const results = await geocodeByAddress(props.address);
         const latLng = await getLatLng(results[0]);
+        console.log(latLng)
         setDoctorPosition({ lat: latLng.lat, lng: latLng.lng });
       } catch (error) {
         console.log("Error getting coordinates", error);
@@ -40,7 +44,7 @@ function MapDoctor(props) {
         getCoords();
       } else {
         const script = document.createElement("script");
-        script.src = `https://maps.googleapis.com/maps/api/js?key=${"AIzaSyB0M2HOZPKdY7BiMvXdMJrv_d6yr-cdNio"}&libraries=places`;
+        script.src = `https://maps.googleapis.com/maps/api/js?key=${"AIzaSyCaHtxNFUBb5c_Z3kQNEhg9oYF9MIcB6Cg"}&libraries=places`;
         script.onload = () => {
           setMapsLoaded(true);
           getCoords();
@@ -68,6 +72,7 @@ function MapDoctor(props) {
     if (storedPatientCoords) {
       setPatientCoords(JSON.parse(storedPatientCoords));
     }
+
   }, []);
 
   useEffect(() => {
@@ -78,35 +83,42 @@ function MapDoctor(props) {
 
   useEffect(() => {
     setCenter(doctorPosition);
-    const { arrayPatient } = props;
-    console.log("check arrayPatient", arrayPatient);
-
+    const { arrayPatientS3 } = props;
+    console.log("check arrayPatient", arrayPatientS3);
+  
     try {
       const getPatientCoordinates = async () => {
-        const coordinates = await Promise.all(
-          arrayPatient.map(async (item) => {
-            const results = await geocodeByAddress(item.patientData.address);
-            const latLng = await getLatLng(results[0]);
-            return latLng;
-          }),
-        );
-        setPatientCoords(coordinates);
-        const addresses = await Promise.all(
-          arrayPatient.map(async (item) => {
-            const results = await geocodeByAddress(item.patientData.address);
-            return results[0].formatted_address;
-          }),
-        );
-        setPatientAddresses(addresses);
+        if (window.google && window.google.maps) { // Kiểm tra nếu thư viện đã sẵn sàng
+          const coordinates = await Promise.all(
+            arrayPatientS3.map(async (item) => {
+              const results = await geocodeByAddress(item.address);
+              const latLng = await getLatLng(results[0]);
+              console.log("hdjahsdj", latLng)
+              return latLng;
+            }),
+          );
+          setPatientCoords(coordinates);
+  
+          const addresses = await Promise.all(
+            arrayPatientS3.map(async (item) => {
+              const results = await geocodeByAddress(item.address);
+              return results[0].formatted_address;
+            }),
+          );
+          setPatientAddresses(addresses);
+        } else {
+          console.log("Google Maps library not available yet.");
+        }
       };
-
-      if (arrayPatient.length > 0) {
+  
+      if (arrayPatientS3.length > 0) {
         getPatientCoordinates();
       }
     } catch (error) {
-      console.log("Error getting coordinats", error);
+      console.log("Error getting coordinates", error);
     }
-  }, [doctorPosition, props.address, props.arrayPatient]);
+  }, [doctorPosition, props.address, props.arrayPatientS3]);
+  
 
   useEffect(() => {
     if (patientCoords.length > 0) {
@@ -180,6 +192,7 @@ function MapDoctor(props) {
   const handleMapLoad = (map) => {
     setMap(map);
   };
+  
 
   const MapWithMarker = withScriptjs(
     withGoogleMap(() => (
@@ -194,6 +207,7 @@ function MapDoctor(props) {
         }}
         onLoad={handleMapLoad}
       >
+
         {doctorPosition && <Marker position={doctorPosition} />}
 
         {patientPositions.map((patient, index) => (
@@ -214,75 +228,79 @@ function MapDoctor(props) {
       </GoogleMap>
     )),
   );
-  const renderPatientInfo = () => {
-    return patientPositions.slice(1, 10000).map((patient, index) => {
-      const distance = (haversine(doctorPosition, patient) / 1000) * 1.2; // Quãng đường tính bằng mét, chuyển sang km
-      // const speed = 35;
-      // const time = (distance / speed) * 60;
-      const patientName = String.fromCharCode(66 + index);
+  // const renderPatientInfo = () => {
+  //   let { arrayPatientS3, handleConfirm} = props
+  //   console.log(props);
+    
+  //   return patientPositions.slice(1, 10000).map((patient, index) => {
+  //     const distance = (haversine(doctorPosition, patient) / 1000) * 1.2; // Quãng đường tính bằng mét, chuyển sang km
+  //     // const speed = 35;
+  //     // const time = (distance / speed) * 60;
+  //     // const patientName = arrayPatientS3.patientData.firstName + " " + arrayPatientS3.patientData.lastName;
+  //     const patientId = String.fromCharCode(66 + index);
+  //     if(arrayPatientS3 && arrayPatientS3.length > 0 ){
+  //       return (
+  //         <tr key={index}>
+  //           <td>{`${patientId}`}</td>
+  //           <td style={{}}>{arrayPatientS3[index].reason}</td>
+  //           <td>{`${patientAddresses[index]}`}</td>
+  //           <td>{`${distance.toFixed(2)} km`}</td>
+  //           {/* <td>{`${speed} km/h`}</td> */}
+  //           {/* <td>{`${time.toFixed(0)} phút`}</td> */}
+  //           <td>
+  //             <button
+  //               className="btn btn-success px-3 mx-1"
+  //               onClick={() =>handleConfirm(arrayPatientS3[index].doctorId, arrayPatientS3[index].patientId)}
+  //               // hidden={item.statusId === "S3" ? false : true}
+  //             >
+  //               <i class="fa-regular fa-circle-check"></i>
+  //             </button>
+  //             <button
+  //               className="btn btn-danger px-3 mx-1"
+  //               // onClick={() => this.handleCancel(item)}
+  //             >
+  //               <i class="fa-solid fa-ban"></i>
+  //             </button>
+  //             <button
+  //               style={{ backgroundColor: "black", color: "white" }}
+  //               className="btn px-3 mx-1"
+  //               // onClick={() => this.handleAddToBlackList(item)}
+  //             // onClick={() => this.hand0eBtnRefuse(item)}
+  //             >
+  //               <i class="fa-solid fa-lock"></i>
+  
+  //             </button>
+  //           </td>
+  //         </tr>
+  //       );
+  //     }
+  //     else { 
+      
+        
+  //     }
+      
+  //   });
+  // };
 
-      return (
-        <tr key={index}>
-          <td>{`${patientName}`}</td>
-          <td>{`${patientAddresses[index]}`}</td>
-          <td>{`${distance.toFixed(2)} km`}</td>
-          {/* <td>{`${speed} km/h`}</td> */}
-          {/* <td>{`${time.toFixed(0)} phút`}</td> */}
-            <td>
-              <button
-                className="btn btn-success px-1 mx-1"
-              >
-                Hoàn thành
-              </button>
-              <button
-                className="btn btn-danger px-1 mx-1"
-              >
-                Hủy lịch
-              </button>
-              <button
-                className="btn btn-danger px-1 mx-1"
-              >
-                Thêm vào danh sách đen
-              </button>
-            </td>
-        </tr>
-      );
-    });
-  };
   return (
     <div className="center container-fluid">
       <div className="map col-12 ">
         <MapWithMarker
-          googleMapURL={`https://maps.googleapis.com/maps/api/js?key=${"AIzaSyB0M2HOZPKdY7BiMvXdMJrv_d6yr-cdNio"}`}
+          googleMapURL={`https://maps.googleapis.com/maps/api/js?key=${"AIzaSyCaHtxNFUBb5c_Z3kQNEhg9oYF9MIcB6Cg"}`}
           loadingElement={<div style={{ height: "100%" }} />}
           containerElement={
             <div
               style={{
                 height: "100%",
-                width: "670px",
-                margin: "0",
+                width: "606px",
+                margin: "0", 
                 padding: "0",
               }}
             />
           }
           mapElement={<div style={{ height: "100%" }} />}
         />
-        <div className="patient-info">
-          <h2>Thông tin bệnh nhân</h2>
-          <table>
-            <thead>
-              <tr>
-                <th>Tọa độ</th>
-                <th>Địa chỉ</th>
-                <th>Quãng đường</th>
-                {/* <th>Vận tốc</th> */}
-                {/* <th>Thời gian</th> */}
-                <th>Actions</th>
-              </tr>
-            </thead>
-            <tbody>{renderPatientInfo()}</tbody>
-          </table>
-        </div>
+  
       </div>
     </div>
   );

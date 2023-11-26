@@ -1,20 +1,41 @@
-
 .center {
     // position: relative;
     margin: 10px 0 100px 0px;
+
     .map {
         height: 551px;
-        // width: 701px;
+        width: 609px;
         border: 2px solid black;
         padding: 0;
         top: 10px;
     }
+
     .patient-info {
         position: absolute;
         margin-right: 5px;
+        margin-left: -62px;
         // width: 850px;
         height: auto;
-        h2{
+
+        table {
+            table-layout: auto;
+            width: 700px;
+         
+
+            th,
+            td {
+                border: 1px solid black;
+                padding: 5px;
+                text-align: left;
+                overflow: hidden; 
+                white-space: nowrap; 
+                text-overflow: ellipsis; 
+                
+
+            }
+        }
+
+        h2 {
             color: orangered;
             text-align: center;
             text-transform: uppercase;
@@ -22,23 +43,26 @@
             font-family: 'Times New Roman', Times, serif;
             font-size: 19px;
         }
-        th {
-            padding: 5px;
-            padding-left: 20px;
-            text-align: center;
-        }
-        td {
-            padding-left: 10px;
-            text-align: center;
-            cursor: pointer;
-            padding-bottom: 10px;
-        }
-        padding-top: 5px;
+
+        // th {
+        //     padding: 5px;
+        //     padding-left: 20px;
+        //     text-align: center;
+        // }
+
+        // td {
+        //     padding-left: 10px;
+        //     text-align: center;
+        //     cursor: pointer;
+        //     padding-bottom: 10px;
+        // }
+
+        // padding-top: 5px;
         left: 680px;
-        top: 5px;
+        top: 0.25px;
         font-size: 14px;
-        border: 1px solid black;
-        border-radius: 10px;
+        // border: 1px solid black;
+        // border-radius: 10px;
         line-height: 1.5;
         // padding: 15px;
     }
