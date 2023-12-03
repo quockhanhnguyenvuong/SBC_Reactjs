@@ -138,6 +138,11 @@ const getListPatientAtHome = (data) => {
     `/api/get-list-patient-at-home?doctorId=${data.doctorId}&date=${data.date}`,
   )
 }
+const getEmailIsBlock = (data) => { 
+  return axios.get(
+    `/api/get-email-is-block?email=${data.email}`,
+  )
+}
 
 export {
   handleLoginApi,
@@ -173,5 +178,6 @@ export {
   getListPatientForHistory,
   getListPatientOnline,
   getListPatientAtHome,
-  getBlacklistEmail
+  getBlacklistEmail,
+  getEmailIsBlock
 };

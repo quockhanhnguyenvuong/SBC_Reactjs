@@ -216,7 +216,7 @@ export class ManagePatient extends Component {
       this.setState({
         isShowLoading: false,
       });
-      toast.success("Gửi email từ chối thành công: ");
+      toast.success("Gửi email từ chối thành công! ");
       this.closeRefuseModal();
       await this.getDataPatient();
     } else {
@@ -248,7 +248,7 @@ export class ManagePatient extends Component {
       this.setState({
         isShowLoading: false,
       });
-      toast.success("Gửi email cảnh báo thành công: ");
+      toast.success("Gửi email cảnh báo thành công!");
       this.closeWarningModal();
       await this.getDataPatientS3();
     } else {
@@ -367,7 +367,7 @@ export class ManagePatient extends Component {
         isShowLoading: false,
         // isDisable: !this.state.isDisable,
       });
-      toast.success("Gửi email xác nhận thành công: ");
+      toast.success("Gửi email xác nhận thành công! ");
       this.closeRemedyModal();
       await this.getDataPatient();
       await this.getDataPatientS3();
