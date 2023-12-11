@@ -18,7 +18,7 @@ function MapDoctor(props) {
   const [zoom, setZoom] = useState(13);
   const [doctorPosition, setDoctorPosition] = useState({ lat: 0, lng: 0 });
   const [patientPositions, setPatientPositions] = useState([]);
-  const [patientAddresses, setPatientAddresses] = useState([]);
+  const [showInfo, setShowInfo] = useState(false);
   const [directions, setDirections] = useState(null);
   const [mapsLoaded, setMapsLoaded] = useState(false);
   const [map, setMap] = useState(null);
@@ -44,7 +44,7 @@ function MapDoctor(props) {
         getCoords();
       } else {
         const script = document.createElement("script");
-        script.src = `https://maps.googleapis.com/maps/api/js?key=${"AIzaSyCaHtxNFUBb5c_Z3kQNEhg9oYF9MIcB6Cg"}&libraries=places`;
+        script.src = `https://maps.googleapis.com/maps/api/js?key=${"AIzaSyB9B_9WP2V8ovuyRUyCIwYKVoB0MC6MURM"}&libraries=places`;
         script.onload = () => {
           setMapsLoaded(true);
           getCoords();
@@ -83,9 +83,10 @@ function MapDoctor(props) {
 
   useEffect(() => {
     setCenter(doctorPosition);
+    console.log(center)
     const { arrayPatientS3 } = props;
     console.log("check arrayPatient", arrayPatientS3);
-  
+
     try {
       const getPatientCoordinates = async () => {
         if (window.google && window.google.maps) { // Kiểm tra nếu thư viện đã sẵn sàng
@@ -98,19 +99,19 @@ function MapDoctor(props) {
             }),
           );
           setPatientCoords(coordinates);
-  
-          const addresses = await Promise.all(
-            arrayPatientS3.map(async (item) => {
-              const results = await geocodeByAddress(item.address);
-              return results[0].formatted_address;
-            }),
-          );
-          setPatientAddresses(addresses);
+
+          // const addresses = await Promise.all(
+          //   arrayPatientS3.map(async (item) => {
+          //     const results = await geocodeByAddress(item.address);
+          //     return results[0].formatted_address;
+          //   }),
+          // );
+          // setPatientAddresses(addresses);
         } else {
           console.log("Google Maps library not available yet.");
         }
       };
-  
+
       if (arrayPatientS3.length > 0) {
         getPatientCoordinates();
       }
@@ -118,7 +119,7 @@ function MapDoctor(props) {
       console.log("Error getting coordinates", error);
     }
   }, [doctorPosition, props.address, props.arrayPatientS3]);
-  
+
 
   useEffect(() => {
     if (patientCoords.length > 0) {
@@ -158,12 +159,14 @@ function MapDoctor(props) {
   }, [doctorPosition, patientCoords]);
 
   useEffect(() => {
+
     if (
       mapsLoaded &&
       doctorPosition &&
       patientPositions.length > 0 &&
       window.google &&
-      window.google.maps
+      window.google.maps &&
+      props.arrayPatientS3.length > 0
     ) {
       const calculateDirections = async () => {
         const directionsService = new window.google.maps.DirectionsService();
@@ -187,12 +190,37 @@ function MapDoctor(props) {
       };
       calculateDirections();
     }
-  }, [mapsLoaded, doctorPosition, patientPositions]);
+    else {
+      setDirections(null);
+    }
+  }, [mapsLoaded, doctorPosition, patientPositions, props.arrayPatientS3]);
+
+  const toggleInfo = () => {
+    setShowInfo(!showInfo);
+  };
 
   const handleMapLoad = (map) => {
     setMap(map);
   };
+  const renderPatientInfo = () => {
+    if (props.arrayPatientS3.length === 0 ) { 
+      return <div style={{color : "red"}}>Hôm nay không có lịch hẹn</div>;
+    } else {
+      return patientPositions.slice(1, 10000).map((patient, index) => {
+        const distance = (haversine(doctorPosition, patient) / 1000) * 1.4; 
+        const speed = 28;
+        const time = (distance / speed) * 60;
+        const patientName = String.fromCharCode(66 + index);
   
+        return (
+          <div style={{borderBottom: "1px solid black"}}>
+            <div>Khoảng cách đến <span style={{ color: 'red', fontWeight: "bold" }}>{`${patientName}`}</span>: {`${distance.toFixed(2)}`} km</div>
+            <div>Thời gian: {`${time.toFixed(1)}`} phút</div>
+          </div>
+        );
+      });
+    }
+  };
 
   const MapWithMarker = withScriptjs(
     withGoogleMap(() => (
@@ -210,9 +238,10 @@ function MapDoctor(props) {
 
         {doctorPosition && <Marker position={doctorPosition} />}
 
-        {patientPositions.map((patient, index) => (
-          <Marker key={index} position={patient} />
-        ))}
+        {props.arrayPatientS3.length > 0 &&
+          patientPositions.map((patient, index) => (
+            <Marker key={index} position={patient} />
+          ))}
 
         {directions && (
           <DirectionsRenderer
@@ -228,80 +257,34 @@ function MapDoctor(props) {
       </GoogleMap>
     )),
   );
-  // const renderPatientInfo = () => {
-  //   let { arrayPatientS3, handleConfirm} = props
-  //   console.log(props);
-    
-  //   return patientPositions.slice(1, 10000).map((patient, index) => {
-  //     const distance = (haversine(doctorPosition, patient) / 1000) * 1.2; // Quãng đường tính bằng mét, chuyển sang km
-  //     // const speed = 35;
-  //     // const time = (distance / speed) * 60;
-  //     // const patientName = arrayPatientS3.patientData.firstName + " " + arrayPatientS3.patientData.lastName;
-  //     const patientId = String.fromCharCode(66 + index);
-  //     if(arrayPatientS3 && arrayPatientS3.length > 0 ){
-  //       return (
-  //         <tr key={index}>
-  //           <td>{`${patientId}`}</td>
-  //           <td style={{}}>{arrayPatientS3[index].reason}</td>
-  //           <td>{`${patientAddresses[index]}`}</td>
-  //           <td>{`${distance.toFixed(2)} km`}</td>
-  //           {/* <td>{`${speed} km/h`}</td> */}
-  //           {/* <td>{`${time.toFixed(0)} phút`}</td> */}
-  //           <td>
-  //             <button
-  //               className="btn btn-success px-3 mx-1"
-  //               onClick={() =>handleConfirm(arrayPatientS3[index].doctorId, arrayPatientS3[index].patientId)}
-  //               // hidden={item.statusId === "S3" ? false : true}
-  //             >
-  //               <i class="fa-regular fa-circle-check"></i>
-  //             </button>
-  //             <button
-  //               className="btn btn-danger px-3 mx-1"
-  //               // onClick={() => this.handleCancel(item)}
-  //             >
-  //               <i class="fa-solid fa-ban"></i>
-  //             </button>
-  //             <button
-  //               style={{ backgroundColor: "black", color: "white" }}
-  //               className="btn px-3 mx-1"
-  //               // onClick={() => this.handleAddToBlackList(item)}
-  //             // onClick={() => this.hand0eBtnRefuse(item)}
-  //             >
-  //               <i class="fa-solid fa-lock"></i>
-  
-  //             </button>
-  //           </td>
-  //         </tr>
-  //       );
-  //     }
-  //     else { 
-      
-        
-  //     }
-      
-  //   });
-  // };
-
   return (
     <div className="center container-fluid">
       <div className="map col-12 ">
         <MapWithMarker
-          googleMapURL={`https://maps.googleapis.com/maps/api/js?key=${"AIzaSyCaHtxNFUBb5c_Z3kQNEhg9oYF9MIcB6Cg"}`}
+          googleMapURL={`https://maps.googleapis.com/maps/api/js?key=${"AIzaSyB9B_9WP2V8ovuyRUyCIwYKVoB0MC6MURM"}`}
           loadingElement={<div style={{ height: "100%" }} />}
           containerElement={
             <div
               style={{
                 height: "100%",
                 width: "606px",
-                margin: "0", 
+                margin: "0",
                 padding: "0",
               }}
             />
           }
           mapElement={<div style={{ height: "100%" }} />}
         />
-  
+        <div className="toggle-info" onClick={toggleInfo}>
+          <i class="fa-solid fa-car"></i>
+        </div>
+        {showInfo && (
+          <div className="info">
+            {renderPatientInfo()}
+          </div>
+        )}
       </div>
+
     </div>
   );
 }

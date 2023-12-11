@@ -67,3 +67,26 @@
         // padding: 15px;
     }
 }
+.toggle-info {
+    position: absolute;
+    top: 10px;
+    left: 15px;
+    z-index: 9999;
+    padding: 5px 6px;
+    background-color: white;
+    i{
+        cursor: pointer;
+        color: rgb(151, 151, 149);
+        font-size: 20px;
+    }
+  }
+  
+  .info {
+    position: absolute;
+    bottom: 10px;
+    left: 10px;
+    background: white;
+    padding: 10px;
+    border: 1px solid #ccc;
+    z-index: 9999;
+  }

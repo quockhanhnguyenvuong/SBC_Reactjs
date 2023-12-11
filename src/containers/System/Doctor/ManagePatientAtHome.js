@@ -553,7 +553,7 @@ class ManagePatientAtHome extends Component {
                     ) : (
                       <tr>
                         <td colspan="8" className="no-data" style={{ color: "red", fontWeight: "600", textAlign: "center" }}>
-                          Lịch sử trống
+                          Danh sách trống
                         </td>
                       </tr>
                     )}
