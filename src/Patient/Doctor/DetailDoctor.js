@@ -5,6 +5,9 @@ import "./DetailDoctor.scss";
 import { getDetailInforDoctor } from "../../services/userService";
 import DoctorSchedule from "./DoctorSchedule";
 import DoctorExtraInfor from "./DoctorExtraInfor.";
+import LikeAndShare from '../SocialPlugin/LikeAndShare'
+import Comment from "../SocialPlugin/Comment";
+import {initFacebookSDK} from "../SocialPlugin/utils"
 import Map from "../Map/Map";
 
 class DetailDoctor extends Component {
@@ -34,7 +37,9 @@ class DetailDoctor extends Component {
       console.log("check data:", this.state.detailDoctor);
     }
   }
-  componentDidUpdate(prevProps, prevState, snapshot) {}
+  componentDidUpdate(prevProps, prevState, snapshot) {
+    initFacebookSDK();
+  }
 
   render() {
     // console.log("check userinfo :", this.props.userInfo);
@@ -67,7 +72,9 @@ class DetailDoctor extends Component {
                     detailDoctor.Markdown.description && (
                       <span>{detailDoctor.Markdown.description}</span>
                     )}
+                    
                 </div>
+                <LikeAndShare dataHref={"https://developers.facebook.com/docs/plugins/"}/>
               </div>
             </div>
             <div className="schedule-doctor col-9">
@@ -105,7 +112,9 @@ class DetailDoctor extends Component {
                   ></div>
                 )}
             </div>
-            <div className="comment-doctor col-12"></div>
+            <div className="comment-doctor col-12">
+              <Comment dataHref={"https://developers.facebook.com/docs/plugins/comments#configurator"} width="100%"/>
+            </div>
           </div>
         </div>
       </>

@@ -106,7 +106,12 @@ class ModalRegister extends Component {
       ...copyState,
     });
   };
+  checkEmailInput = () => {
 
+  }
+  checkPhoneNumber = () => {
+    
+  }
   checkValidateInput = () => {
     let isValue = true;
     let arrInput = [
@@ -123,17 +128,17 @@ class ModalRegister extends Component {
     for (let i = 0; i < arrInput.length; i++) {
       if (!this.state[arrInput[i]]) {
         isValue = false;
-        if (arrInput[i] === "email") alert("Vui lòng nhập : email đăng nhập");
-        if (arrInput[i] === "password") alert("Vui lòng nhập : mật khẩu");
-        if (arrInput[i] === "firstName") alert("Vui lòng nhập : tên");
-        if (arrInput[i] === "lastName") alert("Vui lòng nhập : họ");
+        if (arrInput[i] === "email") toast.warn("Vui lòng nhập : email đăng nhập");
+        if (arrInput[i] === "password") toast.warn("Vui lòng nhập : mật khẩu");
+        if (arrInput[i] === "firstName") toast.warn("Vui lòng nhập : tên");
+        if (arrInput[i] === "lastName") toast.warn("Vui lòng nhập : họ");
         // if (arrInput[i] === "apartmentNumber")
         //   alert("Vui lòng nhập : số nhà, tên đường");
         // if (arrInput[i] === "wards") alert("Vui lòng nhập : phường");
         // if (arrInput[i] === "district") alert("Vui lòng nhập : quận");
         // if (arrInput[i] === "city") alert("Vui lòng nhập : thành phố");
         if (arrInput[i] === "phonenumber")
-          alert("Vui lòng nhập : số điện thoại");
+          toast.warn("Vui lòng nhập : số điện thoại");
         break;
       }
     }
