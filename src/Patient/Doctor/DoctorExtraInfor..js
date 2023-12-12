@@ -2,12 +2,15 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import "./DoctorExtraInfor.scss";
 import { getExtraInforDoctorById } from "../../../src/services/userService";
+import BookingModal from "./Modal/BookingModal";
+
 class DoctorExtraInfor extends Component {
   constructor(props) {
     super(props);
     this.state = {
       isShowDetailInfor: false,
       extraInfor: {},
+      isOpenModalBooking: false,
     };
   }
   async componentDidMount() {
@@ -35,16 +38,38 @@ class DoctorExtraInfor extends Component {
       isShowDetailInfor: status,
     });
   };
+
+  handleClickBooking = () => {
+    this.setState({
+      isOpenModalBooking: true,
+    });
+  };
+
+  closeBookingClose = () => {
+    this.setState({
+      isOpenModalBooking: false,
+    });
+  };
+
   render() {
-    console.log("check data extra:", this.state);
     let { isShowDetailInfor, extraInfor } = this.state;
     console.log("check data:", extraInfor);
+    // console.log("doctor id:", this.props.doctorIdFromParent);
     return (
       <div className="doctor-extra-infor-container">
         <div className="content-up">
-          <div className="text-address">
-            Đặt khám tại nhà <i className="far fa-hand-point-right"></i>{" "}
-            <button className="btn btn-booking-at-home">Tại đây </button>
+          <div className="text-address mb-1">
+            <div className="pt-1">
+              Đặt khám tại nhà <i className="far fa-hand-point-right"></i>{" "}
+            </div>
+            <div>
+              <button
+                className="btn btn-booking-at-home text-danger"
+                onClick={() => this.handleClickBooking()}
+              >
+                Tại đây
+              </button>
+            </div>
           </div>
           <div className="name-clinic">
             {extraInfor && extraInfor.nameClinic ? extraInfor.nameClinic : ""}
@@ -106,6 +131,14 @@ class DoctorExtraInfor extends Component {
             </>
           )}
         </div>
+        <BookingModal
+          isOpenModal={this.state.isOpenModalBooking}
+          closeBookingClose={this.closeBookingClose}
+          doctorName={extraInfor.User}
+          doctorIdFromParent={this.props.doctorIdFromParent}
+          type={"ATHOME"}
+          title={"Thông tin đặt lịch khám bệnh tại nhà"}
+        />
       </div>
     );
   }

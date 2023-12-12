@@ -9,6 +9,7 @@ import DatePicker from "../../../components/Input/DatePicker";
 import { toast } from "react-toastify";
 import _ from "lodash";
 import { saveBulkScheduleDoctor } from "../../../services/userService";
+import { USER_ROLE } from "../../../utils";
 
 class ManageSchedule extends Component {
   constructor(props) {
@@ -18,6 +19,7 @@ class ManageSchedule extends Component {
       selectedDoctor: {},
       currentDate: "",
       rangeTime: [],
+      dataDoctor: {},
     };
   }
 
@@ -26,11 +28,23 @@ class ManageSchedule extends Component {
     this.props.fetchAllScheduleTime();
   }
   componentDidUpdate(prevProps, prevState, snapshot) {
+    let { userInfo } = this.props;
+    let name = userInfo.lastName + " " + userInfo.firstName;
+    // console.log(name);
     if (prevProps.allDoctors !== this.props.allDoctors) {
       let dataSelect = this.buildDataInputSelect(this.props.allDoctors);
+      dataSelect.map((item, index) => {
+        // console.log("item", item.label);
+        if (item.label === name) {
+          this.setState({
+            dataDoctor: item,
+          });
+        }
+      });
       this.setState({
         listDoctors: dataSelect,
       });
+      // console.log("dataselect", dataSelect);
     }
     if (prevProps.allScheduleTime !== this.props.allScheduleTime) {
       let data = this.props.allScheduleTime;
@@ -59,16 +73,16 @@ class ManageSchedule extends Component {
   };
 
   handleSaveSchedule = async () => {
-    let { rangeTime, selectedDoctor, currentDate } = this.state;
+    let { rangeTime, selectedDoctor, currentDate, dataDoctor } = this.state;
     let result = [];
     if (!currentDate) {
       toast.warn("Vui lòng chọn thòi gian!");
       return;
     }
-    if (selectedDoctor && _.isEmpty(selectedDoctor)) {
-      toast.warn("Vui lòng chọn bác sĩ!");
-      return;
-    }
+    // if (selectedDoctor && _.isEmpty(selectedDoctor)) {
+    //   toast.warn("Vui lòng chọn bác sĩ!");
+    //   return;
+    // }
     // let formatedDate = moment(currentDate).format(dateFormat.SEND_TO_SERVER);
     let formatedDate = new Date(currentDate).getTime();
 
@@ -77,7 +91,8 @@ class ManageSchedule extends Component {
       if (selectedTime && selectedTime.length > 0) {
         selectedTime.map((schedule, index) => {
           let object = {};
-          object.doctorId = selectedDoctor.value;
+          // object.doctorId = selectedDoctor.value;
+          object.doctorId = dataDoctor.value;
           object.date = formatedDate;
           object.timeType = schedule.keyMap;
           result.push(object);
@@ -90,7 +105,7 @@ class ManageSchedule extends Component {
 
     let res = await saveBulkScheduleDoctor({
       arrSchedule: result,
-      doctorId: selectedDoctor.value,
+      doctorId: dataDoctor.value,
       formatedDate: formatedDate,
     });
 
@@ -119,6 +134,7 @@ class ManageSchedule extends Component {
 
   handleChangeSelect = async (selectOption) => {
     this.setState({ selectedDoctor: selectOption });
+    console.log("check doctor", selectOption);
   };
 
   handleChangeDatePicker = (date) => {
@@ -128,24 +144,51 @@ class ManageSchedule extends Component {
   };
 
   render() {
+    let { userInfo } = this.props;
+    let role = userInfo.roleId;
     let { rangeTime } = this.state;
     let yesterday = new Date(new Date().setDate(new Date().getDate() - 1));
+    console.log("check data doctor", this.state.dataDoctor);
     return (
       <div className="container manage-schedule-container">
         <div className="row">
           <div className=" title text-center col-12 mt-4">
             Quản lý lịch khám bệnh
           </div>
-          ;
-          <div className="col-6 mt-4 ">
+          {/* <div className="col-5 mt-4">
             <label>Chọn bác sĩ:</label>
             <Select
-              value={this.state.selectedDoctor}
+              value={this.state.selectDoctor}
               onChange={this.handleChangeSelect}
               options={this.state.listDoctors}
+              placeholder="Chọn bác sĩ..."
             />
-          </div>
-          <div className="col-5 mt-4">
+          </div> */}
+          {role === USER_ROLE.ADMIN ? (
+            <div className="col-5">
+              <label>Chọn bác sĩ:</label>
+              <Select
+                value={this.state.selectDoctor}
+                onChange={this.handleChangeSelect}
+                options={this.state.listDoctors}
+                placeholder="Chọn bác sĩ..."
+              />
+            </div>
+          ) : role === USER_ROLE.DOCTOR ? (
+            <div className="col-4 mt-4">
+              <label>Tên của tôi:</label>
+              <input
+                type="text"
+                className="form-control"
+                value={this.state.dataDoctor.label}
+                disabled
+              />
+            </div>
+          ) : (
+            "ko có bác sĩ"
+          )}
+
+          <div className="col-6 mt-4">
             <label>Chọn thời gian :</label>
             <br />
             <DatePicker
@@ -194,6 +237,7 @@ const mapStateToProps = (state) => {
     isLoggedIn: state.user.isLoggedIn,
     allDoctors: state.admin.allDoctors,
     allScheduleTime: state.admin.allScheduleTime,
+    userInfo: state.user.userInfo,
   };
 };
 

@@ -5,6 +5,8 @@ import "./DetailDoctor.scss";
 import { getDetailInforDoctor } from "../../services/userService";
 import DoctorSchedule from "./DoctorSchedule";
 import DoctorExtraInfor from "./DoctorExtraInfor.";
+import Comment from "../SocialPlugin/Comment";
+import LikeAndShare from "../SocialPlugin/LikeAndShare";
 import Map from "../Map/Map";
 
 class DetailDoctor extends Component {
@@ -45,6 +47,8 @@ class DetailDoctor extends Component {
     if (detailDoctor && detailDoctor.positionData) {
       nameVi = `${detailDoctor.positionData.valueVi}, ${detailDoctor.lastName} ${detailDoctor.firstName}`;
     }
+    let currentURL = +process.env.REACT_APP_IS_LOCALHOST === 1 ? 
+    "https://www.facebook.com/profile.php?id=61552132314233" : window.location.href;
     return (
       <>
         <HomeHeader />
@@ -67,12 +71,15 @@ class DetailDoctor extends Component {
                     detailDoctor.Markdown.description && (
                       <span>{detailDoctor.Markdown.description}</span>
                     )}
+                    <div className="like-share-plugin">
+                      <LikeAndShare dataHref= {currentURL}
+                      />
+                    </div>
                 </div>
               </div>
             </div>
             <div className="schedule-doctor col-9">
               <div className="content-left">
-                {/* <DoctorSchedule doctorIdFromParent={this.state.currentDoctorId} /> */}
                 <DoctorSchedule doctorIdFromParent={detailDoctor.id} />
               </div>
               <div className="content-right">
@@ -82,7 +89,15 @@ class DetailDoctor extends Component {
               </div>
             </div>
             <div className="col-3">
-              <Map />
+              <Map
+                address={
+                  detailDoctor &&
+                  detailDoctor.Doctor_Infor &&
+                  detailDoctor.Doctor_Infor.addressClinic
+                    ? detailDoctor.Doctor_Infor.addressClinic
+                    : ""
+                }
+              />
             </div>
             <div className="detail-info-doctor col-12">
               {detailDoctor &&
@@ -95,7 +110,12 @@ class DetailDoctor extends Component {
                   ></div>
                 )}
             </div>
-            <div className="comment-doctor col-12"></div>
+            <div className="comment-doctor col-12">
+              <Comment
+                 dataHref={currentURL}
+                 width= {"100%"}
+              />
+            </div>
           </div>
         </div>
       </>

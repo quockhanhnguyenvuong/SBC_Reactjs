@@ -9,7 +9,7 @@ import BookingModal from "./Modal/BookingModal";
 class DoctorSchedule extends Component {
   constructor(props) {
     super(props);
-    this.state = { 
+    this.state = {
       allDays: [],
       allAvalableTime: [],
       isOpenModalBooking: false,
@@ -23,19 +23,6 @@ class DoctorSchedule extends Component {
 
   async componentDidMount() {
     this.getArrDays();
-    // if(this.props.doctorIdFromParent){
-    //   let res = await getscheduleDoctorByDate(
-    //     this.props.doctorIdFromParent,
-    //     this.state.allDays[0].value,
-    //   );
-    //   this.setState({
-    //     allAvalableTime: res.data ? res.data : [],
-    //   });
-    // }
-    // this.setState({
-    //   allDays: allDays,
-    // })
-   
   }
 
   getArrDays = () => {
@@ -48,6 +35,7 @@ class DoctorSchedule extends Component {
       object.value = moment(new Date()).add(i, "days").startOf("day").valueOf();
       allDays.push(object);
     }
+
     // return allDays;
     this.setState({
       allDays: allDays,
@@ -71,8 +59,8 @@ class DoctorSchedule extends Component {
     if (this.props.doctorIdFromParent) {
       let doctorId = this.props.doctorIdFromParent;
       let date = event.target.value;
-      // check lại có chạy thành công kh
       let res = await getscheduleDoctorByDate(doctorId, date);
+      console.log("check res", res);
       if (res && res.errCode === 0) {
         this.setState({
           allAvalableTime: res.data ? res.data : [],
@@ -101,7 +89,7 @@ class DoctorSchedule extends Component {
       isOpenModalBooking,
       dataScheduleTimeModal,
     } = this.state;
-
+    // console.log("check props", this.props);
     // console.log("check allAvalableTime", dataScheduleTimeModal);
     return (
       <>
@@ -131,12 +119,10 @@ class DoctorSchedule extends Component {
                   <div className="time-content-btns">
                     {allAvalableTime.map((item, index) => {
                       let timeDisplay = item.timeTypeData.valueVI;
-                      // let timeDisplay = language = LANGUAGES.VI ?
-                      //     item.timeTypeData.valueVI : item.timeTypeData.valueEn;
+
                       return (
                         <button
                           key={index}
-                          /*className={language === LANGUAGES.VI ? 'btn-vie' : 'btn-en'}*/
                           onClick={() => this.handleClickScheduleTime(item)}
                         >
                           {timeDisplay}
@@ -166,7 +152,7 @@ class DoctorSchedule extends Component {
           isOpenModal={isOpenModalBooking}
           closeBookingClose={this.closeBookingClose}
           dataTime={dataScheduleTimeModal}
-          type={"Schedule"}
+          type={"ONLINE"}
           title={"Thông tin đặt lịch khám bệnh trực tuyến "}
         />
       </>

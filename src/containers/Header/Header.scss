@@ -13,6 +13,17 @@
         flex-direction: column;
         justify-content: center;
     }
+    .btn-home{
+        color: white;
+        padding: 10px 10px;
+        &:hover {
+            background-color: darken($colormain, 5);
+            border-radius: 3px;
+        }
+        i {
+            font-size: $base-size + 1px;
+        }
+    }
     .btn-logout, .btn-register {
         color: $common-text-color;
         line-height: 40px;

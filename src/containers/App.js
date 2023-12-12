@@ -20,6 +20,7 @@ import Header from "./Header/Header";
 import DetailUser from "../Patient/User/DetailUser";
 import ChangePassword from "../Patient/User/ChangePassword";
 import BookingHistory from "../Patient/User//BookingHistory";
+import VerifyEmail from "../Patient/VerifyEmail";
 import DetailSpecialty from "./HomePage/Specialty/DetailSpecialty";
 import DetailDoctor from "../Patient/Doctor/DetailDoctor";
 import DetailClinic from "../Patient/Clinic/DetailClinic";
@@ -62,6 +63,10 @@ class App extends Component {
                     path={path.SYSTEM}
                     component={userIsAuthenticated(System)}
                   />
+                  {/* <Route
+                    path={path.VERIFY_EMAIL_BOOKING}
+                    component={VerifyEmail}
+                  /> */}
                   <Route
                     path={"/doctor/"}
                     component={userIsAuthenticated(Doctor)}
@@ -82,13 +87,10 @@ class App extends Component {
                     path={path.DETAIL_SPECIALTY}
                     component={DetailSpecialty}
                   />
-                   <Route
-                    path={path.DETAIL_CLINIC}
-                    component={DetailClinic}
-                  />
+                  <Route path={path.DETAIL_CLINIC} component={DetailClinic} />
                   <Route
                     path={"/home/detail-doctor/:id"}
-                    component={userIsAuthenticated(DetailDoctor)}
+                    component={DetailDoctor}
                   />
 
                   <Route path={path.HOMEPAGE} component={HomePage} />
@@ -99,7 +101,7 @@ class App extends Component {
             {/* react-toastify */}
             <ToastContainer
               position="bottom-right"
-              autoClose={3000}
+              autoClose={2000}
               hideProgressBar={false}
               newestOnTop={false}
               closeOnClick

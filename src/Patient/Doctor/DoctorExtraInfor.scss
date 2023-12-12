@@ -5,8 +5,10 @@
         .text-address {
             text-transform: uppercase;
             color: #333;
+            display: flex;
+            justify-content:space-between;
             .btn-booking-at-home{
-                margin-left: 160px;
+                // margin-left: 160px;
                 &:hover{
                     color: rgb(38, 160, 231);
                 }

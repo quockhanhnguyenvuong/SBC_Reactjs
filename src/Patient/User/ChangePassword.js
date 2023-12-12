@@ -120,16 +120,15 @@ class ChangePassword extends Component {
           <div className="row">
             <div className="col-12 title mb-4">Đổi mật khẩu</div>
             {/* left banner */}
-            <div className="left-banner col-3 mt-5 ">
-              {/* <img src="avatar.png" alt="Avatar" className="avatar" /> */}
-              <div className="avatar mb-4">
+            <div className="left-banner col-2 mt-5 ">
+              {/* <div className="avatar mb-4">
                 <i class="far fa-user-circle"></i>
               </div>
               <div>
                 <span className="name mx-4">
                   {this.props.userInfo.firstName} {this.props.userInfo.lastName}
                 </span>
-              </div>
+              </div> */}
             </div>
             {/* right banner */}
             <div className="right-banner col-8">

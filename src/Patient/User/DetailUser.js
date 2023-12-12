@@ -5,6 +5,9 @@ import HomeHeader from "../../containers/HomePage/HomeHeader";
 import { Container, Row } from "reactstrap";
 import { getAllCodeService, editUserService } from "../../services/userService";
 import { toast } from "react-toastify";
+import { getAllUsers } from "../../services/userService";
+import { CommonUtils } from "../../utils";
+import Lightbox from "react-image-lightbox";
 
 class DetailUser extends Component {
   constructor(props) {
@@ -22,11 +25,16 @@ class DetailUser extends Component {
       phonenumber: "",
       address: "",
       gender: "",
-      // image: "",
+      image: "",
+
+      arrUser: {},
+      previewImgURL: "",
+      isOpenImage: false,
     };
   }
 
   async componentDidMount() {
+    await this.getAllUserFromReact();
     this.getUserInfor();
     await this.getGenderFormReact();
     let genderArr = this.state.genderArr;
@@ -34,15 +42,46 @@ class DetailUser extends Component {
       gender: genderArr && genderArr.length > 0 ? genderArr[0].keyMap : "",
     });
   }
+
+  // open preview image
+  openPreviewImage = () => {
+    if (!this.state.previewImgURL) return;
+    this.setState({
+      isOpenImage: true,
+    });
+  };
+  handleOnChangeImage = async (event) => {
+    let data = event.target.files;
+    let file = data[0];
+    if (file) {
+      let base64 = await CommonUtils.getBase64(file);
+      let objectUrl = URL.createObjectURL(file);
+      this.setState({
+        previewImgURL: objectUrl,
+        image: base64,
+      });
+    }
+  };
+
+  getAllUserFromReact = async () => {
+    let response = await getAllUsers(this.props.userInfo.id);
+    if (response && response.errCode === 0) {
+      this.setState({
+        arrUser: response.users,
+      });
+    }
+  };
+
   getUserInfor = () => {
     this.setState({
-      userId: this.props.userInfo.id,
-      email: this.props.userInfo.email,
-      firstName: this.props.userInfo.firstName,
-      lastName: this.props.userInfo.lastName,
-      phonenumber: this.props.userInfo.phonenumber,
-      address: this.props.userInfo.address,
-      gender: this.props.userInfo.gender,
+      userId: this.state.arrUser.id,
+      email: this.state.arrUser.email,
+      firstName: this.state.arrUser.firstName,
+      lastName: this.state.arrUser.lastName,
+      phonenumber: this.state.arrUser.phonenumber,
+      address: this.state.arrUser.address,
+      gender: this.state.arrUser.gender,
+      image: this.state.arrUser.image,
     });
   };
   //change cancel
@@ -88,6 +127,7 @@ class DetailUser extends Component {
     }
   };
   handleEditUser = async () => {
+    // alert("Xác nhận lưu thông tin?");
     // console.log("check state:", this.state);
     let isValid = this.checkValidateInput();
     if (isValid === false) return;
@@ -98,7 +138,7 @@ class DetailUser extends Component {
       address: this.state.address,
       phonenumber: this.state.phonenumber,
       gender: this.state.gender,
-      // image: this.state.image,
+      image: this.state.image,
     });
   };
   // get value input
@@ -123,26 +163,37 @@ class DetailUser extends Component {
 
   render() {
     let genders = this.state.genderArr;
-    let { email, firstName, lastName, phonenumber, address, gender } =
+    let { email, firstName, lastName, phonenumber, address, gender, image } =
       this.state;
     // const { userInfo } = this.props;
-    // console.log("check:", userInfo);
+    // console.log("check:", this.props.userInfo);
+    console.log("check user infor:", this.state);
     return (
       <div className="banner-container">
         <HomeHeader />
+        {/* Image Lightbox */}
+        {this.state.isOpenImage === true && (
+          <Lightbox
+            mainSrc={this.state.previewImgURL}
+            onCloseRequest={() => this.setState({ isOpenImage: false })}
+          />
+        )}
         <div className="container mt-5">
           <div className="row">
             <div className="title col-12 mb-4">Hồ sơ của tôi</div>
-            <div className="left-banner col-3  mt-5 ">
-              {/* <img src="avatar.png" alt="Avatar" className="avatar" /> */}
-              <div className="avatar mb-4">
-                <i class="far fa-user-circle"></i>
-              </div>
+            <div className="left-banner col-2  mt-5 ">
+              {/* <div
+                className="avata"
+                style={{
+                  backgroundImage: `url(${image ? image : "1"})`,
+                }}
+              ></div>
+
               <div>
-                <span className="name mx-4">
-                  {this.state.lastName} {this.state.firstName}
+                <span className="name ">
+                  {lastName} {firstName}
                 </span>
-              </div>
+              </div> */}
             </div>
             <div className="right-banner col-8">
               <div className="container">
@@ -165,21 +216,6 @@ class DetailUser extends Component {
                         </div>
                         <div className="col-6 mt-4"></div>
                         <div className="col-6 mt-4">
-                          <label>Tên</label>
-                          {this.state.isEdit === true ? (
-                            <input
-                              type="text"
-                              className="form-control mt-3"
-                              value={firstName}
-                              onChange={(event) =>
-                                this.onChangeInput(event, "firstName")
-                              }
-                            />
-                          ) : (
-                            <p className="userInfor w-100">{firstName}</p>
-                          )}
-                        </div>
-                        <div className="col-6 mt-4">
                           <label>Họ</label>
                           {this.state.isEdit === true ? (
                             <input
@@ -194,6 +230,22 @@ class DetailUser extends Component {
                             <p className="userInfor w-100">{lastName}</p>
                           )}
                         </div>
+                        <div className="col-6 mt-4">
+                          <label>Tên</label>
+                          {this.state.isEdit === true ? (
+                            <input
+                              type="text"
+                              className="form-control mt-3"
+                              value={firstName}
+                              onChange={(event) =>
+                                this.onChangeInput(event, "firstName")
+                              }
+                            />
+                          ) : (
+                            <p className="userInfor w-100">{firstName}</p>
+                          )}
+                        </div>
+
                         <div className="col-6 mt-4">
                           <label>Số điện thoại</label>
                           {this.state.isEdit === true ? (
@@ -304,29 +356,39 @@ class DetailUser extends Component {
                     <Container>
                       <Row>
                         <div className="col-12 avatar-item mt-5">
-                          <div
-                            className="preview-image"
-                            style={{
-                              backgroundImage: `url(${this.state.previewImgURL})`,
-                            }}
-                            // onClick={() => this.openPreviewImage()}
-                          >
-                            <i className="far fa-images"></i>
-                          </div>
+                          {image ? (
+                            <div
+                              className="avata"
+                              style={{
+                                backgroundImage: `url(${image})`,
+                              }}
+                              onClick={() => this.openPreviewImage()}
+                            ></div>
+                          ) : (
+                            <div className="preview-image">
+                              <i className="far fa-images"></i>
+                            </div>
+                          )}
                           <div>
                             <input
                               type="file"
                               hidden
                               id="previewImage"
                               className="form-control "
-                              // onChange={(event) => this.handleOnChangeImage(event)}
+                              onChange={(event) =>
+                                this.handleOnChangeImage(event)
+                              }
                             />
-                            <label
-                              htmlFor="previewImage"
-                              className="lb-upload-image"
-                            >
-                              Tải ảnh <i class="fas fa-images"></i>
-                            </label>
+                            {this.state.isEdit === false ? (
+                              ""
+                            ) : (
+                              <label
+                                htmlFor="previewImage"
+                                className="lb-upload-image"
+                              >
+                                Tải ảnh <i class="fas fa-images"></i>
+                              </label>
+                            )}
                           </div>
                         </div>
                       </Row>

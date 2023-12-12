@@ -79,7 +79,7 @@ class OutStandingDoctor extends Component {
                               : "Giáo sư"}
                           </span>
                           <span>{nameVi}</span>
-                          <div>Cơ xương khớp</div>
+                          <div>{item.name}</div>
                         </div>
                       </div>
                     </div>

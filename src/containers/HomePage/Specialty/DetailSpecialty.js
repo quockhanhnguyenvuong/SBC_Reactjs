@@ -79,6 +79,7 @@ class DetailSpecialty extends Component {
         id: id,
         location: location,
       });
+      // console.log("check location:",res)
       if (res && res.errCode === 0) {
         let data = res.data;
         let arrDoctorId = [];
@@ -113,7 +114,7 @@ class DetailSpecialty extends Component {
             )}
           </div>
           <div className="search-sp-doctor">
-            <select onChange={(event) => this.handleOnchangeSelect(event)}>
+            {/* <select onChange={(event) => this.handleOnchangeSelect(event)}>
               {listProvince &&
                 listProvince.length > 0 &&
                 listProvince.map((item, index) => {
@@ -123,7 +124,7 @@ class DetailSpecialty extends Component {
                     </option>
                   );
                 })}
-            </select>
+            </select> */}
           </div>
 
           {arrDoctorId &&
