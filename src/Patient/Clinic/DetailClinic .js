@@ -46,7 +46,7 @@ class DetailClinic extends Component {
   }
   render() {
     let { arrDoctorId, dataDetailClinic } = this.state;
-    console.log("Check state 123 ", this.state);
+    // console.log("Check state 123 ", this.state);
     return (
       <div className="detail-specialty-container">
         <HomeHeader />

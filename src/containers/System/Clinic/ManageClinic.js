@@ -265,6 +265,12 @@ class ManageClinic extends Component {
                   : " Lưu thay đổi"}
               </span>
             </button>
+            <button
+              className="btn btn-danger px-2 mx-1"
+              onClick={() => this.getResetState()}
+            >
+              Hũy
+            </button>
           </div>
 
           <div className="clinics-table mt-3 col-12">

@@ -6,6 +6,9 @@ import { getDetailInforDoctor } from "../../services/userService";
 import DoctorSchedule from "./DoctorSchedule";
 import DoctorExtraInfor from "./DoctorExtraInfor.";
 import Map from "../Map/Map";
+import LikeAndShare from "../SocialPlugin/LikeAndShare";
+import Comment from "../SocialPlugin/Comment";
+import { initFacebookSDK } from "../SocialPlugin/utils";
 
 class DetailDoctor extends Component {
   constructor(props) {
@@ -34,16 +37,22 @@ class DetailDoctor extends Component {
       }
     }
   }
-  componentDidUpdate(prevProps, prevState, snapshot) {}
+  componentDidUpdate(prevProps, prevState, snapshot) {
+    initFacebookSDK();
+  }
 
   render() {
     let infor = this.state.detailDoctor;
-    console.log("check data:", infor);
+    // console.log("check data:", infor);
     let { detailDoctor } = this.state;
     let nameVi = "";
     if (detailDoctor && detailDoctor.positionData) {
       nameVi = `${detailDoctor.positionData.valueVi}, ${detailDoctor.lastName} ${detailDoctor.firstName}`;
     }
+    let currentURL =
+      +process.env.REACT_APP_IS_LOCALHOST === 1
+        ? "https://bookingdoctor.vn/"
+        : window.location.href;
     return (
       <>
         <HomeHeader />
@@ -68,6 +77,7 @@ class DetailDoctor extends Component {
                       <span>{detailDoctor.Markdown.description}</span>
                     )}
                 </div>
+                <LikeAndShare dataHref={currentURL} />
               </div>
             </div>
             <div className="schedule-doctor col-9">
@@ -106,7 +116,9 @@ class DetailDoctor extends Component {
                   ></div>
                 )}
             </div>
-            <div className="comment-doctor col-12"></div>
+            <div className="comment-doctor col-12">
+              <Comment dataHref={currentURL} width={"100%"} />
+            </div>
           </div>
         </div>
       </>

@@ -6,7 +6,6 @@ import "./Login.scss";
 import { handleLoginApi } from "../../services/userService";
 import ModalRegister from "./ModalRegister";
 import ModalForgotPassword from "./ModalForgotPassword";
-import { GoogleLogin } from "react-google-login";
 
 class Login extends Component {
   constructor(props) {
@@ -123,7 +122,7 @@ class Login extends Component {
               <label>Tên đăng nhập:</label>
               <input
                 type="text"
-                className="form-control"
+                className="form-control mt-2"
                 placeholder="Nhâp tên đăng nhập"
                 value={this.state.username}
                 onChange={(event) => this.handleOnChangeUsername(event)}
@@ -131,7 +130,7 @@ class Login extends Component {
             </div>
             <div className=" form-group">
               <label>Mật khẩu:</label>
-              <div className="custom-input-password">
+              <div className="custom-input-password mt-2">
                 <input
                   className="form-control"
                   type={this.state.isShowPassword ? "text" : "password"}
@@ -170,7 +169,10 @@ class Login extends Component {
                 Đăng nhập
               </button>
             </div>
-            <div className="d-flex justify-content-between">
+            <div
+              className="d-flex justify-content-between mt-4"
+              style={{ cursor: "pointer" }}
+            >
               <span onClick={() => this.handleForgotPasswor()}>
                 Quên mật khẩu?
               </span>
@@ -179,7 +181,7 @@ class Login extends Component {
               </span>
             </div>
 
-            <div className="text-center mt-3">
+            {/* <div className="text-center mt-3">
               <span className="text-other-login">hoặc:</span>
             </div>
 
@@ -193,7 +195,7 @@ class Login extends Component {
                 onFailure={this.responseGoogle}
                 cookiePolicy={"single_host_origin"}
               />
-            </div>
+            </div> */}
           </div>
         </div>
       </div>

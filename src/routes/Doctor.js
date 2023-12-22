@@ -4,6 +4,7 @@ import { Route, Switch } from "react-router-dom";
 import ManageSchedule from "../containers/System/Doctor/ManageSchedule";
 import Header from "../containers/Header/Header";
 import ManageDocTor from "../containers/System/Admin/ManageDoctor";
+import HistoryManage from "../containers/System/Doctor/HistoryManage";
 import ManagePatient from "../containers/System/Doctor/ManagePatient";
 import ManagePatientAtHome from "../containers/System/Doctor/ManagePatientAtHome";
 class Home extends Component {
@@ -25,6 +26,8 @@ class Home extends Component {
                 path="/doctor/manage-patient-at-home"
                 component={ManagePatientAtHome}
               />
+              <Route path="/doctor/manage-history" component={HistoryManage} />
+
               {/* <Route path="/system/manage-doctor" component={ManageDocTor} /> */}
             </Switch>
           </div>

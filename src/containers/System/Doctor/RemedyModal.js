@@ -12,7 +12,6 @@ class RemedyModal extends Component {
     this.state = {
       email: "",
       time: "",
-      // imgBase64: "",
     };
   }
 
@@ -38,24 +37,13 @@ class RemedyModal extends Component {
     });
   };
 
-  handleOnChangeImage = async (event) => {
-    let data = event.target.files;
-    let file = data[0];
-    if (file) {
-      let base64 = await CommonUtils.getBase64(file);
-      this.setState({
-        imgBase64: base64,
-      });
-    }
-  };
-
   handleSendRemedy = () => {
+    console.log("checksendRemedy", this.state.time);
     let { dataModal } = this.props;
     if (dataModal.bookingType === "ATHOME") {
       dataModal.time = this.state.time;
     }
     this.props.sendRemedy(this.props.dataModal);
-    // console.log("checksendRemedy", this.props.sendRemedy);
   };
 
   handleOnchangeInput = (event, id) => {
@@ -162,19 +150,3 @@ const mapDispatchToProps = (dispatch) => {
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(RemedyModal);
-{
-  /* <div className="row">
-        <div className="col-6 form-group">
-                <label>Email bệnh nhân:</label>
-                <input className="form-control" type="email" value={this.state.email} 
-                    onChange={(event) => this.handleOnchangeEmail(event)}
-                />
-        </div>
-        <div className="col-6 form-group">
-                <label>Chọn file hóa đơn:</label>
-                <input className="form-control-file" type="file" 
-                    onChange={(event) => this.handleOnChangeImage(event)}
-                />
-        </div>
-    </div> */
-}

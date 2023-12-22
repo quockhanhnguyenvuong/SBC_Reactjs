@@ -86,19 +86,6 @@ class DetailUser extends Component {
     });
   };
 
-  checkValidateInput = () => {
-    let isValid = true;
-    let arrCheck = ["firstName", "lastName", "phonenumber", "address"];
-    for (let i = 0; i < arrCheck.length; i++) {
-      if (!this.state[arrCheck[i]]) {
-        isValid = false;
-        toast.warn("Vui lòng nhập đủ thông tin!");
-        break;
-      }
-    }
-    return isValid;
-  };
-
   // edit user
   editUser = async (user) => {
     try {
@@ -116,10 +103,6 @@ class DetailUser extends Component {
     }
   };
   handleEditUser = async () => {
-    // alert("Xác nhận lưu thông tin?");
-    // console.log("check state:", this.state);
-    let isValid = this.checkValidateInput();
-    if (isValid === false) return;
     await this.editUser({
       id: this.state.userId,
       firstName: this.state.firstName,
@@ -151,13 +134,59 @@ class DetailUser extends Component {
     }
   };
 
+  handleGetCurrentPosition = async () => {
+    let textConfirm = "Cho phép hệ thống truy cập vị trí ?";
+    if (window.confirm(textConfirm) === true) {
+      if ("geolocation" in navigator) {
+        navigator.geolocation.getCurrentPosition(
+          async (position) => {
+            const { latitude, longitude } = position.coords;
+
+            try {
+              const response = await fetch(
+                `https://maps.googleapis.com/maps/api/geocode/json?latlng=${latitude},
+                ${longitude}&key=${"AIzaSyAyQEOM66oqAYAXSCPgZH-ayZwi2RYexlA"}`,
+              );
+              if (response.ok) {
+                const data = await response.json();
+                if (data.results && data.results.length > 0) {
+                  const address = data.results[0].formatted_address;
+
+                  // Cập nhật địa chỉ vào state
+                  this.setState({
+                    address: address,
+                  });
+
+                  this.performBookingWithAddress();
+                } else {
+                  console.error("Không thể lấy được địa chỉ từ tọa độ.");
+                }
+              } else {
+                console.error("Lỗi khi lấy địa chỉ từ tọa độ.");
+              }
+            } catch (error) {
+              console.error("Lỗi xảy ra trong quá trình lấy địa chỉ:", error);
+            }
+          },
+          // (error) => {
+          //   console.error("Lỗi khi lấy vị trí người dùng:", error);
+          // }
+        );
+      } else {
+        console.error("Trình duyệt không hỗ trợ geolocation.");
+      }
+    } else {
+      toast.warn("Vui lòng cho phép truy cập vị trí trước khi đặt lịch!");
+    }
+  };
+
   render() {
     let genders = this.state.genderArr;
     let { email, firstName, lastName, phonenumber, address, gender, image } =
       this.state;
     // const { userInfo } = this.props;
     // console.log("check:", this.props.userInfo);
-    console.log("check user infor:", this.state);
+    // console.log("check user infor:", this.state.arrUser);
     return (
       <div className="banner-container">
         <HomeHeader />
@@ -277,17 +306,31 @@ class DetailUser extends Component {
 
                         <div className="col-12 mt-4">
                           <label>Địa chỉ</label>
-                          <input
-                            type="text"
-                            className="form-control mt-3 "
-                            value={address}
-                            onChange={(event) =>
-                              this.onChangeInput(event, "address")
-                            }
-                            disabled={
-                              this.state.isEdit === false ? true : false
-                            }
-                          />
+                          <div className="d-flex">
+                            <input
+                              type="text"
+                              className="form-control mt-3 "
+                              value={address}
+                              onChange={(event) =>
+                                this.onChangeInput(event, "address")
+                              }
+                              disabled={
+                                this.state.isEdit === false ? true : false
+                              }
+                            />
+                            <i
+                              class="fa-solid fa-map-location-dot "
+                              style={{
+                                position: "relative",
+                                top: "23px",
+                                left: "-23px",
+                              }}
+                              onClick={() => this.handleGetCurrentPosition()}
+                              hidden={
+                                this.state.isEdit === false ? true : false
+                              }
+                            ></i>
+                          </div>
                         </div>
 
                         {/* button edit user infor */}
@@ -336,7 +379,6 @@ class DetailUser extends Component {
                                 backgroundImage: `url(${image})`,
                                 backgroundSize: "cover",
                               }}
-                              onClick={() => this.openPreviewImage()}
                             ></div>
                           ) : (
                             <div className="preview-image">

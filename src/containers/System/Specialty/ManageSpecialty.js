@@ -90,10 +90,11 @@ class ManageSpecialty extends Component {
     });
   };
 
-  saveNewSpecialty = async () => {
-    let res = await createNewSpecialty(this.state);
+  saveNewSpecialty = async (data) => {
+    let res = await createNewSpecialty(data);
     if (res && res.errCode === 0) {
       toast.success("Thêm mới chuyên khoa thành công!");
+      await this.getAllSpecialtyFromReact();
       this.getResetState();
     } else {
       toast.warn("Có lỗi, vui lòng kiểm tra lại...");
@@ -131,7 +132,6 @@ class ManageSpecialty extends Component {
     let { active } = this.state;
     if (active === true) {
       await this.saveNewSpecialty({
-        id: this.state.specialtyId,
         name: this.state.name,
         image: this.state.image,
         descriptionHTML: this.state.descriptionHTML,
@@ -177,7 +177,7 @@ class ManageSpecialty extends Component {
 
   render() {
     let arrSpecialty = this.state.arrSpecialty;
-    console.log("check data Specialty:", arrSpecialty);
+    // console.log("check data Specialty:", arrSpecialty);
 
     return (
       <div className="manage-specialty-container mb-4 container">
@@ -247,6 +247,12 @@ class ManageSpecialty extends Component {
                   ? "Lưu chuyên khoa mới"
                   : " Lưu thay đổi"}
               </span>
+            </button>
+            <button
+              className="btn btn-danger px-2 mx-1"
+              onClick={() => this.getResetState()}
+            >
+              Hũy
             </button>
           </div>
           <div className="specialtys-table mt-3 col-6">

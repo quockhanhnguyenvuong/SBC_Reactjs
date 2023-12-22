@@ -129,6 +129,35 @@ const getAllDetailSpecialtyById = (data) => {
     `/api/get-detail-specialty-by-id?id=${data.id}&location=${data.location}`,
   );
 };
+const getListPatientForHistory = (data) => {
+  return axios.get(`/api/get-patient-for-history?doctorId=${data.doctorId}`);
+};
+const getCancel = (data) => {
+  return axios.post(`/api/get-cancel`, data);
+};
+const postSendWarning = (data) => {
+  return axios.post(`/api/send-warning`, data);
+};
+const getListPatientS7 = (data) => {
+  return axios.get(
+    `/api/get-list-patient-s7?doctorId=${data.doctorId}&patientId=${data.patientId}`,
+  );
+};
+const getBlacklistEmail = (data) => {
+  return axios.get(
+    `/api/get-blacklist-email?doctorId=${data.doctorId}&email=${data.email}`,
+  );
+};
+const getListPatientOnline = (data) => {
+  return axios.get(
+    `/api/get-list-patient-online?doctorId=${data.doctorId}&date=${data.date}`,
+  );
+};
+const getListPatientAtHome = (data) => {
+  return axios.get(
+    `/api/get-list-patient-at-home?doctorId=${data.doctorId}&date=${data.date}`,
+  );
+};
 
 const getAllDetailSpecialty = () => {
   return axios.get(`/api/get-all-specialty`);
@@ -140,6 +169,10 @@ const checkAccount = (data) => {
 
 const handleResetPassword = (data) => {
   return axios.post("/api/check-OTP-reset-Password", data);
+};
+
+const checkPassword = (data) => {
+  return axios.post("/api/check-reset-password", { data });
 };
 
 export {
@@ -177,4 +210,12 @@ export {
   getAllDetailSpecialty,
   checkAccount,
   handleResetPassword,
+  getListPatientS7,
+  getCancel,
+  postSendWarning,
+  getListPatientForHistory,
+  getListPatientOnline,
+  getListPatientAtHome,
+  getBlacklistEmail,
+  checkPassword,
 };

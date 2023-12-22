@@ -25,14 +25,14 @@ class SpecialtyItem extends Component {
           className="detail-specialty-all-container"
           onClick={() => this.handleViewDetailSpecialty(data.id)}
         >
-          <div
-            className="images"
-            style={{
-              backgroundImage: `url(${data.image})`,
-              backgroundSize: "contain",
-              width: "263px",
-            }}
-          ></div>
+          <div className="img-container">
+            <div
+              className="images"
+              style={{
+                backgroundImage: `url(${data.image})`,
+              }}
+            ></div>
+          </div>
           <div className="contents">
             <span>{data.name}</span>
           </div>

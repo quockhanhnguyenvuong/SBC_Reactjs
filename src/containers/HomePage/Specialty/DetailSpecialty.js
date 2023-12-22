@@ -63,7 +63,7 @@ class DetailSpecialty extends Component {
           listProvince: dataProvince ? dataProvince : [],
         });
       }
-      console.log("Check respppp", res);
+      // console.log("Check respppp", res);
     }
   }
   handleOnchangeSelect = async (event) => {

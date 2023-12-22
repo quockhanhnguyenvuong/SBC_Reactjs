@@ -22,10 +22,9 @@ class UserManage extends Component {
       genderArr: [],
       positionArr: [],
       roleArr: [],
-      previewImgURL: "",
       isOpenImage: false,
       active: true,
-
+      previewImgURL: "",
       email: "",
       password: "",
       firstName: "",
@@ -90,14 +89,14 @@ class UserManage extends Component {
     });
   };
 
-  // getSortUserName = () => {
-  //   let { arrUsers } = this.state;
-  //   let newArr = arrUsers.reverse();
-  //   console.log(arrUsers);
-  //   this.setState({
-  //     arrUsers: newArr,
-  //   });
-  // };
+  getSortUserName = () => {
+    let { arrUsers } = this.state;
+    let newArr = arrUsers.reverse();
+    console.log(arrUsers);
+    this.setState({
+      arrUsers: newArr,
+    });
+  };
 
   // load role
   getRoleFormReact = async () => {
@@ -291,6 +290,10 @@ class UserManage extends Component {
     } catch (e) {
       console.log(e);
     }
+  };
+
+  handleSetState = () => {
+    this.getSetState();
   };
 
   render() {
@@ -513,7 +516,15 @@ class UserManage extends Component {
                       : " Lưu thay đổi"}
                   </span>
                 </button>
+
+                <button
+                  className="btn btn-danger px-2 mx-1"
+                  onClick={() => this.handleSetState()}
+                >
+                  Hũy
+                </button>
               </div>
+
               <div>
                 <button
                   className="btn btn-info text-white px-2"
@@ -538,13 +549,13 @@ class UserManage extends Component {
                   onClick={() => this.getArrangeUser("R3")}
                 >
                   <i class="fas fa-arrows-alt-v"></i>P
-                </button>{" "}
-                {/* <button
-                  className="btn btn-info text-white px-2"
+                </button>
+                <button
+                  className="btn btn-info text-white px-2 mx-1"
                   onClick={() => this.getSortUserName()}
                 >
-                  <i class="fas fa-sort-alpha-down-alt"></i>
-                </button> */}
+                  <i class="fas fa-arrows-alt-v"></i>R
+                </button>
               </div>
             </div>
           </div>

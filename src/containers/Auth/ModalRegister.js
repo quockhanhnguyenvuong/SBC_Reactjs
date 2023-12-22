@@ -23,6 +23,7 @@ class ModalRegister extends Component {
       wards: "",
       district: "",
       city: "",
+      isShowPassword: false,
     };
   }
   async componentDidMount() {
@@ -32,6 +33,12 @@ class ModalRegister extends Component {
       gender: genderArr && genderArr.length > 0 ? genderArr[0].keyMap : "",
     });
   }
+
+  handleShowHidePassword = () => {
+    this.setState({
+      isShowPassword: !this.state.isShowPassword,
+    });
+  };
 
   // load gender
   getGenderFormReact = async () => {
@@ -93,7 +100,15 @@ class ModalRegister extends Component {
       ...copyState,
     });
   };
-
+  checkEmailIsValid = (email) => {
+    let check =
+      /^((?:[A-Za-z0-9!#$%&'*+\-\/=?^_`{|}~]|(?<=^|\.)"|"(?=$|\.|@)|(?<=".*)[ .](?=.*")|(?<!\.)\.){1,64})(@)((?:[A-Za-z0-9.\-])*(?:[A-Za-z0-9])\.(?:[A-Za-z0-9]){2,})$/i;
+    return check.test(String(email).toLowerCase());
+  };
+  checkPhoneNumberIsValid = (phonenumber) => {
+    let check = /^\+?([0-9]{2})\)?[-. ]?([0-9]{4})[-. ]?([0-9]{4})$/;
+    return check.test(phonenumber);
+  };
   checkValidateInput = () => {
     let isValue = true;
     let arrInput = [
@@ -110,17 +125,35 @@ class ModalRegister extends Component {
     for (let i = 0; i < arrInput.length; i++) {
       if (!this.state[arrInput[i]]) {
         isValue = false;
-        if (arrInput[i] === "email") alert("Vui lòng nhập : email đăng nhập");
-        if (arrInput[i] === "password") alert("Vui lòng nhập : mật khẩu");
-        if (arrInput[i] === "firstName") alert("Vui lòng nhập : tên");
-        if (arrInput[i] === "lastName") alert("Vui lòng nhập : họ");
+        if (arrInput[i] === "email")
+          toast.warn("Vui lòng nhập : email đăng nhập");
+        if (arrInput[i] === "password") toast.warn("Vui lòng nhập : mật khẩu");
+        if (arrInput[i] === "firstName") toast.warn("Vui lòng nhập : tên");
+        if (arrInput[i] === "lastName") toast.warn("Vui lòng nhập : họ");
         // if (arrInput[i] === "apartmentNumber")
-        //   alert("Vui lòng nhập : số nhà, tên đường");
-        // if (arrInput[i] === "wards") alert("Vui lòng nhập : phường");
-        // if (arrInput[i] === "district") alert("Vui lòng nhập : quận");
-        // if (arrInput[i] === "city") alert("Vui lòng nhập : thành phố");
+        //   toast.warn("Vui lòng nhập : số nhà, tên đường");
+        // if (arrInput[i] === "wards") toast.warn("Vui lòng nhập : phường");
+        // if (arrInput[i] === "district") toast.warn("Vui lòng nhập : quận");
+        // if (arrInput[i] === "city") toast.warn("Vui lòng nhập : thành phố");
         if (arrInput[i] === "phonenumber")
-          alert("Vui lòng nhập : số điện thoại");
+          toast.warn("Vui lòng nhập : số điện thoại");
+        break;
+      }
+      if (
+        arrInput[i] === "email" &&
+        !this.checkEmailIsValid(this.state.email)
+      ) {
+        isValue = false;
+        toast.warn("Vui lòng nhập email đúng định dạng");
+        break;
+      }
+
+      if (
+        arrInput[i] === "phonenumber" &&
+        !this.checkPhoneNumberIsValid(this.state.phonenumber)
+      ) {
+        isValue = false;
+        toast.warn("Vui lòng nhập số điện thoại đúng định dạng");
         break;
       }
     }
@@ -153,14 +186,28 @@ class ModalRegister extends Component {
             <div className="input-container ">
               <label>Mật khẩu</label>
               <input
-                type="password"
+                type={this.state.isShowPassword ? "text" : "password"}
                 onChange={(event) => {
                   this.handleChangeInput(event, "password");
                 }}
                 value={this.state.password}
               />
+              <span
+                style={{ position: "relative", left: "250px", bottom: "25px" }}
+                onClick={() => {
+                  this.handleShowHidePassword();
+                }}
+              >
+                <i
+                  className={
+                    this.state.isShowPassword
+                      ? "far fa-eye"
+                      : "fas fa-eye-slash"
+                  }
+                ></i>
+              </span>
             </div>
-            <div className="input-container ">
+            <div className="input-container">
               <label>Tên</label>
               <input
                 type="text"
@@ -181,47 +228,7 @@ class ModalRegister extends Component {
               />
             </div>
 
-            {/* <div className="input-container">
-              <label>Số nhà, tên đường</label>
-              <input
-                type="text"
-                onChange={(event) => {
-                  this.handleChangeInput(event, "apartmentNumber");
-                }}
-                value={this.state.apartmentNumber}
-              />
-            </div>
-            <div className="input-container">
-              <label>Phường</label>
-              <input
-                type="text"
-                onChange={(event) => {
-                  this.handleChangeInput(event, "wards");
-                }}
-                value={this.state.wards}
-              />
-            </div>
-            <div className="input-container">
-              <label>Quận</label>
-              <input
-                type="text"
-                onChange={(event) => {
-                  this.handleChangeInput(event, "district");
-                }}
-                value={this.state.district}
-              />
-            </div>
-            <div className="input-container">
-              <label>Thành phố</label>
-              <input
-                type="text"
-                onChange={(event) => {
-                  this.handleChangeInput(event, "city");
-                }}
-                value={this.state.city}
-              />
-            </div> */}
-            <div className="input-container">
+            <div className="input-container mt-4">
               <label>Số điện thoại</label>
               <input
                 type="text"
@@ -232,7 +239,7 @@ class ModalRegister extends Component {
               />
             </div>
 
-            <div className="input-container">
+            <div className="input-container mt-4">
               <label>Giới tính </label>
               <select
                 className="form "

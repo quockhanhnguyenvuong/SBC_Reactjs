@@ -20,7 +20,7 @@ function Map(props) {
 
   useEffect(() => {
     const { address } = props;
-    console.log("address", props);
+    // console.log("address", props);
     const getCoords = async () => {
       try {
         const results = await geocodeByAddress(props.address);
@@ -36,7 +36,7 @@ function Map(props) {
         getCoords();
       } else {
         const script = document.createElement("script");
-        script.src = `https://maps.googleapis.com/maps/api/js?key=${"AIzaSyDys0yXoUl_pX44FoVwSR_MTsCY2KtwKmk"}&libraries=places`;
+        script.src = `https://maps.googleapis.com/maps/api/js?key=${"AIzaSyB9B_9WP2V8ovuyRUyCIwYKVoB0MC6MURM"}&libraries=places`;
         script.onload = () => {
           getCoords();
         };
@@ -85,7 +85,7 @@ function Map(props) {
         </a>
       </div>
       <MapWithMarker
-        googleMapURL={`https://maps.googleapis.com/maps/api/js?key=${"AIzaSyDys0yXoUl_pX44FoVwSR_MTsCY2KtwKmk"}`}
+        googleMapURL={`https://maps.googleapis.com/maps/api/js?key=${"AIzaSyB9B_9WP2V8ovuyRUyCIwYKVoB0MC6MURM"}`}
         loadingElement={<div style={{ height: "100%" }} />}
         containerElement={<div style={{ height: "300px", width: "320px" }} />}
         mapElement={<div style={{ height: "100%" }} />}

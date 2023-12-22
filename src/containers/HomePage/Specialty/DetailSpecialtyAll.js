@@ -39,7 +39,7 @@ class DetailSpecialtyAll extends Component {
   render() {
     let { arrSpecialty } = this.state;
     // console.log("check data specialty:", arrSpecialty);
-    console.log("check data:", this.state);
+    // console.log("check data:", this.state);
 
     const currentPage = this.state.currentPage; //trang hiện tại
     const newsPerPage = this.state.newsPerPage; //tin tức mỗi trang

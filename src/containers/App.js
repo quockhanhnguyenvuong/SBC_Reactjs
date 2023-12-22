@@ -18,7 +18,6 @@ import CustomScrollbars from "../components/CustomScrollbars.js";
 import Doctor from "../routes/Doctor";
 import DetailUser from "../Patient/User/DetailUser";
 import ChangePassword from "../Patient/User/ChangePassword";
-import BookingHistory from "../Patient/User//BookingHistory";
 import DetailSpecialty from "./HomePage/Specialty/DetailSpecialty";
 import DetailSpecialtyAll from "./HomePage/Specialty/DetailSpecialtyAll";
 import DetailDoctor from "../Patient/Doctor/DetailDoctor";
@@ -80,10 +79,6 @@ class App extends Component {
                   <Route
                     path={"/home/change-password/"}
                     component={userIsAuthenticated(ChangePassword)}
-                  />
-                  <Route
-                    path={"/home/history-user/"}
-                    component={userIsAuthenticated(BookingHistory)}
                   />
                   <Route
                     path={path.DETAIL_SPECIALTY}

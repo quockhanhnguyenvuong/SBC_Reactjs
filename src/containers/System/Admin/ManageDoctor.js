@@ -38,8 +38,6 @@ class ManageDoctor extends Component {
       selectProvince: "",
       selectPayment: "",
       selectFormality: "",
-      // nameClinic: "",
-      // addressClinic: "",
       note: "",
       clinicId: "",
       specialtyId: "",
@@ -114,10 +112,6 @@ class ManageDoctor extends Component {
       selectProvince: this.state.selectProvince,
       selectPayment: this.state.selectPayment,
       selectFormality: this.state.selectFormality,
-      // nameClinic: this.state.nameClinic,
-      // addressClinic: this.state.addressClinic,
-      nameClinic: " ",
-      addressClinic: " ",
       note: this.state.note,
       clinicId:
         this.state.selectClinic && this.state.selectClinic.value
@@ -139,9 +133,9 @@ class ManageDoctor extends Component {
       selectProvince: "",
       selectPayment: "",
       selectFormality: "",
-      // nameClinic: "",
-      // addressClinic: "",
       note: "",
+      selectClinic: "",
+      selectSpecialty: "",
     });
   };
 
@@ -161,8 +155,6 @@ class ManageDoctor extends Component {
     if (res && res.errCode === 0 && res.data.Markdown) {
       let markdown = res.data.Markdown;
 
-      // let addressClinic = "",
-      //   nameClinic = "",
       let note = "",
         paymentId = "",
         provinceId = "",
@@ -178,8 +170,6 @@ class ManageDoctor extends Component {
         selectClinic = "";
 
       if (res.data.Doctor_Infor) {
-        // addressClinic = res.data.Doctor_Infor.addressClinic;
-        // nameClinic = res.data.Doctor_Infor.nameClinic;
         note = res.data.Doctor_Infor.note;
         paymentId = res.data.Doctor_Infor.paymentId;
         provinceId = res.data.Doctor_Infor.provinceId;
@@ -211,9 +201,6 @@ class ManageDoctor extends Component {
         contentMarkdown: markdown.contentMarkdown,
         description: markdown.description,
         hasOldData: true,
-
-        // addressClinic: addressClinic,
-        // nameClinic: nameClinic,
         note: note,
         priceOnId: priceOnId,
         priceOffId: priceOffId,
@@ -229,12 +216,14 @@ class ManageDoctor extends Component {
         contentMarkdown: "",
         description: "",
         hasOldData: false,
-
-        // addressClinic: "",
-        // nameClinic: "",
-        note: "",
         priceOnId: "",
         priceOffId: "",
+        selectProvince: "",
+        selectPayment: "",
+        selectFormality: "",
+        note: "",
+        selectClinic: "",
+        selectSpecialty: "",
       });
     }
     // console.log("select doctor", selectDoctor);
@@ -301,7 +290,7 @@ class ManageDoctor extends Component {
   };
 
   render() {
-    let { hasOldData, listSpecialty, listClinic, listPayment } = this.state;
+    let { hasOldData } = this.state;
     // const { allRequiredDoctorInfor } = this.props;
     // console.log("check payment & province", allRequiredDoctorInfor);
     // console.log("check list payment", this.state.listPayment);
@@ -388,17 +377,6 @@ class ManageDoctor extends Component {
             />
           </div>
 
-          {/* <div className="col-4 mb-3">
-            <label>Tên phòng khám:</label>
-            <input
-              type="text"
-              className="form-control"
-              onChange={(event) => this.handleOnChangeText(event, "nameClinic")}
-              value={this.state.nameClinic}
-              placeholder="Nhập tên phòng khám..."
-            />
-          </div> */}
-
           <div className="col-4 mb-3">
             <label>Chọn phòng khám:</label>
             <Select
@@ -420,19 +398,6 @@ class ManageDoctor extends Component {
               placeholder="Chọn chuyên khoa..."
             />
           </div>
-
-          {/* <div className="col-6">
-            <label>Địa chỉ phòng khám:</label>
-            <input
-              type="text"
-              className="form-control"
-              onChange={(event) =>
-                this.handleOnChangeText(event, "addressClinic")
-              }
-              value={this.state.addressClinic}
-              placeholder="Nhập địa chỉ phòng khám..."
-            />
-          </div> */}
 
           <div className="col-6 mb-2">
             <label>Note:</label>

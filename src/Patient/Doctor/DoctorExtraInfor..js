@@ -41,9 +41,19 @@ class DoctorExtraInfor extends Component {
   };
 
   handleClickBooking = () => {
-    this.setState({
-      isOpenModalBooking: true,
-    });
+    if (
+      this.props.userInfo.roleId === "R1" ||
+      this.props.userInfo.roleId === "R2"
+    ) {
+      this.setState({
+        isOpenModalBooking: false,
+      });
+      toast.error("Tài khoản này không được phép đặt lịch!");
+    } else {
+      this.setState({
+        isOpenModalBooking: true,
+      });
+    }
   };
 
   closeBookingClose = () => {
@@ -61,12 +71,20 @@ class DoctorExtraInfor extends Component {
 
   render() {
     let { isShowDetailInfor, extraInfor } = this.state;
-    // console.log("check data:", extraInfor);
+    console.log("check data:", extraInfor);
     // console.log("doctor id:", this.props.doctorIdFromParent);
     return (
       <div className="doctor-extra-infor-container">
         <div className="content-up">
-          <div className="text-address mb-1">
+          <div
+            className="text-address mb-1"
+            hidden={
+              extraInfor.formality == "Tất cả" ||
+              extraInfor.formality == "Khám bệnh tại nhà"
+                ? false
+                : true
+            }
+          >
             <div className="pt-1">
               Đặt khám tại nhà <i className="far fa-hand-point-right"></i>{" "}
             </div>
@@ -82,14 +100,6 @@ class DoctorExtraInfor extends Component {
                 Tại đây
               </button>
             </div>
-          </div>
-          <div className="name-clinic">
-            {extraInfor && extraInfor.nameClinic ? extraInfor.nameClinic : ""}
-          </div>
-          <div className="detail-address">
-            {extraInfor && extraInfor.addressClinic
-              ? extraInfor.addressClinic
-              : ""}
           </div>
         </div>
         <div className="content-down">
@@ -114,16 +124,14 @@ class DoctorExtraInfor extends Component {
                       : ""}
                   </span>
                 </div>
-                <div className="note">
-                  {extraInfor && extraInfor.note ? extraInfor.note : ""}
-                </div>
+
                 {/* price at home */}
                 <div className="price">
                   <span className="left">Giá khám tại nhà: </span>
                   <span className="right">
                     {extraInfor && extraInfor.priceOffId
                       ? extraInfor.priceOffId
-                      : ""}
+                      : "Bác sĩ không nhận khám tại nhà"}
                   </span>
                 </div>
                 <div className="note">

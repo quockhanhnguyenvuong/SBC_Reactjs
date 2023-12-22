@@ -16,11 +16,12 @@ class ChangePassword extends Component {
       isShowPassword2: false,
       isShowPassword3: false,
       userId: "",
-      errMessage: "",
       email: "",
       password: "",
       newPassword: "",
       checkNewPassword: "",
+      hiddenMess: true,
+      disButton: true,
     };
   }
 
@@ -57,9 +58,7 @@ class ChangePassword extends Component {
     for (let i = 0; i < arrCheck.length; i++) {
       if (!this.state[arrCheck[i]]) {
         isValid = false;
-        this.setState({
-          errMessage: "Thiếu dữ liệu, vui lòng nhập đủ thông tin !",
-        });
+        toast.error("Thiếu dữ liệu, vui lòng nhập đủ thông tin!");
         break;
       }
     }
@@ -94,29 +93,32 @@ class ChangePassword extends Component {
             password: this.state.newPassword,
           });
           this.setState({
-            errMessage: "",
             email: "",
             password: "",
             newPassword: "",
             checkNewPassword: "",
+            hiddenMess: true,
+            disButton: true,
           });
         } else {
           //check new pasword fail
-          this.setState({
-            errMessage: "Mật khẩu không trùng khớp, vui lòng nhập lại!",
-          });
+          toast.error("Mật khẩu không trùng khớp, vui lòng nhập lại!");
         }
       } else {
         // check email and password fail
-        this.setState({
-          errMessage: "Tài khoản hoặc mật khẩu không đúng, vui lòng nhập lại!",
-        });
+        toast.error("Tài khoản hoặc mật khẩu không đúng, vui lòng nhập lại!");
       }
     } catch (e) {
       console.log(e);
     }
   };
-
+  checkEmail = () => {
+    if (this.state.email == this.props.userInfo.email)
+      this.setState({
+        hiddenMess: false,
+        disButton: false,
+      });
+  };
   render() {
     // const { userInfo } = this.props;
     // console.log("check userinfo:", userInfo);
@@ -138,7 +140,18 @@ class ChangePassword extends Component {
                     onChange={(event) => this.onChangeInput(event, "email")}
                   />
                 </div>
-
+                <button
+                  className="btn btn-success mt-3 px-3"
+                  onClick={this.checkEmail}
+                >
+                  Kiểm tra
+                </button>
+                <span
+                  hidden={this.state.hiddenMess}
+                  style={{ color: "yellow" }}
+                >
+                  Email chính xác, vui lòng nhập mật khẩu
+                </span>
                 <div className=" col-8 mt-4">
                   <label>Mật khẩu hiện tại</label>
                   <input
@@ -147,6 +160,7 @@ class ChangePassword extends Component {
                     className="form-control mt-2"
                     placeholder="Nhâp mật khẩu hiện tại"
                     onChange={(event) => this.onChangeInput(event, "password")}
+                    disabled={this.state.disButton}
                   />
                   <span
                     className="eye"
@@ -173,6 +187,7 @@ class ChangePassword extends Component {
                     onChange={(event) =>
                       this.onChangeInput(event, "newPassword")
                     }
+                    disabled={this.state.disButton}
                   />
                   <span
                     className="eye"
@@ -200,6 +215,7 @@ class ChangePassword extends Component {
                     onChange={(event) =>
                       this.onChangeInput(event, "checkNewPassword")
                     }
+                    disabled={this.state.disButton}
                   />
                   <span
                     className="eye"
@@ -216,17 +232,14 @@ class ChangePassword extends Component {
                     ></i>
                   </span>
                 </div>
-
-                <div style={{ color: "red" }}>{this.state.errMessage}</div>
               </div>
               {/* button confirm */}
-              {/* <button
+              <button
                 className="btn btn-success btn-confirm"
                 onClick={() => this.handleChangePassword()}
               >
                 Xác nhận
-              </button> */}
-              <button className="btn btn-success btn-confirm">Xác nhận</button>
+              </button>
             </div>
           </div>
         </div>

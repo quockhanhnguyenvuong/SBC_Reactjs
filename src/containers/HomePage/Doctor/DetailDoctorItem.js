@@ -9,6 +9,7 @@ class DetailDoctorItem extends Component {
     this.state = {};
   }
   async componentDidMount() {}
+
   handleViewDetailDoctor = (id) => {
     if (this.props.history) {
       this.props.history.push(`/home/detail-doctor/${id}`);
@@ -18,7 +19,7 @@ class DetailDoctorItem extends Component {
   render() {
     let data = this.props.data;
     // let nameSpecialty = data.Doctor_Infor.Specialty.name;
-    console.log("check props:", data);
+    // console.log("check props:", data);
     return (
       <div>
         <div className="detail-doctor-all">
@@ -49,6 +50,7 @@ class DetailDoctorItem extends Component {
                 {data.lastName} {data.firstName}
               </p>
               <p>
+                Khoa{" "}
                 {data.Doctor_Infor && data.Doctor_Infor.Specialty
                   ? data.Doctor_Infor.Specialty.name
                   : " "}

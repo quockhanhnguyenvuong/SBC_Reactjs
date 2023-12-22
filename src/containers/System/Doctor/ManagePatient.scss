@@ -30,6 +30,8 @@ div._loading_overlay_wrapper{
             table, th, td{
                 border: 1px solid black;
                 border-collapse: collapse;
+                text-overflow: ellipsis;
+                white-space: nowrap;
             }
 
             th, td{
@@ -62,6 +64,62 @@ div._loading_overlay_wrapper{
                 font-size: 15px;
                 font-weight: 600;
                 color: red;
+            }
+            .patient-info {
+                position: absolute;
+                margin-right: 5px;
+                margin-left: -62px;
+                // width: 850px;
+                height: auto;
+
+                table {
+                    table-layout: auto;
+                    width: 700px;
+
+
+                    th,
+                    td {
+                        border: 1px solid black;
+                        padding: 5px;
+                        text-align: left;
+                        overflow: hidden; 
+                        white-space: nowrap; 
+                        text-overflow: ellipsis; 
+
+
+                    }
+                }
+
+                h2 {
+                    color: orangered;
+                    text-align: center;
+                    text-transform: uppercase;
+                    font-weight: 600;
+                    font-family: 'Times New Roman', Times, serif;
+                    font-size: 19px;
+                }
+
+                // th {
+                //     padding: 5px;
+                //     padding-left: 20px;
+                //     text-align: center;
+                // }
+
+                // td {
+                //     padding-left: 10px;
+                //     text-align: center;
+                //     cursor: pointer;
+                //     padding-bottom: 10px;
+                // }
+
+                // padding-top: 5px;
+                left: 680px;
+                top: 0.25px;
+                font-size: 14px;
+                // border: 1px solid black;
+                // border-radius: 10px;
+                line-height: 1.5;
+                // padding: 15px;
             }
         }
     }

@@ -6,8 +6,22 @@
   background-size: cover;
   background-position: center;
   display: flex;
-  flex-direction: column;
-  
+  justify-content: center;
+  align-items: center;
+  .search{
+    width: 30%;
+    
+    .css-13cymwt-control,.css-t3ipsp-control{
+      background-color: #edfffa;
+      border-radius: 25px;
+      border: 1px solid;
+    }
+    .css-t3ipsp-control:hover{
+      background-color: #edfffa;
+      border-radius: 25px;
+      border: 1px solid;
+    }
+  }
 }
 
 .slick-prev {
@@ -84,7 +98,7 @@
     flex-direction: column;
     .section-header {
       height: 60px;
-      margin-bottom: 3px;
+      margin-bottom: 15px;
       padding-top: 30px;
       .title-section {
         font-size: 22px;
@@ -113,6 +127,7 @@
     display: flex;
     justify-content: center;
     margin-bottom: 10px;
+    margin-left: 20px;
     width: 120px;
    
   }
@@ -126,7 +141,7 @@
 }
 .home-footer{
   position: relative;
-  width: 580px;
+  width: 400px;
   margin: 0 auto;
   bottom: 0;
   padding-top: 15px;

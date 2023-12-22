@@ -33,7 +33,7 @@ class DetailClinicAll extends Component {
 
   render() {
     let { arrClinic } = this.state;
-    console.log("check data:", this.state);
+    // console.log("check data:", this.state);
 
     const currentPage = this.state.currentPage; //trang hiện tại
     const newsPerPage = this.state.newsPerPage; //tin tức mỗi trang

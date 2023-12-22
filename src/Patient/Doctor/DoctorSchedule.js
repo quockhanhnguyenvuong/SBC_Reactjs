@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import "./DoctorSchedule.scss";
 import { connect } from "react-redux";
 import moment from "moment";
-// import localization from "moment/locale/vi";
 import { getscheduleDoctorByDate } from "../../services/userService";
 import BookingModal from "./Modal/BookingModal";
 import { toast } from "react-toastify";
@@ -84,10 +83,20 @@ class DoctorSchedule extends Component {
   };
 
   handleClickScheduleTime = (time) => {
-    this.setState({
-      isOpenModalBooking: true,
-      dataScheduleTimeModal: time,
-    });
+    if (
+      this.props.userInfo.roleId === "R1" ||
+      this.props.userInfo.roleId === "R2"
+    ) {
+      this.setState({
+        isOpenModalBooking: false,
+      });
+      toast.error("Tài khoản này không được phép đặt lịch!");
+    } else {
+      this.setState({
+        isOpenModalBooking: true,
+        dataScheduleTimeModal: time,
+      });
+    }
   };
 
   closeBookingClose = () => {

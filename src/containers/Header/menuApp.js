@@ -58,6 +58,10 @@ export const doctorMenu = [
         name: "Quản lý lịch hẹn tại nhà",
         link: "/doctor/manage-patient-at-home",
       },
+      {
+        name: "Quản lý lịch sử",
+        link: "/doctor/manage-history",
+      },
     ],
   },
 ];
